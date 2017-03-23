@@ -52,14 +52,14 @@ public class PlayerPhysicsLoader implements PhysicsLoader {
             newPhysicsBody.addShapeToDispose(shape);
         }
 
-        // Rectangle body for normal mass (2x3 units, offset 1.5 units up)
+        // Rectangle body for normal mass (2x4 units, offset 2 units up)
         {
             PolygonShape shape = new PolygonShape();
 
             shape.set(new float[]{
                     b2Unit, 0f,
-                    b2Unit, b2Unit * 3f,
-                    -b2Unit, b2Unit * 3f,
+                    b2Unit, b2Unit * 4f,
+                    -b2Unit, b2Unit * 4f,
                     -b2Unit, 0f
             });
 
@@ -74,14 +74,14 @@ public class PlayerPhysicsLoader implements PhysicsLoader {
             newPhysicsBody.addShapeToDispose(shape);
         }
 
-        // Rectangle body for crouched mass (4x1.5 units, offset 0.75 units up)
+        // Rectangle body for crouched mass (4x2 units, offset 1 unit up)
         {
             PolygonShape shape = new PolygonShape();
 
             shape.set(new float[]{
                     2f * b2Unit, 0f,
-                    2f * b2Unit, b2Unit * 1.5f,
-                    -2f * b2Unit, b2Unit * 1.5f,
+                    2f * b2Unit, b2Unit * 2f,
+                    -2f * b2Unit, b2Unit * 2f,
                     -2f * b2Unit, 0f
             });
 

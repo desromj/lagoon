@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.greenbatgames.lagoon.collision.LagoonContactListener;
+import com.greenbatgames.lagoon.entity.Terrain;
 import com.greenbatgames.lagoon.hud.ChaseCam;
 import com.greenbatgames.lagoon.hud.GameHUD;
 import com.greenbatgames.lagoon.physics.NewPhysicsBody;
@@ -30,10 +31,12 @@ import box2dLight.RayHandler;
  */
 public class Level implements Disposable {
 
+    public static final String TAG = Level.class.getSimpleName();
+
     QueuedWorld world;
     Stage stage;
 
-    RayHandler rayHandler;
+//    RayHandler rayHandler;
     ChaseCam camera;
 
     TiledMap tiledMap;
@@ -62,8 +65,8 @@ public class Level implements Disposable {
         stage.addActor(this.camera);
 
         // Handle Box2D light initialization
-        rayHandler = new RayHandler(world.world());
-        rayHandler.setAmbientLight(0.2f);
+//        rayHandler = new RayHandler(world.world());
+//        rayHandler.setAmbientLight(0.2f);
 
         gameHUD = new GameHUD();
         debugRenderer = new Box2DDebugRenderer();
@@ -77,9 +80,9 @@ public class Level implements Disposable {
 
         // Prepare viewports and projection matricies
         stage.getViewport().apply();
-        tiledMapRenderer.setView((OrthographicCamera) stage.getViewport().getCamera());
+        tiledMapRenderer.setView(camera.getCamera());
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Render the level
@@ -97,11 +100,11 @@ public class Level implements Disposable {
         );
 
         // Lighting: Scale the rayHandler to Box2D values
-        rayHandler.setCombinedMatrix(stage.getViewport().getCamera().combined.cpy().scale(
-                Constants.PTM,
-                Constants.PTM,
-                1));
-        rayHandler.updateAndRender();
+//        rayHandler.setCombinedMatrix(stage.getViewport().getCamera().combined.cpy().scale(
+//                Constants.PTM,
+//                Constants.PTM,
+//                1));
+//        rayHandler.updateAndRender();
 
         gameHUD.act(delta);
 
@@ -115,9 +118,9 @@ public class Level implements Disposable {
     public Player getPlayer(){
         return player;
     }
-    public RayHandler getRayHandler(){
-        return rayHandler;
-    }
+//    public RayHandler getRayHandler(){
+//        return rayHandler;
+//    }
     public Viewport getViewport() {
         return stage.getViewport();
     }
@@ -154,8 +157,8 @@ public class Level implements Disposable {
     // Dispose lights and actor to prepare for next level
     @Override
     public void dispose() {
-        rayHandler.removeAll();
-        rayHandler.dispose();
+//        rayHandler.removeAll();
+//        rayHandler.dispose();
 
         for (Actor actor: stage.getActors()) {
             if (actor instanceof Disposable){

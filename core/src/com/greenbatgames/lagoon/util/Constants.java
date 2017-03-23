@@ -27,11 +27,11 @@ public class Constants {
 
     // Physics Values
     public static final float PTM = 80f;
-    public static final Vector2 GRAVITY = new Vector2(0f, -10f);
+    public static final Vector2 GRAVITY = new Vector2(0f, -25f);
 
 
     // Player Values
-    public static final float PLAYER_RADIUS = 16f;
+    public static final float PLAYER_RADIUS = WORLD_WIDTH / 50f;
     public static final float PLAYER_JUMP_RECOVERY = 0.25f; // time before able to jump again
     public static final float PLAYER_DENSITY = 1000f;   // 1000 g / kg m^3
     public static final float PLAYER_GROUND_FRICTION = 0f;
@@ -40,13 +40,16 @@ public class Constants {
     public static final float PLAYER_MAX_CLIMB_RATIO = 1.0f;
     public static final float PLAYER_CLIMB_TIME = 0.5f;
 
-    public static final float PLAYER_MOVE_SPEED = WORLD_WIDTH / 160f;
-    public static final float PLAYER_DASH_SPEED = PLAYER_MOVE_SPEED * 5.0f;
-    public static final float PLAYER_DASH_DURATION = 0.1f;
-    public static final float PLAYER_DASH_COOLDOWN = 1.3f;
+    // Physics Values
+    public static final float PLAYER_MASS = 20f;
+    public static final float PLAYER_ACCELERATION = 5f;
 
-    public static final Vector2 PLAYER_JUMP_IMPULSE = new Vector2(0f,
-            2.2f * PLAYER_RADIUS * PLAYER_DENSITY);
+    public static final Vector2 PLAYER_MOVE_FORCE = new Vector2(
+            PLAYER_MASS * PLAYER_ACCELERATION + (PLAYER_MASS * -GRAVITY.x),
+            0
+    );
+
+    public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(4.0f, 0);
 
     public static final float HORIZONTAL_MOVE_DAMPEN = 0.5f;
 

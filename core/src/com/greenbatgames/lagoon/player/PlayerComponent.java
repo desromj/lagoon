@@ -16,7 +16,8 @@ public abstract class PlayerComponent {
      * Standard update method, altered to return a status flag
      *
      * @param delta delta time since last update
-     * @return true if the update loop should keep going in the sequence of Component updates
+     * @return true if the update loop should keep going in the sequence of Component updates. False to break
+     *         the execution of any further PlayerComponent updates
      */
     public abstract boolean update(float delta);
 

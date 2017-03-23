@@ -8,13 +8,16 @@ import com.greenbatgames.lagoon.physics.PhysicsLoader;
 import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Enums;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by Quiv on 23-01-2017.
  */
 
 public class Player extends PhysicsBody {
 
-    private PlayerComponent mover;
+    private PlayerMoveComponent mover;
 
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -65,31 +68,38 @@ public class Player extends PhysicsBody {
         return null;
     }
 
-    public boolean fixtureIsEnabled(Enums.PlayerFixtures type) {
-        Fixture fixture = getFixture(type);
+    /**
+     * Checks whether or not the passed fixture is currently active, and whether or not it
+     * should be considered in collisions
+     * @param fixture The Fixture object to test
+     * @return true if the Fixture is enabled and should be affected, false if not
+     */
+    public boolean fixtureIsEnabled(Fixture fixture) {
 
-        if (fixture.isSensor())
+        // Ensure the fixture is within this object first
+        if (fixture.getBody().getUserData() != this)
             return false;
 
-        // TODO: If we're crouching, crouching is enabled. Otherwise, normal body fixture is enabled
-
+        // If we're crouching, crouching is enabled. Otherwise, normal body fixture is enabled
+        if (mover.isCrouching() && (fixture.getUserData() == Enums.PlayerFixtures.CROUCH_BODY)) {
+            return true;
+        } else if (!mover.isCrouching() && (fixture.getUserData() == Enums.PlayerFixtures.BODY)) {
+            return true;
+        }
 
         return false;
     }
 
-    public boolean isCollisionDisabled() {
-        // TODO: Replace with movement checks return mover.isCollisionDisabled();
-        return false;
+    public boolean fixtureIsEnabled(Enums.PlayerFixtures type) {
+        Fixture fixture = getFixture(type);
+        return fixtureIsEnabled(fixture);
     }
 
     public boolean isJumpButtonHeld() {
         return Gdx.input.isKeyPressed(Constants.KEY_JUMP);
     }
-
     public boolean isClimbButtonHeld() {
         return Gdx.input.isKeyPressed(Constants.KEY_ATTACK);
     }
-
     public boolean isMoveButtonHeld() { return Gdx.input.isKeyPressed(Constants.KEY_RIGHT) || Gdx.input.isKeyPressed(Constants.KEY_LEFT); }
-
 }

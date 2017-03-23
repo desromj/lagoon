@@ -42,8 +42,8 @@ public class QueuedWorld {
 
             PhysicsBody newBodyUserData = (PhysicsBody) newBodyData.getBodyUserData();
             Body body = world.createBody(newBodyData.getBodyDef());
-            body.setUserData(newBodyUserData);
 
+            body.setUserData(newBodyUserData);
             newBodyUserData.setBody(body);
 
             // Loop through the fixtures and set the data and user data of each

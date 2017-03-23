@@ -32,9 +32,12 @@ public class Terrain extends PhysicsBody {
 
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.StaticBody;
+
+            // TODO: Position needs to be set correcly. Hardcoded value is bound to fail later
             bodyDef.position.set(
-                    getX() / Constants.PTM,
-                    (getY() - getHeight()) / Constants.PTM);
+                    parent.getX() / Constants.PTM,
+                    (parent.getY() - parent.getHeight() * 0.75f) / Constants.PTM
+            );
 
             newBody.setBodyDef(bodyDef, parent);
 
