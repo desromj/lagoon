@@ -96,14 +96,14 @@ public class PlayerPhysicsLoader implements PhysicsLoader {
             newPhysicsBody.addShapeToDispose(shape);
         }
 
-        // Square sensor for floor contact (1x1, offset 1 unit down)
+        // Square sensor for floor contact (1x2, offset 1 unit down)
         {
             PolygonShape shape = new PolygonShape();
 
             shape.set(new float[]{
                     b2Unit * 0.5f, -b2Unit * 1.5f,
-                    b2Unit * 0.5f, -b2Unit * 0.5f,
-                    -b2Unit * 0.5f, -b2Unit * 0.5f,
+                    b2Unit * 0.5f, -b2Unit * -0.5f,
+                    -b2Unit * 0.5f, -b2Unit * -0.5f,
                     -b2Unit * 0.5f, -b2Unit * 1.5f,
             });
 

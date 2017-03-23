@@ -20,7 +20,7 @@ public class PlayerMoveComponent extends PlayerComponent {
 
     public static final String TAG = PlayerMoveComponent.class.getSimpleName();
 
-    private boolean grounded;
+    private int numFootContacts;
     private boolean crouching;
     private boolean facingRight;
 
@@ -28,7 +28,7 @@ public class PlayerMoveComponent extends PlayerComponent {
 
     public PlayerMoveComponent(Player player) {
         super(player);
-        grounded = true;
+        numFootContacts = 0;
         crouching = false;
         facingRight = true;
         cannotJumpFor = 0.0f;
@@ -36,34 +36,48 @@ public class PlayerMoveComponent extends PlayerComponent {
 
     @Override
     public boolean update(float delta) {
-
-        // Handle jumping timer and recovery
         cannotJumpFor -= delta;
-        if (!canJump()) return true;
 
-        // Grab the player body and do physics calculations
         Body body = player().getBody();
 
-        // Determine our horizontal movement based on whether we're on the ground or in the air
-        if (isOnGround()) {
-            if (Gdx.input.isKeyPressed(Constants.KEY_RIGHT)) {
-                body.setLinearVelocity(
-                        Constants.PLAYER_MOVE_SPEED.x,
-                        body.getLinearVelocity().y);
-            }
+        // Handle jumping logic - cancel y momentum then apply impulse
+        if (canJump() && Gdx.input.isKeyJustPressed(Constants.KEY_JUMP)) {
+            body.setLinearVelocity(
+                    body.getLinearVelocity().x,
+                    0f
+            );
+            body.applyLinearImpulse(
+                    Constants.PLAYER_JUMP_IMPULSE.x,
+                    Constants.PLAYER_JUMP_IMPULSE.y,
+                    player().getX(),
+                    player().getY(),
+                    true
+            );
+        }
 
-            if (Gdx.input.isKeyPressed(Constants.KEY_LEFT)) {
-                body.setLinearVelocity(
-                        -Constants.PLAYER_MOVE_SPEED.x,
-                        body.getLinearVelocity().y);
-            }
+        // Toggle crouching logic
+        if (Gdx.input.isKeyJustPressed(Constants.KEY_CROUCH)) {
+            crouching = !crouching;
+        }
 
-            // TODO: Dampen horizontal movement if we do not have a move button held
-            if (!player().isMoveButtonHeld()) {
-                body.setLinearVelocity(
-                        0f,
-                        body.getLinearVelocity().y);
-            }
+        // Handle left/right movement on the ground and in the air
+        if (Gdx.input.isKeyPressed(Constants.KEY_RIGHT)) {
+            body.setLinearVelocity(
+                    Constants.PLAYER_MOVE_SPEED.x,
+                    body.getLinearVelocity().y);
+        }
+
+        if (Gdx.input.isKeyPressed(Constants.KEY_LEFT)) {
+            body.setLinearVelocity(
+                    -Constants.PLAYER_MOVE_SPEED.x,
+                    body.getLinearVelocity().y);
+        }
+
+        // TODO: Dampen horizontal movement if we do not have a move button held
+        if (!player().isMoveButtonHeld()) {
+            body.setLinearVelocity(
+                    0f,
+                    body.getLinearVelocity().y);
         }
 
         // Set our faced direction based on x velocity
@@ -80,26 +94,31 @@ public class PlayerMoveComponent extends PlayerComponent {
      * the player is not allowed to jump again
      */
     public void land() {
-        if (grounded) { return; }
-        grounded = true;
+        if (isOnGround()) {
+            return;
+        }
         cannotJumpFor = Constants.PLAYER_JUMP_RECOVERY;
     }
 
-    /**
-     * Cannot jump if we are already airborne, otherwise set grounded to false
-      */
-    public void jump() {
-        if (!grounded) return;
-        grounded = false;
+    public void decrementNumFootContacts() {
+        numFootContacts = (numFootContacts == 0) ? 0 : numFootContacts - 1;
+    }
+
+    public void incrementNumFootContacts() {
+        if (!isOnGround()) {
+            land();
+        }
+        numFootContacts++;
     }
 
     /*
         Getters and Setters
      */
 
-    public boolean canJump() { return cannotJumpFor <= 0f; }
+    public boolean canJump() { return isOnGround() && cannotJumpFor <= 0f; }
 
-    public boolean isOnGround() { return grounded; }
+    public boolean isOnGround() { return numFootContacts > 0; }
+    public boolean isMovingUp() { return player().getBody().getLinearVelocity().y > 0; }
     public boolean isFacingRight() { return facingRight; }
     public boolean isCrouching() { return crouching; }
 }

@@ -69,4 +69,12 @@ public abstract class PhysicsBody extends Actor {
 
     public Body getBody() { return body; }
     public void setBody(Body body) { this.body = body; }
+
+    public float getMiddleX() {
+        return getX() + getWidth() / 2.0f;
+    }
+
+    public float getMiddleY() {
+        return getY() + getHeight() / 2.0f;
+    }
 }

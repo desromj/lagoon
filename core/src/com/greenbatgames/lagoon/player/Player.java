@@ -83,7 +83,9 @@ public class Player extends PhysicsBody {
         // If we're crouching, crouching is enabled. Otherwise, normal body fixture is enabled
         if (mover.isCrouching() && (fixture.getUserData() == Enums.PlayerFixtures.CROUCH_BODY)) {
             return true;
-        } else if (!mover.isCrouching() && (fixture.getUserData() == Enums.PlayerFixtures.BODY)) {
+        } else if (!mover.isCrouching()
+                && ((fixture.getUserData() == Enums.PlayerFixtures.BODY)
+                    || fixture.getUserData() == Enums.PlayerFixtures.BASE)) {
             return true;
         }
 
@@ -94,6 +96,12 @@ public class Player extends PhysicsBody {
         Fixture fixture = getFixture(type);
         return fixtureIsEnabled(fixture);
     }
+
+    /*
+        Getters and Setters
+     */
+
+    public PlayerMoveComponent mover() { return mover; }
 
     public boolean isJumpButtonHeld() {
         return Gdx.input.isKeyPressed(Constants.KEY_JUMP);

@@ -25,6 +25,8 @@ public class Constants {
     public static int KEY_JUMP = Input.Keys.Z;
     public static int KEY_ATTACK = Input.Keys.X;
 
+    public static int KEY_CROUCH = Input.Keys.CONTROL_LEFT;
+
     // Physics Values
     public static final float PTM = 80f;
     public static final Vector2 GRAVITY = new Vector2(0f, -25f);
@@ -41,15 +43,8 @@ public class Constants {
     public static final float PLAYER_CLIMB_TIME = 0.5f;
 
     // Physics Values
-    public static final float PLAYER_MASS = 20f;
-    public static final float PLAYER_ACCELERATION = 5f;
-
-    public static final Vector2 PLAYER_MOVE_FORCE = new Vector2(
-            PLAYER_MASS * PLAYER_ACCELERATION + (PLAYER_MASS * -GRAVITY.x),
-            0
-    );
-
     public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(4.0f, 0);
+    public static final Vector2 PLAYER_JUMP_IMPULSE = new Vector2(0, 40000.0f);
 
     public static final float HORIZONTAL_MOVE_DAMPEN = 0.5f;
 
