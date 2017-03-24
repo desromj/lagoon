@@ -63,13 +63,13 @@ public class PlayerMoveComponent extends PlayerComponent {
         // Handle left/right movement on the ground and in the air
         if (Gdx.input.isKeyPressed(Constants.KEY_RIGHT)) {
             body.setLinearVelocity(
-                    Constants.PLAYER_MOVE_SPEED.x,
+                    (isCrouching()) ? Constants.PLAYER_CROUCH_MOVE_SPEED.x : Constants.PLAYER_MOVE_SPEED.x,
                     body.getLinearVelocity().y);
         }
 
         if (Gdx.input.isKeyPressed(Constants.KEY_LEFT)) {
             body.setLinearVelocity(
-                    -Constants.PLAYER_MOVE_SPEED.x,
+                    (isCrouching()) ? -Constants.PLAYER_CROUCH_MOVE_SPEED.x : -Constants.PLAYER_MOVE_SPEED.x,
                     body.getLinearVelocity().y);
         }
 
@@ -115,7 +115,7 @@ public class PlayerMoveComponent extends PlayerComponent {
         Getters and Setters
      */
 
-    public boolean canJump() { return isOnGround() && cannotJumpFor <= 0f; }
+    public boolean canJump() { return !isCrouching() && isOnGround() && cannotJumpFor <= 0f; }
 
     public boolean isOnGround() { return numFootContacts > 0; }
     public boolean isMovingUp() { return player().getBody().getLinearVelocity().y > 0; }

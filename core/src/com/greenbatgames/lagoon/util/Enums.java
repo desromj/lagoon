@@ -11,7 +11,8 @@ public class Enums {
         BASE,
         BODY,
         CROUCH_BODY,
-        GROUND_SENSOR
+        GROUND_SENSOR,
+        CLIMB_SENSOR
     }
 
 

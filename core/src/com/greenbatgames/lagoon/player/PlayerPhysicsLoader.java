@@ -117,6 +117,27 @@ public class PlayerPhysicsLoader implements PhysicsLoader {
             newPhysicsBody.addShapeToDispose(shape);
         }
 
+        // Tall, slightly wide sensor for climbing contact (1x2, offset 1 unit down)
+        {
+            PolygonShape shape = new PolygonShape();
+
+            shape.set(new float[]{
+                    b2Unit * 1.5f, 0.5f,
+                    b2Unit * 1.5f, b2Unit * 4f,
+                    -b2Unit * 1.5f, b2Unit * 4f,
+                    -b2Unit * 1.5f, 0.5f
+            });
+
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = shape;
+            fixtureDef.density = Constants.PLAYER_DENSITY;
+            fixtureDef.restitution = 0f;
+            fixtureDef.isSensor = true;
+
+            newPhysicsBody.addFixtureDef(fixtureDef, Enums.PlayerFixtures.CLIMB_SENSOR);
+            newPhysicsBody.addShapeToDispose(shape);
+        }
+
         GameScreen.level().queuePhysicsBodyToAdd(newPhysicsBody);
     }
 

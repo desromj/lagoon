@@ -18,12 +18,14 @@ import java.util.List;
 public class Player extends PhysicsBody {
 
     private PlayerMoveComponent mover;
+    private PlayerClimbComponent climber;
 
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
         getPhysicsLoader().load(this);
 
         // Initialize components and assets
+        climber = new PlayerClimbComponent(this);
         mover = new PlayerMoveComponent(this);
     }
 
@@ -39,6 +41,7 @@ public class Player extends PhysicsBody {
         // Run Component updates in sequence, and break through
         // any later updates if we receive a returned request to
         do {
+            if (!climber.update(delta)) break;
             if (!mover.update(delta)) break;
         } while (false);
 
@@ -89,6 +92,11 @@ public class Player extends PhysicsBody {
             return true;
         }
 
+        // All sensors are active
+        if (fixture.isSensor()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -102,6 +110,7 @@ public class Player extends PhysicsBody {
      */
 
     public PlayerMoveComponent mover() { return mover; }
+    public PlayerClimbComponent climber() { return climber; }
 
     public boolean isJumpButtonHeld() {
         return Gdx.input.isKeyPressed(Constants.KEY_JUMP);

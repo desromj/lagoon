@@ -1,14 +1,20 @@
 package com.greenbatgames.lagoon.collision;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.player.Player;
+import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Enums;
 
 /**
  * Created by Quiv on 23-01-2017.
  */
 public class LagoonContactListener implements ContactListener {
+
+    public static final String TAG = LagoonContactListener.class.getSimpleName();
 
     /**
      * Simple inner class to quickly access similar parts of a used Contact
@@ -88,6 +94,41 @@ public class LagoonContactListener implements ContactListener {
         // toggle whether or not the player is grounded
         if (playerFix.getUserData() == Enums.PlayerFixtures.GROUND_SENSOR) {
             player.mover().incrementNumFootContacts();
+        }
+
+        // Handle player climbing
+        if (playerFix.getUserData() == Enums.PlayerFixtures.CLIMB_SENSOR
+                && other instanceof Climbable
+                && player.isClimbButtonHeld())
+        {
+            /*
+                Each vert must be checked against the previous and next verts.
+                If any before and after are higher than the matching point, we cannot climb on it.
+                Maps should begin with any terrain as a bottom-left corner that optimally cannot
+                be reached by the climbing sensor in the first place
+              */
+            float [] verts = ((Climbable) other).getVerts();
+            Vector2 checkPoint = new Vector2();
+
+            for (int i = 0; i < verts.length; i += 2) {
+                checkPoint.set(
+                        otherFix.getBody().getPosition().x + verts[i],
+                        otherFix.getBody().getPosition().y + verts[i+1]);
+
+                // If our checkpoint is within range, check the previous and next y values
+                if (playerFix.testPoint(checkPoint)) {
+
+                    // fail if any of the y values of adjacent points are taller than the current point
+                    if (verts[i-1] > checkPoint.y || verts[i+3] > checkPoint.y) {
+                        continue;
+                    }
+
+                    // Otherwise scale and set our grip point
+                    checkPoint.scl(Constants.PTM);
+                    player.climber().startClimbing(checkPoint);
+                    break;
+                }
+            }
         }
     }
 

@@ -13,7 +13,7 @@ public class Constants {
     public static final float WORLD_WIDTH = 1600;
     public static final float WORLD_HEIGHT = WORLD_WIDTH * 4f / 5f;
 
-    public static final float TILE_WIDTH = 32f; // Tiles are 32x32 pixels
+    public static final float TILE_WIDTH = 64f; // Tiles are 64x64 pixels
 
 
     // User controls - note they are not final
@@ -29,12 +29,12 @@ public class Constants {
 
     // Physics Values
     public static final float PTM = 80f;
-    public static final Vector2 GRAVITY = new Vector2(0f, -25f);
+    public static final Vector2 GRAVITY = new Vector2(0f, -32f);
 
 
     // Player Values
     public static final float PLAYER_RADIUS = WORLD_WIDTH / 50f;
-    public static final float PLAYER_JUMP_RECOVERY = 0.25f; // time before able to jump again
+    public static final float PLAYER_JUMP_RECOVERY = 0.1f; // time before able to jump again
     public static final float PLAYER_DENSITY = 1000f;   // 1000 g / kg m^3
     public static final float PLAYER_GROUND_FRICTION = 0f;
 
@@ -43,8 +43,11 @@ public class Constants {
     public static final float PLAYER_CLIMB_TIME = 0.5f;
 
     // Physics Values
-    public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(4.0f, 0);
-    public static final Vector2 PLAYER_JUMP_IMPULSE = new Vector2(0, 40000.0f);
+    public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(5.0f, 0);
+    public static final Vector2 PLAYER_CROUCH_MOVE_SPEED = new Vector2(2.0f, 0);
+
+    // Allows player to jump vertically 3 tiles, and horizontally 4-5 tiles
+    public static final Vector2 PLAYER_JUMP_IMPULSE = new Vector2(0, 66000.0f);
 
     public static final float HORIZONTAL_MOVE_DAMPEN = 0.5f;
 

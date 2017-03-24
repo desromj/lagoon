@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.NewPhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
@@ -14,7 +15,7 @@ import com.greenbatgames.lagoon.util.Constants;
  * Created by Quiv on 23-02-2017.
  */
 
-public class Terrain extends PhysicsBody {
+public class Terrain extends PhysicsBody implements Climbable {
 
     private float [] verts;
 
@@ -33,10 +34,10 @@ public class Terrain extends PhysicsBody {
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.StaticBody;
 
-            // TODO: Position needs to be set correcly. Hardcoded value is bound to fail later
+            // TODO: Position needs to be set correctly. Hardcoded value is bound to fail later
             bodyDef.position.set(
-                    parent.getX() / Constants.PTM,
-                    (parent.getY() - parent.getHeight() * 0.75f) / Constants.PTM
+                    (parent.getX() - Constants.TILE_WIDTH) / Constants.PTM,
+                    (parent.getY() - Constants.TILE_WIDTH * 6f) / Constants.PTM
             );
 
             newBody.setBodyDef(bodyDef, parent);
@@ -58,5 +59,10 @@ public class Terrain extends PhysicsBody {
 
             GameScreen.level().queuePhysicsBodyToAdd(newBody);
         };
+    }
+
+    @Override
+    public float[] getVerts() {
+        return verts;
     }
 }
