@@ -20,6 +20,8 @@ public class Constants {
     public static int KEY_QUIT = Input.Keys.ESCAPE;
     public static int KEY_RESTART = Input.Keys.R;
 
+    public static int KEY_UP = Input.Keys.UP;
+    public static int KEY_DOWN = Input.Keys.DOWN;
     public static int KEY_RIGHT = Input.Keys.RIGHT;
     public static int KEY_LEFT = Input.Keys.LEFT;
     public static int KEY_JUMP = Input.Keys.Z;
@@ -61,9 +63,8 @@ public class Constants {
     public static final float START_SCREEN_SUBTITLE_SCALE = 1.0f;
 
     // Camera controls
-    public static final float CHASE_CAM_MOVE_SPEED = WORLD_WIDTH * 2.0f;
-    public static final float CHASE_CAM_X_LEEWAY = WORLD_WIDTH / 4f;
-    public static final float CHASE_CAM_Y_LEEWAY = WORLD_WIDTH / 10f;
-
-
+    public static final float CHASE_CAM_MAX_VELOCITY = WORLD_WIDTH / 160.0f;
+    public static final float CHASE_CAM_THRESHOLD = WORLD_WIDTH / 150.0f;
+    public static final float CHASE_CAM_MAX_VELOCITY_MANUAL = WORLD_WIDTH * 2.0f;
+    public static final float CHASE_CAM_OFFSET = WORLD_WIDTH / 10.0f;
 }

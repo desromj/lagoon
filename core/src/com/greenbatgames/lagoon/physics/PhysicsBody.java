@@ -73,7 +73,6 @@ public abstract class PhysicsBody extends Actor {
     public float getMiddleX() {
         return getX() + getWidth() / 2.0f;
     }
-
     public float getMiddleY() {
         return getY() + getHeight() / 2.0f;
     }

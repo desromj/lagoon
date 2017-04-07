@@ -3,6 +3,7 @@ package com.greenbatgames.lagoon.hud;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.util.Constants;
@@ -15,16 +16,17 @@ public class ChaseCam extends Actor {
     private PhysicsBody target;
     private OrthographicCamera camera;
     private Boolean following;
+    private Vector2 velocity;
+    private Vector2 targetPoint;
 
     public ChaseCam(OrthographicCamera camera, PhysicsBody target) {
         this.target = target;
         this.camera = camera;
-        init();
-    }
-
-    public void init() {
         this.following = true;
-        this.centreOnTarget();
+        this.velocity = new Vector2();
+        this.targetPoint = new Vector2();
+
+        centreOnTarget();
     }
 
     @Override
@@ -37,47 +39,72 @@ public class ChaseCam extends Actor {
         }
 
         if (following && target != null) {
-            float
-                    xLeeway = Constants.CHASE_CAM_X_LEEWAY / 2.0f,
-                    yLeeway = Constants.CHASE_CAM_Y_LEEWAY / 2.0f;
-
-            if (camera.position.x > target.getX()
-                    && camera.position.x - target.getX() > xLeeway)
-                camera.position.x = target.getX() + xLeeway;
-
-            if (camera.position.x < target.getX()
-                    && target.getX() - camera.position.x > xLeeway)
-                camera.position.x = target.getX() - xLeeway;
-
-            if (camera.position.y > target.getY()
-                    && camera.position.y - target.getY() > yLeeway)
-                camera.position.y = target.getY() + yLeeway;
-
-            if (camera.position.y < target.getY()
-                    && target.getY() - camera.position.y > yLeeway)
-                camera.position.y = target.getY() - yLeeway;
-
+            autoFollowTarget();
         } else {
-            if (Gdx.input.isKeyPressed(Input.Keys.J)) {
-                camera.position.x -= delta * Constants.CHASE_CAM_MOVE_SPEED;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.L)) {
-                camera.position.x += delta * Constants.CHASE_CAM_MOVE_SPEED;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.I)) {
-                camera.position.y += delta * Constants.CHASE_CAM_MOVE_SPEED;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.K)) {
-                camera.position.y -= delta * Constants.CHASE_CAM_MOVE_SPEED;
-            }
+            manuallyMoveCamera(delta);
         }
     }
 
-    public void centreOnTarget() {
-        if (target != null) {
-            camera.position.x = target.getX();
-            camera.position.y = target.getY();
+    // Manual controls for moving the camera around the entire game world
+    private void manuallyMoveCamera(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.J)) {
+            camera.position.x -= delta * Constants.CHASE_CAM_MAX_VELOCITY_MANUAL;
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.L)) {
+            camera.position.x += delta * Constants.CHASE_CAM_MAX_VELOCITY_MANUAL;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.I)) {
+            camera.position.y += delta * Constants.CHASE_CAM_MAX_VELOCITY_MANUAL;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.K)) {
+            camera.position.y -= delta * Constants.CHASE_CAM_MAX_VELOCITY_MANUAL;
+        }
+    }
+
+    // Natural behaviour for the camera to follow its target
+    private void autoFollowTarget() {
+
+        // Once we have the target point, accelerate towards it, unless we are already on it/passed it
+        setTargetPoint();
+
+        Vector2 check = new Vector2(
+                targetPoint.x - camera.position.x,
+                targetPoint.y - camera.position.y
+        );
+
+        if (check.len() > Constants.CHASE_CAM_THRESHOLD) {
+            velocity.set(check.x, check.y);
+            velocity.nor().scl(Constants.CHASE_CAM_MAX_VELOCITY);
+            camera.position.add(velocity.x, velocity.y, 0f);
+        } else {
+            centreOnTarget();
+        }
+
+    }
+
+    // Set the new target point, based on the target and what player buttons are being pressed
+    private void setTargetPoint() {
+        targetPoint.set(target.getMiddleX(), target.getMiddleY());
+
+        // Determine the target point based on if we're holding down any movement keys
+        if (Gdx.input.isKeyPressed(Constants.KEY_LEFT)) {
+            targetPoint.set(target.getMiddleX() - Constants.CHASE_CAM_OFFSET, targetPoint.y);
+        }
+        if (Gdx.input.isKeyPressed(Constants.KEY_RIGHT)) {
+            targetPoint.set(target.getMiddleX() + Constants.CHASE_CAM_OFFSET, targetPoint.y);
+        }
+        if (Gdx.input.isKeyPressed(Constants.KEY_UP)) {
+            targetPoint.set(targetPoint.x, target.getMiddleY() + Constants.CHASE_CAM_OFFSET);
+        }
+        if (Gdx.input.isKeyPressed(Constants.KEY_DOWN)) {
+            targetPoint.set(targetPoint.x, target.getMiddleY() - Constants.CHASE_CAM_OFFSET);
+        }
+    }
+
+    // Instantly centres the camera on the target point, if a target is set
+    public void centreOnTarget() {
+        camera.position.x = targetPoint.x;
+        camera.position.y = targetPoint.y;
     }
 
     /*
