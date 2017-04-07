@@ -1,6 +1,5 @@
 package com.greenbatgames.lagoon.collision;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.greenbatgames.lagoon.physics.Climbable;
@@ -119,7 +118,11 @@ public class LagoonContactListener implements ContactListener {
                 if (playerFix.testPoint(checkPoint)) {
 
                     // fail if any of the y values of adjacent points are taller than the current point
-                    if (verts[i-1] > checkPoint.y || verts[i+3] > checkPoint.y) {
+                    try {
+                        if (verts[i - 1] > checkPoint.y || verts[i + 3] > checkPoint.y) {
+                            continue;
+                        }
+                    } catch (ArrayIndexOutOfBoundsException ex) {
                         continue;
                     }
 

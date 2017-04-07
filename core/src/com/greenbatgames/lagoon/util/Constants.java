@@ -47,7 +47,7 @@ public class Constants {
     public static final Vector2 PLAYER_CROUCH_MOVE_SPEED = new Vector2(2.0f, 0);
 
     // Allows player to jump vertically 3 tiles, and horizontally 4-5 tiles
-    public static final Vector2 PLAYER_JUMP_IMPULSE = new Vector2(0, 66000.0f);
+    public static final Vector2 PLAYER_JUMP_IMPULSE = new Vector2(0, 40000.0f);
 
     public static final float HORIZONTAL_MOVE_DAMPEN = 0.5f;
 

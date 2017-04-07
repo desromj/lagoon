@@ -109,7 +109,7 @@ public class PlayerPhysicsLoader implements PhysicsLoader {
 
             FixtureDef fixtureDef = new FixtureDef();
             fixtureDef.shape = shape;
-            fixtureDef.density = Constants.PLAYER_DENSITY;
+            fixtureDef.density = 0f;
             fixtureDef.restitution = 0f;
             fixtureDef.isSensor = true;
 
@@ -122,15 +122,15 @@ public class PlayerPhysicsLoader implements PhysicsLoader {
             PolygonShape shape = new PolygonShape();
 
             shape.set(new float[]{
-                    b2Unit * 1.5f, 0.5f,
+                    b2Unit * 1.5f, b2Unit * 0.5f,
                     b2Unit * 1.5f, b2Unit * 4f,
                     -b2Unit * 1.5f, b2Unit * 4f,
-                    -b2Unit * 1.5f, 0.5f
+                    -b2Unit * 1.5f, b2Unit * 0.5f
             });
 
             FixtureDef fixtureDef = new FixtureDef();
             fixtureDef.shape = shape;
-            fixtureDef.density = Constants.PLAYER_DENSITY;
+            fixtureDef.density = 0f;
             fixtureDef.restitution = 0f;
             fixtureDef.isSensor = true;
 
