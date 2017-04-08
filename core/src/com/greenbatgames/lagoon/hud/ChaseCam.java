@@ -67,13 +67,14 @@ public class ChaseCam extends Actor {
         // Once we have the target point, accelerate towards it, unless we are already on it/passed it
         setTargetPoint();
 
-        Vector2 check = new Vector2(
+        Vector2 distToTarget = new Vector2(
                 targetPoint.x - camera.position.x,
                 targetPoint.y - camera.position.y
         );
 
-        if (check.len() > Constants.CHASE_CAM_THRESHOLD) {
-            velocity.set(check.x, check.y);
+        // TODO: Still jumps around a tiny bit, could use optimising
+        if (distToTarget.len() > Constants.CHASE_CAM_THRESHOLD) {
+            velocity.set(distToTarget.x, distToTarget.y);
             velocity.nor().scl(Constants.CHASE_CAM_MAX_VELOCITY);
             camera.position.add(velocity.x, velocity.y, 0f);
         } else {
