@@ -19,6 +19,7 @@ public class Player extends PhysicsBody {
 
     private PlayerMoveComponent mover;
     private PlayerClimbComponent climber;
+    private PlayerWedgeComponent wedger;
 
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -26,6 +27,7 @@ public class Player extends PhysicsBody {
 
         // Initialize components and assets
         climber = new PlayerClimbComponent(this);
+        wedger = new PlayerWedgeComponent(this);
         mover = new PlayerMoveComponent(this);
     }
 
@@ -42,6 +44,7 @@ public class Player extends PhysicsBody {
         // any later updates if we receive a returned request to
         do {
             if (!climber.update(delta)) break;
+            if (!wedger.update(delta)) break;
             if (!mover.update(delta)) break;
         } while (false);
 
@@ -111,6 +114,7 @@ public class Player extends PhysicsBody {
 
     public PlayerMoveComponent mover() { return mover; }
     public PlayerClimbComponent climber() { return climber; }
+    public PlayerWedgeComponent wedger() { return wedger; }
 
     public boolean isJumpButtonHeld() {
         return Gdx.input.isKeyPressed(Constants.KEY_JUMP);
