@@ -119,7 +119,7 @@ public class LagoonContactListener implements ContactListener {
 
                     // fail if any of the y values of adjacent points are taller than the current point
                     try {
-                        if (verts[i - 1] > checkPoint.y || verts[i + 3] > checkPoint.y) {
+                        if (verts[i - 1] > verts[i + 1] || verts[i + 3] > verts[i + 1]) {
                             continue;
                         }
                     } catch (ArrayIndexOutOfBoundsException ex) {
