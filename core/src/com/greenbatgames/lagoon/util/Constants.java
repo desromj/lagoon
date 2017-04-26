@@ -26,6 +26,7 @@ public class Constants {
     public static int KEY_LEFT = Input.Keys.LEFT;
     public static int KEY_JUMP = Input.Keys.Z;
     public static int KEY_ATTACK = Input.Keys.X;
+    public static int KEY_WEDGE = Input.Keys.X;
 
     public static int KEY_CROUCH = Input.Keys.CONTROL_LEFT;
 
@@ -47,6 +48,7 @@ public class Constants {
     // Physics Values
     public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(5.0f, 0);
     public static final Vector2 PLAYER_CROUCH_MOVE_SPEED = new Vector2(2.0f, 0);
+    public static final float PLAYER_WEDGE_MOVE_SPEED = 2.0f;
 
     // Allows player to jump vertically 3 tiles, and horizontally 4-5 tiles
     public static final Vector2 PLAYER_JUMP_IMPULSE = new Vector2(0, 40000.0f);
