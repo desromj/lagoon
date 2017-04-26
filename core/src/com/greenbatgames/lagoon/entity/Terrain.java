@@ -34,10 +34,10 @@ public class Terrain extends PhysicsBody implements Climbable {
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.StaticBody;
 
-            // TODO: Position needs to be set correctly. Hardcoded value is bound to fail later
+            // Set position of the body by scaling the current position
             bodyDef.position.set(
-                    (parent.getX() - Constants.TILE_WIDTH) / Constants.PTM,
-                    (parent.getY() - Constants.TILE_WIDTH * 6f) / Constants.PTM
+                    parent.getX() / Constants.PTM,
+                    parent.getY() / Constants.PTM
             );
 
             newBody.setBodyDef(bodyDef, parent);

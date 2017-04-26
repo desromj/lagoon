@@ -52,7 +52,7 @@ public class LevelLoader {
                     // Generate Terrain for polyline objects
                     if (mapObject instanceof PolylineMapObject) {
                         PolylineMapObject plmo = (PolylineMapObject) mapObject;
-                        float [] verts = plmo.getPolyline().getTransformedVertices();
+                        float [] verts = plmo.getPolyline().getVertices();
 
                         // Determine the width and height, as these are not present in the Tiled program
                         float
