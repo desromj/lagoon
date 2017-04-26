@@ -18,12 +18,10 @@ public class PlayerWedgeComponent extends PlayerComponent {
 
     public static final String TAG = PlayerWedgeComponent.class.getSimpleName();
 
-    boolean wedged;
-
-    // Re-use the callback logic for this class
-    WedgeRaycastCallback raycast;
-    Vector2 from;
-    Vector2 to;
+    private boolean wedged;
+    private WedgeRaycastCallback raycast;
+    private Vector2 from;
+    private Vector2 to;
 
     public PlayerWedgeComponent(Player player) {
         super(player);
@@ -40,6 +38,8 @@ public class PlayerWedgeComponent extends PlayerComponent {
         if (!wedged) {
             if (Gdx.input.isKeyPressed(Constants.KEY_WEDGE) && canWedge()) {
                 this.wedged = true;
+            } else {
+                return true;
             }
         } else {
             // If we are wedged, check to see if we should remain as such
@@ -73,6 +73,7 @@ public class PlayerWedgeComponent extends PlayerComponent {
             }
         }
 
+        // Continue normal updates if we are not wedged. Otherwise, terminate
         player().getBody().setGravityScale(wedged ? 0 : 1);
         return !wedged;
     }
@@ -83,7 +84,6 @@ public class PlayerWedgeComponent extends PlayerComponent {
      *              the left side and exactly one Climbable object the right side. False otherwise
      */
     private boolean canWedge() {
-
         // Set from and to values for the raycast, with a few tolerances
         float width = player().getWidth() * 3f;
         float height = player().getHeight() * 0.5f;
@@ -101,11 +101,6 @@ public class PlayerWedgeComponent extends PlayerComponent {
         // Do the raycast, resetting the state of the raycast immediately prior
         raycast.reset();
         GameScreen.level().getWorld().rayCast(raycast, from, to);
-
-        if (raycast.canWedge()) {
-            Gdx.app.log(TAG, "Wedge Raycast triggered.");
-        }
-
         return raycast.canWedge();
     }
 
@@ -113,12 +108,9 @@ public class PlayerWedgeComponent extends PlayerComponent {
         return wedged;
     }
 
-
-
-    /*
-        Inner Raycast Callback class: track the number of hits for the wedge using canWedge() and reset()
+    /**
+     * Inner Raycast Callback class: track the number of hits for the wedge using canWedge() and reset()
      */
-
     class WedgeRaycastCallback implements RayCastCallback {
 
         private Vector2 first, second;
@@ -141,20 +133,6 @@ public class PlayerWedgeComponent extends PlayerComponent {
             secondHit = false;
         }
 
-        public float getLeft() {
-            if (first.x < second.x) {
-                return first.x;
-            }
-            return second.x;
-        }
-
-        public float getRight() {
-            if (first.x < second.x) {
-                return second.x;
-            }
-            return first.x;
-        }
-
         public float getMidpoint() {
             return (first.x + second.x) / 2f;
         }
@@ -162,7 +140,6 @@ public class PlayerWedgeComponent extends PlayerComponent {
         @Override
         public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
             if (fixture.getBody().getUserData() instanceof Climbable) {
-                Gdx.app.log(TAG, "Raycast hit a Climbable");
                 if (!firstHit) {
                     firstHit = true;
                     first.set(point.x, point.y);
@@ -171,7 +148,6 @@ public class PlayerWedgeComponent extends PlayerComponent {
                     second.set(point.x, point.y);
                 }
             }
-
 
             return 1;
         }
