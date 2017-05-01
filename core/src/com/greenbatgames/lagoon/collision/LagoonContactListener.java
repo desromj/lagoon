@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
+import com.greenbatgames.lagoon.physics.Swimmable;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Enums;
@@ -133,12 +134,24 @@ public class LagoonContactListener implements ContactListener {
                 }
             }
         }
+
+        // Handle player swimming
+        if (playerFix.getUserData() == Enums.PlayerFixtures.SWIM_SENSOR
+                && other instanceof Swimmable) {
+            ((Swimmable) other).startSwimming(player);
+        }
     }
 
     private void endPlayerContact(Player player, PhysicsBody other, Fixture playerFix, Fixture otherFix, Contact contact) {
         // toggle whether or not the player is grounded
         if (playerFix.getUserData() == Enums.PlayerFixtures.GROUND_SENSOR) {
             player.mover().decrementNumFootContacts();
+        }
+
+        // toggle whether or not the player is still swimming
+        if (playerFix.getUserData() == Enums.PlayerFixtures.SWIM_SENSOR
+                && other instanceof Swimmable) {
+            ((Swimmable) other).stopSwimming(player);
         }
     }
 

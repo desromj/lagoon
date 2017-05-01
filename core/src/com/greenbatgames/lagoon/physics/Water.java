@@ -20,7 +20,7 @@ public class Water extends PhysicsBody implements Swimmable {
     public void startSwimming(PhysicsBody body) {
         if (body instanceof Player) {
             Player player = (Player) body;
-            player.swimmer().treadWater();
+            player.swimmer().treadWater(getY() + getHeight());
         }
     }
 
