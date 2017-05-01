@@ -42,17 +42,7 @@ public class PlayerMoveComponent extends PlayerComponent {
 
         // Handle jumping logic - cancel y momentum then apply impulse
         if (canJump() && Gdx.input.isKeyJustPressed(Constants.KEY_JUMP)) {
-            body.setLinearVelocity(
-                    body.getLinearVelocity().x,
-                    0f
-            );
-            body.applyLinearImpulse(
-                    Constants.PLAYER_JUMP_IMPULSE.x,
-                    Constants.PLAYER_JUMP_IMPULSE.y,
-                    player().getX(),
-                    player().getY(),
-                    true
-            );
+            doVerticalJump(body);
         }
 
         // Toggle crouching logic
@@ -87,6 +77,21 @@ public class PlayerMoveComponent extends PlayerComponent {
             facingRight = false;
 
         return true;
+    }
+
+    // Apply an impulse to the player body to jump vertically
+    public void doVerticalJump(Body body) {
+        body.setLinearVelocity(
+                body.getLinearVelocity().x,
+                0f
+        );
+        body.applyLinearImpulse(
+                Constants.PLAYER_JUMP_IMPULSE.x,
+                Constants.PLAYER_JUMP_IMPULSE.y,
+                player().getX(),
+                player().getY(),
+                true
+        );
     }
 
     /**
