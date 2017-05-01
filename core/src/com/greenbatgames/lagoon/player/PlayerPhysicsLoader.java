@@ -138,6 +138,25 @@ public class PlayerPhysicsLoader implements PhysicsLoader {
             newPhysicsBody.addShapeToDispose(shape);
         }
 
+        // Wide line sensor for swimming position tracking (2 wide, offset 3 units up)
+        {
+            EdgeShape shape = new EdgeShape();
+
+            shape.set(
+                    b2Unit, b2Unit * 3f,
+                    -b2Unit, b2Unit * 3f
+            );
+
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = shape;
+            fixtureDef.density = 0f;
+            fixtureDef.restitution = 0f;
+            fixtureDef.isSensor = true;
+
+            newPhysicsBody.addFixtureDef(fixtureDef, Enums.PlayerFixtures.SWIM_SENSOR);
+            newPhysicsBody.addShapeToDispose(shape);
+        }
+
         GameScreen.level().queuePhysicsBodyToAdd(newPhysicsBody);
     }
 
