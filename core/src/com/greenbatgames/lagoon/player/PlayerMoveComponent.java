@@ -121,6 +121,7 @@ public class PlayerMoveComponent extends PlayerComponent {
      */
 
     public boolean canJump() { return !isCrouching() && isOnGround() && cannotJumpFor <= 0f; }
+    public void setCrouching(boolean crouching) { this.crouching = crouching; }
 
     public boolean isOnGround() { return numFootContacts > 0; }
     public boolean isMovingUp() { return player().getBody().getLinearVelocity().y > 0; }

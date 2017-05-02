@@ -29,6 +29,7 @@ public class Water extends PhysicsBody implements Swimmable {
                     player.getBody().getLinearVelocity().x,
                     0f
             );
+            player.mover().setCrouching(false);
             player.swimmer().treadWater(getY() + getHeight());
         }
     }
