@@ -106,22 +106,21 @@ public class PlayerSwimComponent extends PlayerComponent {
         // Handle strokes in the water
         nextStrokeIn -= delta;
 
-        if (nextStrokeIn < 0 && player().isJumpButtonHeld()) {
+        boolean
+                pressedLeft = Gdx.input.isKeyPressed(Constants.KEY_LEFT),
+                pressedRight = Gdx.input.isKeyPressed(Constants.KEY_RIGHT),
+                pressedUp = Gdx.input.isKeyPressed(Constants.KEY_UP),
+                pressedDown = Gdx.input.isKeyPressed(Constants.KEY_DOWN);
+
+        if (nextStrokeIn < 0 && (player().isMoveButtonHeld() || player().isUpOrDownButtonHeld())) {
             // Reset, scale, then normalize movement based on input
+            nextStrokeIn = Constants.PLAYER_STROKE_PERIOD;
             movementVector.set(0,0);
 
-            if (Gdx.input.isKeyPressed(Constants.KEY_UP)) {
-                movementVector.add(0,1);
-            }
-            if (Gdx.input.isKeyPressed(Constants.KEY_DOWN)) {
-                movementVector.add(0,-1);
-            }
-            if (Gdx.input.isKeyPressed(Constants.KEY_RIGHT)) {
-                movementVector.add(1,0);
-            }
-            if (Gdx.input.isKeyPressed(Constants.KEY_LEFT)) {
-                movementVector.add(-1,0);
-            }
+            if (pressedUp) { movementVector.add(0,1); }
+            if (pressedDown) { movementVector.add(0,-1); }
+            if (pressedRight) { movementVector.add(1,0); }
+            if (pressedLeft) { movementVector.add(-1,0); }
 
             if (movementVector.len() > 0) {
                 movementVector.nor();
@@ -137,7 +136,18 @@ public class PlayerSwimComponent extends PlayerComponent {
                     player().getY(),
                     true
             );
+        } else {
+            // TODO: Change the player's movement direction if any movement buttons are pressed and the player is drifting
+
         }
+
+
+
+        // Dampen movement while in water
+        player().getBody().setLinearVelocity(
+                player().getBody().getLinearVelocity().x * Constants.PLAYER_WATER_MOVEMENT_DAMPEN,
+                player().getBody().getLinearVelocity().y * Constants.PLAYER_WATER_MOVEMENT_DAMPEN
+        );
 
         return false;
     }

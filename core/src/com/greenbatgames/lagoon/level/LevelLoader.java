@@ -1,6 +1,5 @@
 package com.greenbatgames.lagoon.level;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -8,11 +7,10 @@ import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.greenbatgames.lagoon.entity.Terrain;
+import com.greenbatgames.lagoon.entity.Water;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
-
-import java.util.Iterator;
 
 /**
  * Created by Quiv on 23-02-2017.
@@ -49,8 +47,20 @@ public class LevelLoader {
                     // Grab the properties and type of the current object
                     MapProperties props = mapObject.getProperties();
 
-                    // Generate Terrain for polyline objects
-                    if (mapObject instanceof PolylineMapObject) {
+                    /** Load the water objects */
+                    if (mapObject.getName() != null && mapObject.getName().equals("water")) {
+                        Water water = new Water(
+                                props.get("x", Float.class),
+                                props.get("y", Float.class),
+                                props.get("width", Float.class),
+                                props.get("height", Float.class)
+                        );
+
+                        loadedLevel.stage.addActor(water);
+                    }
+
+                    /** Generate Terrain for polyline objects */
+                    else if (mapObject instanceof PolylineMapObject) {
                         PolylineMapObject plmo = (PolylineMapObject) mapObject;
                         float [] verts = plmo.getPolyline().getVertices();
 

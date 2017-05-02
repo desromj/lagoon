@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.greenbatgames.lagoon.collision.LagoonContactListener;
-import com.greenbatgames.lagoon.entity.Terrain;
 import com.greenbatgames.lagoon.hud.ChaseCam;
 import com.greenbatgames.lagoon.hud.GameHUD;
 import com.greenbatgames.lagoon.physics.NewPhysicsBody;

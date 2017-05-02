@@ -127,4 +127,5 @@ public class Player extends PhysicsBody {
         return Gdx.input.isKeyPressed(Constants.KEY_ATTACK);
     }
     public boolean isMoveButtonHeld() { return Gdx.input.isKeyPressed(Constants.KEY_RIGHT) || Gdx.input.isKeyPressed(Constants.KEY_LEFT); }
+    public boolean isUpOrDownButtonHeld() { return Gdx.input.isKeyPressed(Constants.KEY_UP) || Gdx.input.isKeyPressed(Constants.KEY_DOWN); }
 }

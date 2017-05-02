@@ -47,8 +47,8 @@ public class Constants {
     public static final float PLAYER_HOLD_BREATH_TIME = 120f;
 
     public static final float PLAYER_STROKE_PERIOD = 1f;
-    public static final float PLAYER_WATER_MOVEMENT_DAMPEN = 0.9f;
-    public static final float PLAYER_STROKE_MAGNITUDE = 20000f;
+    public static final float PLAYER_WATER_MOVEMENT_DAMPEN = 0.96f;
+    public static final float PLAYER_STROKE_MAGNITUDE = 15000f;
 
     // Physics Values
     public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(5.0f, 0);
