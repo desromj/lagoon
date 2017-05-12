@@ -74,15 +74,15 @@ public class PlayerPhysicsLoader implements PhysicsLoader {
             newPhysicsBody.addShapeToDispose(shape);
         }
 
-        // Rectangle body for crouched mass (4x2 units, offset 1 unit up)
+        // Rectangle body for crouched mass (4x1.8 units, offset 1 unit up)
         {
             PolygonShape shape = new PolygonShape();
 
             shape.set(new float[]{
-                    2f * b2Unit, 0f,
-                    2f * b2Unit, b2Unit * 2f,
-                    -2f * b2Unit, b2Unit * 2f,
-                    -2f * b2Unit, 0f
+                    2f * b2Unit, -0.4f,
+                    2f * b2Unit, b2Unit * 0.8f,
+                    -2f * b2Unit, b2Unit * 0.8f,
+                    -2f * b2Unit, -0.4f
             });
 
             FixtureDef fixtureDef = new FixtureDef();
