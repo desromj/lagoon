@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.greenbatgames.lagoon.util.Constants;
+import com.greenbatgames.lagoon.util.Enums;
+import com.greenbatgames.lagoon.util.Utils;
 
 /**
  * Handles all logic for moving the player while swimming. There are four different
@@ -78,23 +80,32 @@ public class PlayerSwimComponent extends PlayerComponent {
         // constrain the player Y position to the top of the body of water
         Body body = player().getBody();
 
-        if (body.getTransform().getPosition().y > surfaceYpoint / Constants.PTM) {
+        // TODO: Fix jumping logic: the positions should be related to the fixture, not the whole body
+        if (Utils.almostEqualTo(
+                body.getTransform().getPosition().y,
+                surfaceYpoint / Constants.PTM,
+                0.1f
+        )) {
             body.setTransform(
                     body.getTransform().getPosition().x,
                     surfaceYpoint / Constants.PTM,
                     body.getAngle()
             );
+            body.setLinearVelocity(body.getLinearVelocity().x, 0f);
         }
 
         // Check if we're submerged in water or not
-        submerged = body.getTransform().getPosition().y != surfaceYpoint / Constants.PTM;
+        submerged = !Utils.almostEqualTo(
+                body.getTransform().getPosition().y,
+                surfaceYpoint / Constants.PTM,
+                0.1f);
 
         // Handle jumping out of the water, if not submerged
         if (!submerged) {
 
             breathRemaining = Constants.PLAYER_HOLD_BREATH_TIME;
 
-            if (player().mover().canJump() && Gdx.input.isKeyJustPressed(Constants.KEY_JUMP)) {
+            if (Gdx.input.isKeyJustPressed(Constants.KEY_JUMP)) {
                 player().mover().doVerticalJump(body);
                 stopSwimming();
                 return true;

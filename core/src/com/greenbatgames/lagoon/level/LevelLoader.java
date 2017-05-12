@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.greenbatgames.lagoon.entity.Terrain;
+import com.greenbatgames.lagoon.entity.Transition;
 import com.greenbatgames.lagoon.entity.Water;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
@@ -22,14 +23,14 @@ public class LevelLoader {
 
     public static final String TAG = LevelLoader.class.getSimpleName();
 
-    public static Level loadLevel(String filename) {
+    public static Level loadLevel(String mapName, String pointName) {
 
         // Initialize the level to load
         Level loadedLevel = new Level();
         GameScreen.getInstance().setLevel(loadedLevel);
 
         // Load the tile map and iterate through the layers to populate the level with objects
-        TiledMap tiledMap = new TmxMapLoader().load(filename);
+        TiledMap tiledMap = new TmxMapLoader().load("maps/" + mapName + ".tmx");
         loadedLevel.setTiledMap(tiledMap);
 
         // Loop through all relevant object layers in the TiledMap
@@ -103,18 +104,33 @@ public class LevelLoader {
                     // Grab the properties and type of the current object
                     MapProperties props = mapObject.getProperties();
 
-                    // Handle single player spawn... for now
-                    // TODO: Replace with entry and exit points, which are named and linked across maps
-                    if (mapObject.getName().equals("player-spawn")) {
-                        Player player = new Player(
+                    if (props.get("type").equals("transition")) {
+
+                        // Add the transition points to the level
+                        Transition transition = new Transition(
                                 props.get("x", Float.class),
                                 props.get("y", Float.class),
-                                Constants.PLAYER_RADIUS,
-                                Constants.PLAYER_RADIUS * 2f
+                                props.get("width", Float.class),
+                                props.get("height", Float.class),
+                                mapObject.getName(),
+                                props.get("destMap", String.class),
+                                props.get("destPoint", String.class)
                         );
 
-                        loadedLevel.stage.addActor(player);
-                        loadedLevel.setPlayer(player);
+                        loadedLevel.stage.addActor(transition);
+
+                        // Make our player and set position to the passed transition point
+                        if (mapObject.getName().equals(pointName)) {
+                            Player player = new Player(
+                                    props.get("x", Float.class) + props.get("width", Float.class) / 2.0f,
+                                    props.get("y", Float.class),
+                                    Constants.PLAYER_RADIUS,
+                                    Constants.PLAYER_RADIUS * 2f
+                            );
+
+                            loadedLevel.stage.addActor(player);
+                            loadedLevel.setPlayer(player);
+                        }
                     }
                 }
             }
