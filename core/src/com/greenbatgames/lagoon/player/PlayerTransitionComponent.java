@@ -17,7 +17,7 @@ public class PlayerTransitionComponent extends PlayerComponent {
     @Override
     public boolean update(float delta) {
 
-        if (Gdx.input.isKeyPressed(Constants.KEY_UP)) {
+        if (Gdx.input.isKeyJustPressed(Constants.KEY_UP)) {
             GameScreen.level().getWorld().QueryAABB(
                     getCallback(),
                     player().getX() / Constants.PTM,
