@@ -19,6 +19,11 @@ public abstract class PhysicsBody extends Actor {
     protected Body body;
 
     /**
+     * Be sure to call getPhysicsLoader().load() in the constructor of
+     * the child class. This will actually instantiate the physics. Some objects
+     * require exposing vertices which can only be done after the super constructor,
+     * otherwise the call would be in the constructor of PhysicsBody
+     *
      * @param x The x location of the bottom-left corner of the object
      * @param y The y location of the bottom-left corner of the object
      * @param width The width of the object

@@ -18,6 +18,7 @@ public class ChaseCam extends Actor {
     private Boolean following;
     private Vector2 velocity;
     private Vector2 targetPoint;
+    private boolean centreCamera;
 
     public ChaseCam(OrthographicCamera camera, PhysicsBody target) {
         this.target = target;
@@ -25,6 +26,7 @@ public class ChaseCam extends Actor {
         this.following = true;
         this.velocity = new Vector2();
         this.targetPoint = new Vector2();
+        this.centreCamera = false;
 
         centreOnTarget();
     }
@@ -42,6 +44,13 @@ public class ChaseCam extends Actor {
             autoFollowTarget();
         } else {
             manuallyMoveCamera(delta);
+        }
+
+        // Try centering the camera on the target if the flag is triggered
+        if (canCentre()) {
+            camera.position.x = targetPoint.x;
+            camera.position.y = targetPoint.y;
+            centreCamera = false;
         }
     }
 
@@ -104,8 +113,11 @@ public class ChaseCam extends Actor {
 
     // Instantly centres the camera on the target point, if a target is set
     public void centreOnTarget() {
-        camera.position.x = targetPoint.x;
-        camera.position.y = targetPoint.y;
+        centreCamera = true;
+    }
+
+    private boolean canCentre() {
+        return (target != null && centreCamera);
     }
 
     /*

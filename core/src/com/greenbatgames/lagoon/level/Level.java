@@ -136,6 +136,10 @@ public class Level implements Disposable {
     public void queuePhysicsBodyToRemove(Body body) { world.addToRemove(body); }
     public void queuePhysicsBodyToRemove(PhysicsBody physicsBody) { world.addToRemove(physicsBody.getBody()); }
 
+    public void centreCameraOnPlayer() {
+        camera.centreOnTarget();
+    }
+
     public void addActorToStage(Actor actor) { stage.addActor(actor); }
 
     // When loading a level, set the TiledMap reference so the level can render it later

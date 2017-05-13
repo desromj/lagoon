@@ -35,6 +35,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     public void loadMap(String mapName, String transitionPointName) {
         level = LevelLoader.loadLevel(mapName, transitionPointName);
+        level.centreCameraOnPlayer();
     }
 
     /*
