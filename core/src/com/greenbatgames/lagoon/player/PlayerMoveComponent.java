@@ -2,6 +2,7 @@ package com.greenbatgames.lagoon.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
 
 /**
@@ -22,6 +23,7 @@ public class PlayerMoveComponent extends PlayerComponent {
 
     private int numFootContacts;
     private boolean crouching;
+    private boolean canUncrouch;
     private boolean facingRight;
 
     private float cannotJumpFor;
@@ -30,6 +32,7 @@ public class PlayerMoveComponent extends PlayerComponent {
         super(player);
         numFootContacts = 0;
         crouching = false;
+        canUncrouch = false;
         facingRight = true;
         cannotJumpFor = 0.0f;
     }
@@ -47,7 +50,32 @@ public class PlayerMoveComponent extends PlayerComponent {
 
         // Toggle crouching logic
         if (Gdx.input.isKeyJustPressed(Constants.KEY_CROUCH)) {
-            crouching = !crouching;
+            // check if our colliding boxes will allow us to crouch or stand up
+            if (crouching) {
+                setCanUncrouch(true);
+
+                GameScreen.level().getWorld().QueryAABB(fixture -> {
+
+                    if (!fixture.isSensor() && fixture.getBody().getUserData() != player()) {
+                        setCanUncrouch(false);
+                        Gdx.app.log(TAG, "Blocked by fixture: " + fixture.getBody().getUserData());
+                    }
+
+                    return true;
+                },
+                        // TODO: replace with more accurate values/calculations
+                        player().getX() / Constants.PTM,
+                        (player().getY() + Constants.PLAYER_RADIUS * 0.25f) / Constants.PTM,
+                        (player().getX() + player().getWidth()) / Constants.PTM,
+                        (player().getY() + player().getHeight() * 1.0f) / Constants.PTM);
+
+                if (canUncrouch) {
+                    crouching = !crouching;
+                    setCanUncrouch(false);
+                }
+            } else {
+                crouching = !crouching;
+            }
         }
 
         // Handle left/right movement on the ground and in the air
@@ -122,6 +150,7 @@ public class PlayerMoveComponent extends PlayerComponent {
 
     public boolean canJump() { return !isCrouching() && isOnGround() && cannotJumpFor <= 0f; }
     public void setCrouching(boolean crouching) { this.crouching = crouching; }
+    public void setCanUncrouch(boolean val) { this.canUncrouch = val; }
 
     public boolean isOnGround() { return numFootContacts > 0; }
     public boolean isMovingUp() { return player().getBody().getLinearVelocity().y > 0; }
