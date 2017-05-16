@@ -69,4 +69,8 @@ public class Crawler extends Enemy {
     private void changeDirection() {
         movingRight = !movingRight;
     }
+
+    public int getContactDamage() {
+        return Constants.CRAWLER_CONTACT_DAMAGE;
+    }
 }

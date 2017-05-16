@@ -51,6 +51,7 @@ public class Constants {
     public static final float PLAYER_STROKE_MAGNITUDE = 15000f;
 
     public static final int PLAYER_STARTING_HEALTH = 6;
+    public static final float PLAYER_DAMAGE_RECOVERY_TIME = 1.5f;
 
     public static final float FALL_VELOCITY_DAMAGE_THRESHOLD = -25f;    // negative Y velocity player can land from
     public static final int FALL_DAMAGE = 1;
@@ -59,6 +60,7 @@ public class Constants {
     public static final int CRAWLER_HEALTH = 2;
     public static final float CRAWLER_RADIUS = WORLD_WIDTH / 80f;
     public static final float CRAWLER_MOVE_SPEED = 1.2f;
+    public static final int CRAWLER_CONTACT_DAMAGE = 1;
 
     // Physics Values
     public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(5.0f, 0);

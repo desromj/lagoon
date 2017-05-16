@@ -23,6 +23,8 @@ public abstract class Enemy extends PhysicsBody {
         return isDead();
     }
 
+    public abstract int getContactDamage();
+
     public boolean isDead() {
         return health <= 0;
     }

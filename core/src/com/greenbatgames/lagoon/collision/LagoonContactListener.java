@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.greenbatgames.lagoon.LagoonGame;
+import com.greenbatgames.lagoon.entity.Enemy;
 import com.greenbatgames.lagoon.entity.Terrain;
 import com.greenbatgames.lagoon.entity.enemy.Crawler;
 import com.greenbatgames.lagoon.physics.Climbable;
@@ -97,17 +98,19 @@ public class LagoonContactListener implements ContactListener {
     }
 
     private void beginPlayerContact(Player player, PhysicsBody other, Fixture playerFix, Fixture otherFix, Contact contact) {
+
+        // Handle player contact with an enemy
+        if (player.fixtureIsEnabled(playerFix) && !playerFix.isSensor() && other instanceof Enemy) {
+            player.health().damage(((Enemy) other).getContactDamage());
+            return;
+        }
+
         // toggle whether or not the player is grounded
         if (playerFix.getUserData() == Enums.PlayerFixtures.GROUND_SENSOR) {
             player.mover().incrementNumFootContacts();
 
             if (player.getBody().getLinearVelocity().y < Constants.FALL_VELOCITY_DAMAGE_THRESHOLD) {
                 player.health().damage(Constants.FALL_DAMAGE);
-
-                // If dead, reload the game
-                if (player.health().isDead()) {
-                    LagoonGame.setScreen(StartScreen.class);
-                }
             }
         }
 

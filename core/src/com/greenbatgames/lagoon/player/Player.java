@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Align;
+import com.greenbatgames.lagoon.LagoonGame;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
+import com.greenbatgames.lagoon.screen.StartScreen;
 import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Enums;
 
@@ -61,6 +63,11 @@ public class Player extends PhysicsBody {
             if (!wedger.update(delta)) break;
             if (!mover.update(delta)) break;
         } while (false);
+
+        // If dead, reload the game
+        if (health().isDead()) {
+            LagoonGame.setScreen(StartScreen.class);
+        }
 
         // Ensure the player is always ready to respond to physics collisions
         if (body != null) {
