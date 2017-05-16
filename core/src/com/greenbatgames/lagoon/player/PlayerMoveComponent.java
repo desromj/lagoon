@@ -54,20 +54,18 @@ public class PlayerMoveComponent extends PlayerComponent {
             if (crouching) {
                 setCanUncrouch(true);
 
-                GameScreen.level().getWorld().QueryAABB(fixture -> {
-
-                    if (!fixture.isSensor() && fixture.getBody().getUserData() != player()) {
-                        setCanUncrouch(false);
-                        Gdx.app.log(TAG, "Blocked by fixture: " + fixture.getBody().getUserData());
-                    }
-
-                    return true;
-                },
-                        // TODO: replace with more accurate values/calculations
-                        player().getX() / Constants.PTM,
-                        (player().getY() + Constants.PLAYER_RADIUS * 0.25f) / Constants.PTM,
-                        (player().getX() + player().getWidth()) / Constants.PTM,
-                        (player().getY() + player().getHeight() * 1.0f) / Constants.PTM);
+                GameScreen.level().getWorld().rayCast(((fixture, point, normal, fraction) -> {
+                        if (!fixture.isSensor() && fixture.getBody().getUserData() != player()) {
+                            setCanUncrouch(false);
+                            Gdx.app.log(TAG, "Blocked by fixture: " + fixture.getBody().getUserData());
+                            return 0;
+                        }
+                        return 1;
+                }),
+                        player().getMiddleX() / Constants.PTM,
+                        (player().getY()) / Constants.PTM,
+                        player().getMiddleX() / Constants.PTM,
+                        (player().getY() + player().getHeight()*2f) / Constants.PTM);
 
                 if (canUncrouch) {
                     crouching = !crouching;
