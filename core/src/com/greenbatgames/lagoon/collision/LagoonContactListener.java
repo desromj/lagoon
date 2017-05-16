@@ -3,10 +3,13 @@ package com.greenbatgames.lagoon.collision;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.greenbatgames.lagoon.LagoonGame;
 import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.Swimmable;
 import com.greenbatgames.lagoon.player.Player;
+import com.greenbatgames.lagoon.screen.GameScreen;
+import com.greenbatgames.lagoon.screen.StartScreen;
 import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Enums;
 
@@ -95,6 +98,15 @@ public class LagoonContactListener implements ContactListener {
         // toggle whether or not the player is grounded
         if (playerFix.getUserData() == Enums.PlayerFixtures.GROUND_SENSOR) {
             player.mover().incrementNumFootContacts();
+
+            if (player.getBody().getLinearVelocity().y < Constants.FALL_VELOCITY_DAMAGE_THRESHOLD) {
+                player.health().damage(Constants.FALL_DAMAGE);
+
+                // If dead, reload the game
+                if (player.health().isDead()) {
+                    LagoonGame.setScreen(StartScreen.class);
+                }
+            }
         }
 
         // Handle player climbing

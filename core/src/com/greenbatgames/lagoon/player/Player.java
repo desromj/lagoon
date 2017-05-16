@@ -2,6 +2,7 @@ package com.greenbatgames.lagoon.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class Player extends PhysicsBody {
 
+    private PlayerHealthComponent health;
     private PlayerTransitionComponent transitioner;
     private PlayerMoveComponent mover;
     private PlayerClimbComponent climber;
@@ -28,6 +30,7 @@ public class Player extends PhysicsBody {
         getPhysicsLoader().load(this);
 
         // Initialize components and assets
+        health = new PlayerHealthComponent(this, Constants.PLAYER_STARTING_HEALTH, Constants.PLAYER_STARTING_HEALTH);
         transitioner = new PlayerTransitionComponent(this);
         climber = new PlayerClimbComponent(this);
         swimmer = new PlayerSwimComponent(this);
@@ -47,6 +50,7 @@ public class Player extends PhysicsBody {
         // Run Component updates in sequence, and break through
         // any later updates if we receive a returned request to
         do {
+            if (!health.update(delta)) break;
             if (!transitioner.update(delta)) break;
             if (!climber.update(delta)) break;
             if (!swimmer.update(delta)) break;
@@ -118,6 +122,7 @@ public class Player extends PhysicsBody {
         Getters and Setters
      */
 
+    public PlayerHealthComponent health() { return health; }
     public PlayerTransitionComponent transitioner() { return transitioner; }
     public PlayerMoveComponent mover() { return mover; }
     public PlayerClimbComponent climber() { return climber; }

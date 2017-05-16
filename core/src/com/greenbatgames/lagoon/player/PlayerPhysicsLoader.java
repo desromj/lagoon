@@ -101,10 +101,10 @@ public class PlayerPhysicsLoader implements PhysicsLoader {
             PolygonShape shape = new PolygonShape();
 
             shape.set(new float[]{
-                    b2Unit * 0.5f, -b2Unit * 1.5f,
-                    b2Unit * 0.5f, -b2Unit * -0.5f,
-                    -b2Unit * 0.5f, -b2Unit * -0.5f,
-                    -b2Unit * 0.5f, -b2Unit * 1.5f,
+                    b2Unit * 0.5f, -b2Unit * 2f,
+                    b2Unit * 0.5f, -b2Unit * 0f,
+                    -b2Unit * 0.5f, -b2Unit * 0f,
+                    -b2Unit * 0.5f, -b2Unit * 2f,
             });
 
             FixtureDef fixtureDef = new FixtureDef();

@@ -50,6 +50,11 @@ public class Constants {
     public static final float PLAYER_WATER_MOVEMENT_DAMPEN = 0.96f;
     public static final float PLAYER_STROKE_MAGNITUDE = 15000f;
 
+    public static final int PLAYER_STARTING_HEALTH = 6;
+
+    public static final float FALL_VELOCITY_DAMAGE_THRESHOLD = -25f;    // negative Y velocity player can land from
+    public static final int FALL_DAMAGE = 1;
+
     // Physics Values
     public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(5.0f, 0);
     public static final Vector2 PLAYER_CROUCH_MOVE_SPEED = new Vector2(2.0f, 0);
