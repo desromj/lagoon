@@ -29,7 +29,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     }
 
     public void init() {
-        loadMap("entryway", "t_left");
+        loadMap("hub-1", "t_topRight");
         Gdx.input.setInputProcessor(this);
     }
 

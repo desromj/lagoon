@@ -55,6 +55,11 @@ public class Constants {
     public static final float FALL_VELOCITY_DAMAGE_THRESHOLD = -25f;    // negative Y velocity player can land from
     public static final int FALL_DAMAGE = 1;
 
+    // Enemy Values
+    public static final int CRAWLER_HEALTH = 2;
+    public static final float CRAWLER_RADIUS = WORLD_WIDTH / 80f;
+    public static final float CRAWLER_MOVE_SPEED = 1.2f;
+
     // Physics Values
     public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(5.0f, 0);
     public static final Vector2 PLAYER_CROUCH_MOVE_SPEED = new Vector2(2.0f, 0);

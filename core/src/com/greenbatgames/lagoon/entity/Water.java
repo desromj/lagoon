@@ -1,5 +1,6 @@
 package com.greenbatgames.lagoon.entity;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.greenbatgames.lagoon.physics.*;
 import com.greenbatgames.lagoon.player.Player;
 
@@ -36,6 +37,6 @@ public class Water extends PhysicsBody implements Swimmable {
 
     @Override
     protected PhysicsLoader getPhysicsLoader() {
-        return new BoxPhysicsLoader(this, true);
+        return new BoxPhysicsLoader(this, true, BodyDef.BodyType.StaticBody);
     }
 }

@@ -1,5 +1,6 @@
 package com.greenbatgames.lagoon.entity;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.greenbatgames.lagoon.physics.BoxPhysicsLoader;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
@@ -21,7 +22,7 @@ public class Transition extends PhysicsBody {
 
     @Override
     protected PhysicsLoader getPhysicsLoader() {
-        return new BoxPhysicsLoader(this, true);
+        return new BoxPhysicsLoader(this, true, BodyDef.BodyType.StaticBody);
     }
 
     public void transition() {

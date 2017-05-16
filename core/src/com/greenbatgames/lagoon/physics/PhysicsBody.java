@@ -83,4 +83,7 @@ public abstract class PhysicsBody extends Actor {
         return getY() + getHeight() / 2.0f;
     }
 
+    public Vector2 getPosition() { return new Vector2(getX(), getY()); }
+    public Vector2 getLastPosition() { return new Vector2(lastPosition.x, lastPosition.y); }
+
 }

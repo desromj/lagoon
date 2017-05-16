@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.greenbatgames.lagoon.entity.Terrain;
 import com.greenbatgames.lagoon.entity.Transition;
 import com.greenbatgames.lagoon.entity.Water;
+import com.greenbatgames.lagoon.entity.enemy.Crawler;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
@@ -103,6 +104,19 @@ public class LevelLoader {
 
                     // Grab the properties and type of the current object
                     MapProperties props = mapObject.getProperties();
+
+                    if (props.get("type").equals("enemy")) {
+                        if (mapObject.getName().equals("crawler")) {
+                            Crawler crawler = new Crawler(
+                                    props.get("x", Float.class),
+                                    props.get("y", Float.class),
+                                    props.get("width", Float.class),
+                                    props.get("height", Float.class)
+                            );
+
+                            loadedLevel.stage.addActor(crawler);
+                        }
+                    }
 
                     if (props.get("type").equals("transition")) {
 

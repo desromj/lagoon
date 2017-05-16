@@ -1,18 +1,18 @@
 package com.greenbatgames.lagoon.physics;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
 
-public class BoxPhysicsLoader implements PhysicsLoader {
+public class CirclePhysicsLoader implements PhysicsLoader  {
 
     private PhysicsBody parent;
     private boolean isSensor;
     private BodyDef.BodyType bodyType;
 
-    public BoxPhysicsLoader(PhysicsBody parent, boolean isSensor, BodyDef.BodyType bodyType) {
+    public CirclePhysicsLoader(PhysicsBody parent, boolean isSensor, BodyDef.BodyType bodyType) {
         this.parent = parent;
         this.isSensor = isSensor;
         this.bodyType = bodyType;
@@ -35,11 +35,8 @@ public class BoxPhysicsLoader implements PhysicsLoader {
         newBody.setBodyDef(bodyDef, parent);
 
         // Fixtures
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(
-                (parent.getWidth() / 2f) / Constants.PTM,
-                (parent.getHeight() / 2f) / Constants.PTM
-        );
+        CircleShape shape = new CircleShape();
+        shape.setRadius(Constants.CRAWLER_RADIUS / Constants.PTM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
