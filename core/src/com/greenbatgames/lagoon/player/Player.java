@@ -1,9 +1,11 @@
 package com.greenbatgames.lagoon.player;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Align;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
 import com.greenbatgames.lagoon.util.Constants;
@@ -11,10 +13,6 @@ import com.greenbatgames.lagoon.util.Enums;
 
 import java.util.LinkedList;
 import java.util.List;
-
-/**
- * Created by Quiv on 23-01-2017.
- */
 
 public class Player extends PhysicsBody {
 
@@ -24,6 +22,8 @@ public class Player extends PhysicsBody {
     private PlayerClimbComponent climber;
     private PlayerWedgeComponent wedger;
     private PlayerSwimComponent swimmer;
+
+    private BitmapFont font;
 
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -36,6 +36,10 @@ public class Player extends PhysicsBody {
         swimmer = new PlayerSwimComponent(this);
         wedger = new PlayerWedgeComponent(this);
         mover = new PlayerMoveComponent(this);
+
+        font = new BitmapFont(Gdx.files.internal("fonts/arial-grad.fnt"));
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.getData().setScale(1f);
     }
 
     @Override
@@ -64,18 +68,21 @@ public class Player extends PhysicsBody {
         }
     }
 
-
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // TODO: Draw the assets here
+
+        // Draw the health numerically until a GUI is made
+        font.draw(
+                batch,
+                "HP: " + health.getHealth() + " / " + health.getMaxHealth(),
+                this.getX(),
+                this.getY() + this.getHeight() * 4f,
+                0,
+                Align.center,
+                false
+        );
     }
-
-
-
-    /*
-        Getters and Setters
-     */
 
     public Fixture getFixture(Enums.PlayerFixtures type) {
         for (Fixture fix: body.getFixtureList())
