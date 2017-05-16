@@ -84,7 +84,7 @@ public class ChaseCam extends Actor {
         // TODO: Still jumps around a tiny bit, could use optimising
         if (distToTarget.len() > Constants.CHASE_CAM_THRESHOLD) {
             velocity.set(distToTarget.x, distToTarget.y);
-            velocity.nor().scl(Constants.CHASE_CAM_MAX_VELOCITY);
+            velocity.scl(0.1f);
             camera.position.add(velocity.x, velocity.y, 0f);
         } else {
             centreOnTarget();

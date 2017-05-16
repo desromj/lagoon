@@ -65,7 +65,7 @@ public class PlayerMoveComponent extends PlayerComponent {
                         player().getMiddleX() / Constants.PTM,
                         (player().getY()) / Constants.PTM,
                         player().getMiddleX() / Constants.PTM,
-                        (player().getY() + player().getHeight()*2f) / Constants.PTM);
+                        (player().getY() + player().getHeight()*2.2f) / Constants.PTM);
 
                 if (canUncrouch) {
                     crouching = !crouching;

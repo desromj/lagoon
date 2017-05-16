@@ -71,7 +71,7 @@ public class Constants {
 
     // Camera controls
     public static final float CHASE_CAM_MAX_VELOCITY = WORLD_WIDTH / 160.0f;
-    public static final float CHASE_CAM_THRESHOLD = WORLD_WIDTH / 100.0f;
+    public static final float CHASE_CAM_THRESHOLD = WORLD_WIDTH / 200.0f;
     public static final float CHASE_CAM_MAX_VELOCITY_MANUAL = WORLD_WIDTH * 2.0f;
-    public static final float CHASE_CAM_OFFSET = WORLD_WIDTH / 10.0f;
+    public static final float CHASE_CAM_OFFSET = WORLD_WIDTH / 9.0f;
 }
