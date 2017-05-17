@@ -1,5 +1,6 @@
 package com.greenbatgames.lagoon.level;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -25,6 +26,12 @@ public class LevelLoader {
     public static final String TAG = LevelLoader.class.getSimpleName();
 
     public static Level loadLevel(String mapName, String pointName) {
+
+        Player player = null;
+
+        try {
+            player = GameScreen.level().getPlayer();
+        } catch (Exception ex) {}
 
         // Initialize the level to load
         Level loadedLevel = new Level();
@@ -134,17 +141,29 @@ public class LevelLoader {
                         loadedLevel.stage.addActor(transition);
 
                         // Make our player and set position to the passed transition point
+                        // If player already exists in a level, move that instance to the next map
+                        // Otherwise initialize the player
                         if (mapObject.getName().equals(pointName)) {
-                            Player player = new Player(
-                                    props.get("x", Float.class) + props.get("width", Float.class) / 2.0f,
-                                    props.get("y", Float.class),
-                                    Constants.PLAYER_RADIUS,
-                                    Constants.PLAYER_RADIUS * 2f
-                            );
+
+                            if (player == null) {
+                                player = new Player(
+                                        props.get("x", Float.class) + props.get("width", Float.class) / 2.0f,
+                                        props.get("y", Float.class),
+                                        Constants.PLAYER_RADIUS,
+                                        Constants.PLAYER_RADIUS * 2f
+                                );
+                            } else {
+                                player.setPosition(
+                                        props.get("x", Float.class) + props.get("width", Float.class) / 2.0f,
+                                        props.get("y", Float.class)
+                                );
+                                player.getPhysicsLoader().load(player);
+                            }
 
                             loadedLevel.stage.addActor(player);
                             loadedLevel.setPlayer(player);
                         }
+
                     }
                 }
             }
