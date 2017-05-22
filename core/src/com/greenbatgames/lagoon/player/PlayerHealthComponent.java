@@ -46,4 +46,6 @@ public class PlayerHealthComponent extends PlayerComponent {
 
     public int getHealth() { return health; }
     public int getMaxHealth() { return maxHealth; }
+
+    public void healFully() { this.health = maxHealth; }
 }
