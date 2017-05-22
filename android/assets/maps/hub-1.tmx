@@ -25,10 +25,10 @@
     <property name="destPoint" value="t_right"/>
    </properties>
   </object>
-  <object id="3" name="t_bottomLeft" type="transition" x="64" y="2112" width="64" height="64">
+  <object id="3" name="t_bottomLeft" type="transition" x="64" y="2112" width="128" height="64">
    <properties>
-    <property name="destMap" value="entryway"/>
-    <property name="destPoint" value="t_left"/>
+    <property name="destMap" value="a-key"/>
+    <property name="destPoint" value="t_right"/>
    </properties>
   </object>
   <object id="4" name="t_topRight" type="transition" x="3264" y="192" width="128" height="192">
