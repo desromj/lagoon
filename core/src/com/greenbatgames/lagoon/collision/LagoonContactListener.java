@@ -1,18 +1,12 @@
 package com.greenbatgames.lagoon.collision;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.greenbatgames.lagoon.LagoonGame;
-import com.greenbatgames.lagoon.entity.Enemy;
-import com.greenbatgames.lagoon.entity.Terrain;
-import com.greenbatgames.lagoon.entity.enemy.Crawler;
+import com.greenbatgames.lagoon.enemy.Enemy;
 import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.Swimmable;
 import com.greenbatgames.lagoon.player.Player;
-import com.greenbatgames.lagoon.screen.GameScreen;
-import com.greenbatgames.lagoon.screen.StartScreen;
 import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Enums;
 

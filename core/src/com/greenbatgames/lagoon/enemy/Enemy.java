@@ -1,4 +1,4 @@
-package com.greenbatgames.lagoon.entity;
+package com.greenbatgames.lagoon.enemy;
 
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 

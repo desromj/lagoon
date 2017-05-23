@@ -1,6 +1,5 @@
 package com.greenbatgames.lagoon.level;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -10,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.greenbatgames.lagoon.entity.Terrain;
 import com.greenbatgames.lagoon.entity.Transition;
 import com.greenbatgames.lagoon.entity.Water;
-import com.greenbatgames.lagoon.entity.enemy.Crawler;
+import com.greenbatgames.lagoon.enemy.enemies.Crawler;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
