@@ -25,8 +25,10 @@ public class PlayerMoveComponent extends PlayerComponent {
     private boolean crouching;
     private boolean canUncrouch;
     private boolean facingRight;
+    private boolean knockedBack;
 
     private float cannotJumpFor;
+    private float cannotMoveFor;
 
     public PlayerMoveComponent(Player player) {
         super(player);
@@ -34,12 +36,20 @@ public class PlayerMoveComponent extends PlayerComponent {
         crouching = false;
         canUncrouch = false;
         facingRight = true;
+        knockedBack = false;
         cannotJumpFor = 0.0f;
+        cannotMoveFor = 0.0f;
     }
 
     @Override
     public boolean update(float delta) {
         cannotJumpFor -= delta;
+
+        if (knockedBack) {
+            cannotMoveFor -= delta;
+            knockedBack = cannotMoveFor > 0f;
+            return false;
+        }
 
         Body body = player().getBody();
 
@@ -142,6 +152,25 @@ public class PlayerMoveComponent extends PlayerComponent {
         numFootContacts++;
     }
 
+    public void applyKnockback() {
+        knockedBack = true;
+        cannotMoveFor = Constants.PLAYER_KNOCKBACK_TIME;
+        Body body = player().getBody();
+
+        // Cancel momentum, them apply knockback impulse
+        body.setLinearVelocity(
+                0f,
+                0f
+        );
+        body.applyLinearImpulse(
+                (facingRight) ? -Constants.PLAYER_KNOCKBACK_IMPULSE.x : Constants.PLAYER_KNOCKBACK_IMPULSE.x,
+                Constants.PLAYER_KNOCKBACK_IMPULSE.y,
+                player().getX() / Constants.PTM,
+                player().getY() / Constants.PTM,
+                true
+        );
+    }
+
     /*
         Getters and Setters
      */
@@ -149,6 +178,7 @@ public class PlayerMoveComponent extends PlayerComponent {
     public boolean canJump() { return !isCrouching() && isOnGround() && cannotJumpFor <= 0f; }
     public void setCrouching(boolean crouching) { this.crouching = crouching; }
     public void setCanUncrouch(boolean val) { this.canUncrouch = val; }
+    public boolean isBeingKnockedBack() { return knockedBack; }
 
     public boolean isOnGround() { return numFootContacts > 0; }
     public boolean isMovingUp() { return player().getBody().getLinearVelocity().y > 0; }

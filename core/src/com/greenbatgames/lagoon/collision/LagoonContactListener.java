@@ -155,6 +155,7 @@ public class LagoonContactListener implements ContactListener {
     }
 
     private void endPlayerContact(Player player, PhysicsBody other, Fixture playerFix, Fixture otherFix, Contact contact) {
+
         // toggle whether or not the player is grounded
         if (playerFix.getUserData() == Enums.PlayerFixtures.GROUND_SENSOR) {
             player.mover().decrementNumFootContacts();

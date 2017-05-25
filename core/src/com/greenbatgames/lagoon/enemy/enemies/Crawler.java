@@ -21,7 +21,7 @@ public class Crawler extends Enemy {
 
     @Override
     protected PhysicsLoader getPhysicsLoader() {
-        return new CirclePhysicsLoader(this, false, BodyDef.BodyType.DynamicBody);
+        return new CirclePhysicsLoader(this, false, BodyDef.BodyType.KinematicBody);
     }
 
     @Override

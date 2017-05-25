@@ -38,7 +38,12 @@ public class PlayerHealthComponent extends PlayerComponent {
     private void doDamage(int damage) {
         health -= damage;
         invulnerableFor = Constants.PLAYER_DAMAGE_RECOVERY_TIME;
+
+        // Add a tiny knockback to the player on damage. Not so high as to be very disruptive
+        player().mover().applyKnockback();
     }
+
+    public boolean isInvulnerable() { return invulnerableFor <= 0f; }
 
     public boolean isDead() {
         return health <= 0;
