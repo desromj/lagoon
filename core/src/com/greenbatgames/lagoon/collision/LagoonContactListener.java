@@ -3,6 +3,7 @@ package com.greenbatgames.lagoon.collision;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.greenbatgames.lagoon.enemy.Enemy;
+import com.greenbatgames.lagoon.entity.Transition;
 import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.Swimmable;
@@ -152,6 +153,11 @@ public class LagoonContactListener implements ContactListener {
                 && other instanceof Swimmable) {
             ((Swimmable) other).startSwimming(player);
         }
+
+        // Display tooltip when player may transition between maps
+        if (other instanceof Transition) {
+            player.tooltip().show();
+        }
     }
 
     private void endPlayerContact(Player player, PhysicsBody other, Fixture playerFix, Fixture otherFix, Contact contact) {
@@ -165,6 +171,11 @@ public class LagoonContactListener implements ContactListener {
         if (playerFix.getUserData() == Enums.PlayerFixtures.SWIM_SENSOR
                 && other instanceof Swimmable) {
             ((Swimmable) other).stopSwimming(player);
+        }
+
+        // Display tooltip when player may transition between maps
+        if (other instanceof Transition) {
+            player.tooltip().hide();
         }
     }
 
