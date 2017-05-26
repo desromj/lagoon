@@ -18,6 +18,7 @@ import java.util.List;
 
 public class Player extends PhysicsBody {
 
+    private PlayerInventoryHistoryComponent inventoryHistory;
     private PlayerTooltipComponent tooltip;
     private PlayerHealthComponent health;
     private PlayerTransitionComponent transitioner;
@@ -33,6 +34,7 @@ public class Player extends PhysicsBody {
         getPhysicsLoader().load(this);
 
         // Initialize components and assets
+        inventoryHistory = new PlayerInventoryHistoryComponent(this);
         tooltip = new PlayerTooltipComponent(this);
         health = new PlayerHealthComponent(this, Constants.PLAYER_STARTING_HEALTH, Constants.PLAYER_STARTING_HEALTH);
         transitioner = new PlayerTransitionComponent(this);
@@ -59,6 +61,7 @@ public class Player extends PhysicsBody {
         // any later updates if we receive a returned request to
         do {
             // Components which will always update
+            inventoryHistory.update(delta);
             tooltip.update(delta);
             health.update(delta);
 
@@ -146,6 +149,7 @@ public class Player extends PhysicsBody {
         Getters and Setters
      */
 
+    public PlayerInventoryHistoryComponent inventoryHistory() { return inventoryHistory; }
     public PlayerTooltipComponent tooltip() {return tooltip; }
     public PlayerHealthComponent health() { return health; }
     public PlayerTransitionComponent transitioner() { return transitioner; }

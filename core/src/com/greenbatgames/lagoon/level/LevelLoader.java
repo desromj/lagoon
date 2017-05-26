@@ -1,11 +1,13 @@
 package com.greenbatgames.lagoon.level;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.greenbatgames.lagoon.entity.Item;
 import com.greenbatgames.lagoon.entity.Terrain;
 import com.greenbatgames.lagoon.entity.Transition;
 import com.greenbatgames.lagoon.entity.Water;
@@ -111,6 +113,31 @@ public class LevelLoader {
                     // Grab the properties and type of the current object
                     MapProperties props = mapObject.getProperties();
 
+                    // Load items - checking if they have already been collected by the player
+                    if (props.get("type").equals("item")) {
+
+                        Integer id = props.get("id", Integer.class);
+
+                        // Skip creating the item if it is already picked up
+                        if (player != null) {
+                            if (player.inventoryHistory().isRecorded(id, mapName)) {
+                                continue;
+                            }
+                        }
+
+                        Item item = new Item(
+                                props.get("x", Float.class),
+                                props.get("y", Float.class),
+                                props.get("width", Float.class),
+                                props.get("height", Float.class),
+                                id,
+                                mapName
+                        );
+
+                        loadedLevel.stage.addActor(item);
+                    }
+
+                    // Load enemies
                     if (props.get("type").equals("enemy")) {
                         if (mapObject.getName().equals("crawler")) {
                             Crawler crawler = new Crawler(
@@ -124,6 +151,7 @@ public class LevelLoader {
                         }
                     }
 
+                    // Load transition points
                     if (props.get("type").equals("transition")) {
 
                         // Add the transition points to the level
