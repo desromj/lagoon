@@ -75,6 +75,7 @@ public class Player extends PhysicsBody {
         if (health().isDead()) {
             LagoonGame.setScreen(StartScreen.class);
             health.healFully();
+            inventoryHistory.reset();
         }
 
         // Ensure the player is always ready to respond to physics collisions

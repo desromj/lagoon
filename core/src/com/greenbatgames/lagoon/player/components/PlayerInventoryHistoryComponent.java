@@ -69,6 +69,10 @@ public class PlayerInventoryHistoryComponent extends PlayerComponent {
         return this.containsItem(pui);
     }
 
+    public void reset() {
+        pickedUpItems.clear();
+    }
+
     private boolean containsItem(PickedUpItem pickedUpItem) {
         for (PickedUpItem pui: pickedUpItems) {
             if (pui.equals(pickedUpItem)) {
