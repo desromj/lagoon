@@ -1,7 +1,9 @@
-package com.greenbatgames.lagoon.player;
+package com.greenbatgames.lagoon.player.components;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.greenbatgames.lagoon.animation.AnimatedUpArrow;
+import com.greenbatgames.lagoon.player.Player;
+import com.greenbatgames.lagoon.player.PlayerComponent;
 
 public class PlayerTooltipComponent extends PlayerComponent {
 

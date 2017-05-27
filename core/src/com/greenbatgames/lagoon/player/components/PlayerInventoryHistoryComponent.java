@@ -1,7 +1,8 @@
-package com.greenbatgames.lagoon.player;
+package com.greenbatgames.lagoon.player.components;
 
-import com.badlogic.gdx.Gdx;
 import com.greenbatgames.lagoon.entity.Item;
+import com.greenbatgames.lagoon.player.Player;
+import com.greenbatgames.lagoon.player.PlayerComponent;
 
 import java.util.LinkedList;
 import java.util.List;

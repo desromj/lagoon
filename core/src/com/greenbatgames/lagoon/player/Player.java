@@ -9,12 +9,10 @@ import com.badlogic.gdx.utils.Align;
 import com.greenbatgames.lagoon.LagoonGame;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
+import com.greenbatgames.lagoon.player.components.*;
 import com.greenbatgames.lagoon.screen.StartScreen;
 import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Enums;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class Player extends PhysicsBody {
 
@@ -154,7 +152,7 @@ public class Player extends PhysicsBody {
     public PlayerHealthComponent health() { return health; }
     public PlayerTransitionComponent transitioner() { return transitioner; }
     public PlayerMoveComponent mover() { return mover; }
-    public PlayerClimbComponent climber() { return climber; }
+    public com.greenbatgames.lagoon.player.components.PlayerClimbComponent climber() { return climber; }
     public PlayerWedgeComponent wedger() { return wedger; }
     public PlayerSwimComponent swimmer() { return swimmer; }
 

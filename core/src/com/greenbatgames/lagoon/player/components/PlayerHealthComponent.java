@@ -1,5 +1,7 @@
-package com.greenbatgames.lagoon.player;
+package com.greenbatgames.lagoon.player.components;
 
+import com.greenbatgames.lagoon.player.Player;
+import com.greenbatgames.lagoon.player.PlayerComponent;
 import com.greenbatgames.lagoon.util.Constants;
 
 public class PlayerHealthComponent extends PlayerComponent {

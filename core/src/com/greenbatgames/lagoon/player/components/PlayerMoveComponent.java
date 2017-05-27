@@ -1,7 +1,9 @@
-package com.greenbatgames.lagoon.player;
+package com.greenbatgames.lagoon.player.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.greenbatgames.lagoon.player.Player;
+import com.greenbatgames.lagoon.player.PlayerComponent;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
 
