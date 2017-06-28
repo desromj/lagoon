@@ -19,8 +19,8 @@ android {
     }
     defaultConfig {
         applicationId "com.greenbatgames.lagoon"
-        minSdkVersion 15
-        targetSdkVersion 15
+        minSdkVersion 24
+        targetSdkVersion 24
         multiDexEnabled true
     }
 }
