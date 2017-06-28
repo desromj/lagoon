@@ -101,7 +101,14 @@ public class InventoryComponent extends PlayerComponent {
         return null;
     }
 
-
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Inventory Contents: \n");
+        builder.append("--------------------\n");
+        items.stream().forEach(item -> builder.append(item.getName() + ", Qty: " + item.getCount() + "\n"));
+        return builder.toString();
+    }
 
     @Override
     public boolean update(float delta) {
