@@ -5,11 +5,11 @@ import com.greenbatgames.lagoon.animation.AnimatedUpArrow;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.player.PlayerComponent;
 
-public class PlayerTooltipComponent extends PlayerComponent {
+public class TooltipComponent extends PlayerComponent {
 
     AnimatedUpArrow arrow;
 
-    public PlayerTooltipComponent(Player player) {
+    public TooltipComponent(Player player) {
         super(player);
         arrow = new AnimatedUpArrow();
     }

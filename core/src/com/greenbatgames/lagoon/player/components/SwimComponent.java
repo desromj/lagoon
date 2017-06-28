@@ -34,7 +34,7 @@ import com.greenbatgames.lagoon.util.Utils;
  * While swimming, the max Y value of the player is constrained to the top of the water, unless
  * the player jumps or climbs out.
  */
-public class PlayerSwimComponent extends PlayerComponent {
+public class SwimComponent extends PlayerComponent {
 
     private boolean swimming;
     private boolean submerged;
@@ -44,7 +44,7 @@ public class PlayerSwimComponent extends PlayerComponent {
 
     private Vector2 movementVector;
 
-    public PlayerSwimComponent(Player player) {
+    public SwimComponent(Player player) {
         super(player);
         swimming = false;
         submerged = false;

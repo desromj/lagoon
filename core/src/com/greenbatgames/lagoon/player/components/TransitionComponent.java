@@ -8,11 +8,11 @@ import com.greenbatgames.lagoon.player.PlayerComponent;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
 
-public class PlayerTransitionComponent extends PlayerComponent {
+public class TransitionComponent extends PlayerComponent {
 
-    private static final String TAG = PlayerTransitionComponent.class.getSimpleName();
+    private static final String TAG = TransitionComponent.class.getSimpleName();
 
-    public PlayerTransitionComponent(Player player) {
+    public TransitionComponent(Player player) {
         super(player);
     }
 

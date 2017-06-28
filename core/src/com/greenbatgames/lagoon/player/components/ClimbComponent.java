@@ -9,8 +9,8 @@ import com.greenbatgames.lagoon.util.Constants;
 /**
  * Created by Quiv on 23-03-2017.
  */
-public class PlayerClimbComponent extends PlayerComponent {
-    public static final String TAG = PlayerClimbComponent.class.getSimpleName();
+public class ClimbComponent extends PlayerComponent {
+    public static final String TAG = ClimbComponent.class.getSimpleName();
 
     /** The point where the player will grab and pivot around while climbing */
     private Vector2 gripPoint;
@@ -19,7 +19,7 @@ public class PlayerClimbComponent extends PlayerComponent {
     private boolean climbing;
     private boolean climbingRight;
 
-    public PlayerClimbComponent(Player player) {
+    public ClimbComponent(Player player) {
         super(player);
 
         gripPoint = new Vector2();

@@ -7,9 +7,9 @@ import com.greenbatgames.lagoon.player.PlayerComponent;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PlayerInventoryHistoryComponent extends PlayerComponent {
+public class InventoryHistoryComponent extends PlayerComponent {
 
-    public static final String TAG = PlayerInventoryHistoryComponent.class.getSimpleName();
+    public static final String TAG = InventoryHistoryComponent.class.getSimpleName();
 
     class PickedUpItem {
         Integer id;
@@ -46,7 +46,7 @@ public class PlayerInventoryHistoryComponent extends PlayerComponent {
 
     List<PickedUpItem> pickedUpItems;
 
-    public PlayerInventoryHistoryComponent(Player player) {
+    public InventoryHistoryComponent(Player player) {
         super(player);
         pickedUpItems = new LinkedList<>();
     }

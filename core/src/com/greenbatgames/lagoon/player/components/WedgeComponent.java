@@ -16,16 +16,16 @@ import com.greenbatgames.lagoon.util.Constants;
  *
  * TODO: The player will automatically climb if they come to the top of the chimney with an open edge
  */
-public class PlayerWedgeComponent extends PlayerComponent {
+public class WedgeComponent extends PlayerComponent {
 
-    public static final String TAG = PlayerWedgeComponent.class.getSimpleName();
+    public static final String TAG = WedgeComponent.class.getSimpleName();
 
     private boolean wedged;
     private WedgeRaycastCallback raycast;
     private Vector2 from;
     private Vector2 to;
 
-    public PlayerWedgeComponent(Player player) {
+    public WedgeComponent(Player player) {
         super(player);
         wedged = false;
         raycast = new WedgeRaycastCallback();

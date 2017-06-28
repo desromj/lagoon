@@ -19,9 +19,9 @@ import com.greenbatgames.lagoon.util.Constants;
  *      - crawling
  *      - swimming
  */
-public class PlayerMoveComponent extends PlayerComponent {
+public class MoveComponent extends PlayerComponent {
 
-    public static final String TAG = PlayerMoveComponent.class.getSimpleName();
+    public static final String TAG = MoveComponent.class.getSimpleName();
 
     private int numFootContacts;
     private boolean crouching;
@@ -32,7 +32,7 @@ public class PlayerMoveComponent extends PlayerComponent {
     private float cannotJumpFor;
     private float cannotMoveFor;
 
-    public PlayerMoveComponent(Player player) {
+    public MoveComponent(Player player) {
         super(player);
         numFootContacts = 0;
         crouching = false;

@@ -16,14 +16,14 @@ import com.greenbatgames.lagoon.util.Enums;
 
 public class Player extends PhysicsBody {
 
-    private PlayerInventoryHistoryComponent inventoryHistory;
-    private PlayerTooltipComponent tooltip;
-    private PlayerHealthComponent health;
-    private PlayerTransitionComponent transitioner;
-    private PlayerMoveComponent mover;
-    private PlayerClimbComponent climber;
-    private PlayerWedgeComponent wedger;
-    private PlayerSwimComponent swimmer;
+    private InventoryHistoryComponent inventoryHistory;
+    private TooltipComponent tooltip;
+    private HealthComponent health;
+    private TransitionComponent transitioner;
+    private MoveComponent mover;
+    private ClimbComponent climber;
+    private WedgeComponent wedger;
+    private SwimComponent swimmer;
 
     private BitmapFont font;
 
@@ -32,14 +32,14 @@ public class Player extends PhysicsBody {
         getPhysicsLoader().load(this);
 
         // Initialize components and assets
-        inventoryHistory = new PlayerInventoryHistoryComponent(this);
-        tooltip = new PlayerTooltipComponent(this);
-        health = new PlayerHealthComponent(this, Constants.PLAYER_STARTING_HEALTH, Constants.PLAYER_STARTING_HEALTH);
-        transitioner = new PlayerTransitionComponent(this);
-        climber = new PlayerClimbComponent(this);
-        swimmer = new PlayerSwimComponent(this);
-        wedger = new PlayerWedgeComponent(this);
-        mover = new PlayerMoveComponent(this);
+        inventoryHistory = new InventoryHistoryComponent(this);
+        tooltip = new TooltipComponent(this);
+        health = new HealthComponent(this, Constants.PLAYER_STARTING_HEALTH, Constants.PLAYER_STARTING_HEALTH);
+        transitioner = new TransitionComponent(this);
+        climber = new ClimbComponent(this);
+        swimmer = new SwimComponent(this);
+        wedger = new WedgeComponent(this);
+        mover = new MoveComponent(this);
 
         font = new BitmapFont(Gdx.files.internal("fonts/arial-grad.fnt"));
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -148,14 +148,14 @@ public class Player extends PhysicsBody {
         Getters and Setters
      */
 
-    public PlayerInventoryHistoryComponent inventoryHistory() { return inventoryHistory; }
-    public PlayerTooltipComponent tooltip() {return tooltip; }
-    public PlayerHealthComponent health() { return health; }
-    public PlayerTransitionComponent transitioner() { return transitioner; }
-    public PlayerMoveComponent mover() { return mover; }
-    public com.greenbatgames.lagoon.player.components.PlayerClimbComponent climber() { return climber; }
-    public PlayerWedgeComponent wedger() { return wedger; }
-    public PlayerSwimComponent swimmer() { return swimmer; }
+    public InventoryHistoryComponent inventoryHistory() { return inventoryHistory; }
+    public TooltipComponent tooltip() {return tooltip; }
+    public HealthComponent health() { return health; }
+    public TransitionComponent transitioner() { return transitioner; }
+    public MoveComponent mover() { return mover; }
+    public ClimbComponent climber() { return climber; }
+    public WedgeComponent wedger() { return wedger; }
+    public SwimComponent swimmer() { return swimmer; }
 
     public boolean isJumpButtonHeld() {
         return Gdx.input.isKeyPressed(Constants.KEY_JUMP);

@@ -4,13 +4,13 @@ import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.player.PlayerComponent;
 import com.greenbatgames.lagoon.util.Constants;
 
-public class PlayerHealthComponent extends PlayerComponent {
+public class HealthComponent extends PlayerComponent {
 
     private int health;
     private int maxHealth;
     private float invulnerableFor;
 
-    public PlayerHealthComponent(Player player, int health, int maxHealth) {
+    public HealthComponent(Player player, int health, int maxHealth) {
         super(player);
         this.health = health;
         this.maxHealth = maxHealth;
