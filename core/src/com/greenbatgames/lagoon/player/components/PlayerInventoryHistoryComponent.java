@@ -1,6 +1,6 @@
 package com.greenbatgames.lagoon.player.components;
 
-import com.greenbatgames.lagoon.entity.Item;
+import com.greenbatgames.lagoon.entity.MapItem;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.player.PlayerComponent;
 
@@ -15,9 +15,9 @@ public class PlayerInventoryHistoryComponent extends PlayerComponent {
         Integer id;
         String name;
 
-        public PickedUpItem(Item item) {
-            id = item.getId();
-            name = item.getMapName();
+        public PickedUpItem(MapItem mapItem) {
+            id = mapItem.getId();
+            name = mapItem.getMapName();
         }
 
         public PickedUpItem(Integer id, String name) {
@@ -51,16 +51,16 @@ public class PlayerInventoryHistoryComponent extends PlayerComponent {
         pickedUpItems = new LinkedList<>();
     }
 
-    public void record(Item item) {
-        pickedUpItems.add(new PickedUpItem(item));
+    public void record(MapItem mapItem) {
+        pickedUpItems.add(new PickedUpItem(mapItem));
     }
 
     public void record(Integer id, String mapName) {
         pickedUpItems.add(new PickedUpItem(id, mapName));
     }
 
-    public boolean isRecorded(Item item) {
-        PickedUpItem pui = new PickedUpItem(item);
+    public boolean isRecorded(MapItem mapItem) {
+        PickedUpItem pui = new PickedUpItem(mapItem);
         return this.containsItem(pui);
     }
 

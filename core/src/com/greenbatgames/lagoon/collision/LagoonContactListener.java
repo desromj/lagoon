@@ -3,7 +3,7 @@ package com.greenbatgames.lagoon.collision;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.greenbatgames.lagoon.enemy.Enemy;
-import com.greenbatgames.lagoon.entity.Item;
+import com.greenbatgames.lagoon.entity.MapItem;
 import com.greenbatgames.lagoon.entity.Transition;
 import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
@@ -96,8 +96,8 @@ public class LagoonContactListener implements ContactListener {
     private void beginPlayerContact(Player player, PhysicsBody other, Fixture playerFix, Fixture otherFix, Contact contact) {
 
         // Handle item pickups
-        if (other instanceof Item) {
-            ((Item) other).pickUp(player);
+        if (other instanceof MapItem) {
+            ((MapItem) other).pickUp(player);
             return;
         }
 

@@ -1,16 +1,12 @@
 package com.greenbatgames.lagoon.level;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.greenbatgames.lagoon.entity.Item;
-import com.greenbatgames.lagoon.entity.Terrain;
-import com.greenbatgames.lagoon.entity.Transition;
-import com.greenbatgames.lagoon.entity.Water;
+import com.greenbatgames.lagoon.entity.*;
 import com.greenbatgames.lagoon.enemy.enemies.Crawler;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
@@ -118,14 +114,14 @@ public class LevelLoader {
 
                         Integer id = props.get("id", Integer.class);
 
-                        // Skip creating the item if it is already picked up
+                        // Skip creating the mapItem if it is already picked up
                         if (player != null) {
                             if (player.inventoryHistory().isRecorded(id, mapName)) {
                                 continue;
                             }
                         }
 
-                        Item item = new Item(
+                        MapItem mapItem = new MapItem(
                                 props.get("x", Float.class),
                                 props.get("y", Float.class),
                                 props.get("width", Float.class),
@@ -134,7 +130,7 @@ public class LevelLoader {
                                 mapName
                         );
 
-                        loadedLevel.stage.addActor(item);
+                        loadedLevel.stage.addActor(mapItem);
                     }
 
                     // Load enemies

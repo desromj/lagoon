@@ -1,6 +1,8 @@
 package com.greenbatgames.lagoon.level;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.GdxAI;
+import com.badlogic.gdx.ai.Timepiece;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -76,6 +78,7 @@ public class Level implements Disposable {
         // Update logic
         world.step(delta);
         stage.act(delta);
+        GdxAI.getTimepiece().update(delta);
 
         // Prepare viewports and projection matricies
         stage.getViewport().apply();

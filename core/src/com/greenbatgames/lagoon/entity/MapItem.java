@@ -8,12 +8,12 @@ import com.greenbatgames.lagoon.physics.PhysicsLoader;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
 
-public class Item extends PhysicsBody {
+public class MapItem extends PhysicsBody {
 
     private Integer id;
     private String mapName;
 
-    public Item(float x, float y, float width, float height, Integer id, String mapName) {
+    public MapItem(float x, float y, float width, float height, Integer id, String mapName) {
         super(x, y, width, height);
         this.id = id;
         this.mapName = mapName;
