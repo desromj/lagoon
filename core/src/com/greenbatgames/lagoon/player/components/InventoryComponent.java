@@ -20,6 +20,10 @@ public class InventoryComponent extends PlayerComponent {
         String name;
         Integer count;
 
+        public Item(String name) {
+            this(name, 1);
+        }
+
         public Item(String name, Integer count) {
             this.name = name;
             this.count = count;
@@ -29,6 +33,8 @@ public class InventoryComponent extends PlayerComponent {
         public void setName(String name) { this.name = name; }
         public Integer getCount() { return count; }
         public void setCount(Integer count) { this.count = count; }
+        public void increment() { this.count++; }
+        public void decrement() { this.count--; }
     }
 
     private Set<Item> items;
@@ -43,9 +49,9 @@ public class InventoryComponent extends PlayerComponent {
 
         if (isInInventory(itemName)) {
             item = get(itemName);
-            item.setCount(item.getCount() + 1);
+            item.increment();
         } else {
-            item = new Item(itemName, 1);
+            item = new Item(itemName);
             items.add(item);
         }
 
@@ -56,7 +62,7 @@ public class InventoryComponent extends PlayerComponent {
         items.stream()
                 .filter(item -> item.getName().equals(itemName))
                 .forEach(item -> {
-                    item.setCount(item.getCount() - 1);
+                    item.decrement();
                     if (item.getCount() <= 0) {
                         items.remove(item);
                     }
@@ -67,9 +73,9 @@ public class InventoryComponent extends PlayerComponent {
         try {
             return items.stream()
                     .filter(item -> item.getName().equals(itemName))
+                    .mapToInt(Item::getCount)
                     .findFirst()
-                    .get()
-                    .getCount();
+                    .getAsInt();
         } catch (Exception ex) {
             return 0;
         }

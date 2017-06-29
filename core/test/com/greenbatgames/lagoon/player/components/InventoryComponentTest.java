@@ -35,6 +35,11 @@ public class InventoryComponentTest {
     }
 
     @Test
+    public void countOfInexistentItemReturnsZero() throws Exception {
+        assertEquals(0, inv.countOf("An Inexistent Item"));
+    }
+
+    @Test
     public void subtract() throws Exception {
         inv.subtract("Red Key");
         assertEquals(1, inv.countOf("Red Key"));
