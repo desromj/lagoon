@@ -2,6 +2,7 @@ package com.greenbatgames.lagoon.collision;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.greenbatgames.lagoon.animation.FadeOutText;
 import com.greenbatgames.lagoon.enemy.Enemy;
 import com.greenbatgames.lagoon.entity.MapItem;
 import com.greenbatgames.lagoon.entity.Transition;
@@ -163,7 +164,11 @@ public class LagoonContactListener implements ContactListener {
 
         // Display tooltip when player may transition between maps
         if (other instanceof Transition) {
-            player.tooltip().show();
+            Transition trans = (Transition) other;
+
+            if (trans.canBeUsed()) {
+                player.tooltip().show();
+            }
         }
     }
 

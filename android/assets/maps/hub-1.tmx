@@ -29,6 +29,7 @@
    <properties>
     <property name="destMap" value="entryway"/>
     <property name="destPoint" value="t_left"/>
+    <property name="requires" value="Red Key"/>
    </properties>
   </object>
   <object id="5" name="crawler" type="enemy" x="6656" y="2112" width="64" height="64">

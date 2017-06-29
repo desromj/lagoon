@@ -159,7 +159,8 @@ public class LevelLoader {
                                 props.get("height", Float.class),
                                 mapObject.getName(),
                                 props.get("destMap", String.class),
-                                props.get("destPoint", String.class)
+                                props.get("destPoint", String.class),
+                                props.containsKey("requires") ? props.get("requires", String.class) : ""
                         );
 
                         loadedLevel.stage.addActor(transition);
