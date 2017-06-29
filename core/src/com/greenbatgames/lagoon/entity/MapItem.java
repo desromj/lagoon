@@ -2,6 +2,7 @@ package com.greenbatgames.lagoon.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.greenbatgames.lagoon.animation.FadeOutText;
 import com.greenbatgames.lagoon.physics.BoxPhysicsLoader;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
@@ -47,6 +48,13 @@ public class MapItem extends PhysicsBody {
         player.inventoryHistory().record(this);
         GameScreen.level().queuePhysicsBodyToRemove(this);
         this.remove();
+
+        // Create and add text to stage
+        FadeOutText.create(
+                this.getX(),
+                this.getY() + this.getHeight() * 4f,
+                "Picked up '" + this.itemName + "'"
+        );
 
         // TODO: Maybe play a pickup sound or something
 

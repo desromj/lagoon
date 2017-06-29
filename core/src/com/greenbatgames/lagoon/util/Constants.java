@@ -83,6 +83,9 @@ public class Constants {
     public static final float START_SCREEN_TITLE_SCALE = 2.0f;
     public static final float START_SCREEN_SUBTITLE_SCALE = 1.0f;
 
+    public static final float FADE_OUT_TEXT_FADE_TIME = 2.0f;
+    public static final float FADE_OUT_TEXT_Y_VELOCITY = 1.0f;
+
     // Camera controls
     public static final float CHASE_CAM_MAX_VELOCITY = WORLD_WIDTH / 160.0f;
     public static final float CHASE_CAM_THRESHOLD = WORLD_WIDTH / 200.0f;

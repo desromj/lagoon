@@ -6,11 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Align;
-import com.greenbatgames.lagoon.LagoonGame;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
 import com.greenbatgames.lagoon.player.components.*;
-import com.greenbatgames.lagoon.screen.StartScreen;
 import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Enums;
 
