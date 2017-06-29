@@ -12,11 +12,13 @@ public class MapItem extends PhysicsBody {
 
     private Integer id;
     private String mapName;
+    private String itemName;
 
-    public MapItem(float x, float y, float width, float height, Integer id, String mapName) {
+    public MapItem(float x, float y, float width, float height, Integer id, String mapName, String itemName) {
         super(x, y, width, height);
         this.id = id;
         this.mapName = mapName;
+        this.itemName = itemName;
         getPhysicsLoader().load(this);
     }
 
@@ -38,6 +40,8 @@ public class MapItem extends PhysicsBody {
         return mapName;
     }
 
+    public String getItemName() { return itemName; }
+
     public void pickUp(Player player) {
         // Add item to inventory history
         player.inventoryHistory().record(this);
@@ -46,6 +50,7 @@ public class MapItem extends PhysicsBody {
 
         // TODO: Maybe play a pickup sound or something
 
-        // TODO: When implemented, actually pick the item up in the inventory as well
+        // Actually pick the item up for the player inventory
+        GameScreen.level().getPlayer().inventory().add(this.itemName);
     }
 }

@@ -127,7 +127,8 @@ public class LevelLoader {
                                 props.get("width", Float.class),
                                 props.get("height", Float.class),
                                 id,
-                                mapName
+                                mapName,
+                                mapObject.getName()
                         );
 
                         loadedLevel.stage.addActor(mapItem);

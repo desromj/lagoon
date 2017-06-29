@@ -16,6 +16,7 @@ import com.greenbatgames.lagoon.util.Enums;
 
 public class Player extends PhysicsBody {
 
+    private InventoryComponent inventory;
     private InventoryHistoryComponent inventoryHistory;
     private TooltipComponent tooltip;
     private HealthComponent health;
@@ -32,6 +33,7 @@ public class Player extends PhysicsBody {
         getPhysicsLoader().load(this);
 
         // Initialize components and assets
+        inventory = new InventoryComponent(this);
         inventoryHistory = new InventoryHistoryComponent(this);
         tooltip = new TooltipComponent(this);
         health = new HealthComponent(this, Constants.PLAYER_STARTING_HEALTH, Constants.PLAYER_STARTING_HEALTH);
@@ -58,8 +60,13 @@ public class Player extends PhysicsBody {
         // Run Component updates in sequence, and break through
         // any later updates if we receive a returned request to
         do {
+            /*
+                Components which do not require a constant update:
+                    inventory
+                    inventoryHistory
+             */
+
             // Components which will always update
-            inventoryHistory.update(delta);
             tooltip.update(delta);
             health.update(delta);
 
@@ -148,6 +155,7 @@ public class Player extends PhysicsBody {
         Getters and Setters
      */
 
+    public InventoryComponent inventory() { return inventory; }
     public InventoryHistoryComponent inventoryHistory() { return inventoryHistory; }
     public TooltipComponent tooltip() {return tooltip; }
     public HealthComponent health() { return health; }
