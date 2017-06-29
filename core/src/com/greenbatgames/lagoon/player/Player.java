@@ -16,15 +16,7 @@ import com.greenbatgames.lagoon.util.Enums;
 
 public class Player extends PhysicsBody {
 
-    private InventoryComponent inventory;
-    private InventoryHistoryComponent inventoryHistory;
-    private TooltipComponent tooltip;
-    private HealthComponent health;
-    private TransitionComponent transitioner;
-    private MoveComponent mover;
-    private ClimbComponent climber;
-    private WedgeComponent wedger;
-    private SwimComponent swimmer;
+    private ComponentManager manager;
 
     private BitmapFont font;
 
@@ -32,16 +24,7 @@ public class Player extends PhysicsBody {
         super(x, y, width, height);
         getPhysicsLoader().load(this);
 
-        // Initialize components and assets
-        inventory = new InventoryComponent(this);
-        inventoryHistory = new InventoryHistoryComponent(this);
-        tooltip = new TooltipComponent(this);
-        health = new HealthComponent(this, Constants.PLAYER_STARTING_HEALTH, Constants.PLAYER_STARTING_HEALTH);
-        transitioner = new TransitionComponent(this);
-        climber = new ClimbComponent(this);
-        swimmer = new SwimComponent(this);
-        wedger = new WedgeComponent(this);
-        mover = new MoveComponent(this);
+        manager = new ComponentManager(this);
 
         font = new BitmapFont(Gdx.files.internal("fonts/arial-grad.fnt"));
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -57,33 +40,7 @@ public class Player extends PhysicsBody {
     public void act(float delta) {
         super.act(delta);
 
-        // Run Component updates in sequence, and break through
-        // any later updates if we receive a returned request to
-        do {
-            /*
-                Components which do not require a constant update:
-                    inventory
-                    inventoryHistory
-             */
-
-            // Components which will always update
-            tooltip.update(delta);
-            health.update(delta);
-
-            // Components which can break regular program flow
-            if (!transitioner.update(delta)) break;
-            if (!climber.update(delta)) break;
-            if (!swimmer.update(delta)) break;
-            if (!wedger.update(delta)) break;
-            if (!mover.update(delta)) break;
-        } while (false);
-
-        // If dead, reload the game
-        if (health().isDead()) {
-            LagoonGame.setScreen(StartScreen.class);
-            health.healFully();
-            inventoryHistory.reset();
-        }
+        manager.update(delta);
 
         // Ensure the player is always ready to respond to physics collisions
         if (body != null) {
@@ -96,12 +53,12 @@ public class Player extends PhysicsBody {
         // TODO: Draw the assets here
 
         // Draw the tooltip for transitioning
-        tooltip.draw(batch, parentAlpha);
+        tooltip().draw(batch, parentAlpha);
 
         // Draw the health numerically until a GUI is made
         font.draw(
                 batch,
-                "HP: " + health.getHealth() + " / " + health.getMaxHealth(),
+                "HP: " + health().getHealth() + " / " + health().getMaxHealth(),
                 this.getX(),
                 this.getY() + this.getHeight() * 4f,
                 0,
@@ -130,9 +87,9 @@ public class Player extends PhysicsBody {
             return false;
 
         // If we're crouching, crouching is enabled. Otherwise, normal body fixture is enabled
-        if (mover.isCrouching() && (fixture.getUserData() == Enums.PlayerFixtures.CROUCH_BODY)) {
+        if (mover().isCrouching() && (fixture.getUserData() == Enums.PlayerFixtures.CROUCH_BODY)) {
             return true;
-        } else if (!mover.isCrouching()
+        } else if (!mover().isCrouching()
                 && ((fixture.getUserData() == Enums.PlayerFixtures.BODY)
                     || fixture.getUserData() == Enums.PlayerFixtures.BASE)) {
             return true;
@@ -155,15 +112,15 @@ public class Player extends PhysicsBody {
         Getters and Setters
      */
 
-    public InventoryComponent inventory() { return inventory; }
-    public InventoryHistoryComponent inventoryHistory() { return inventoryHistory; }
-    public TooltipComponent tooltip() {return tooltip; }
-    public HealthComponent health() { return health; }
-    public TransitionComponent transitioner() { return transitioner; }
-    public MoveComponent mover() { return mover; }
-    public ClimbComponent climber() { return climber; }
-    public WedgeComponent wedger() { return wedger; }
-    public SwimComponent swimmer() { return swimmer; }
+    public InventoryComponent inventory() { return manager.inventory(); }
+    public InventoryHistoryComponent inventoryHistory() { return manager.inventoryHistory(); }
+    public TooltipComponent tooltip() {return manager.tooltip(); }
+    public HealthComponent health() { return manager.health(); }
+    public TransitionComponent transitioner() { return manager.transitioner(); }
+    public MoveComponent mover() { return manager.mover(); }
+    public ClimbComponent climber() { return manager.climber(); }
+    public WedgeComponent wedger() { return manager.wedger(); }
+    public SwimComponent swimmer() { return manager.swimmer(); }
 
     public boolean isJumpButtonHeld() {
         return Gdx.input.isKeyPressed(Constants.KEY_JUMP);
