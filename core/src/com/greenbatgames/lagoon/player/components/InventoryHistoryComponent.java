@@ -74,13 +74,8 @@ public class InventoryHistoryComponent extends PlayerComponent {
     }
 
     private boolean containsItem(PickedUpItem pickedUpItem) {
-        for (PickedUpItem pui: pickedUpItems) {
-            if (pui.equals(pickedUpItem)) {
-                return true;
-            }
-        }
-
-        return false;
+        return pickedUpItems.stream()
+                .anyMatch(pui -> pui.equals(pickedUpItem));
     }
 
     @Override
