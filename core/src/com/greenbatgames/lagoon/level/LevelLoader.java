@@ -158,6 +158,7 @@ public class LevelLoader {
                                 props.get("width", Float.class),
                                 props.get("height", Float.class),
                                 mapObject.getName(),
+                                mapName,
                                 props.get("destMap", String.class),
                                 props.get("destPoint", String.class),
                                 props.containsKey("requires") ? props.get("requires", String.class) : ""

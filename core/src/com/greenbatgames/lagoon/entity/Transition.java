@@ -5,26 +5,31 @@ import com.greenbatgames.lagoon.animation.FadeOutText;
 import com.greenbatgames.lagoon.physics.BoxPhysicsLoader;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
+import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
 
 public class Transition extends PhysicsBody {
 
     private String name;
+    private String mapName;
     private String destMap;
     private String destPoint;
     private String requires;
 
-    public Transition(float x, float y, float width, float height, String name, String destMap, String destPoint) {
-        this(x, y, width, height, name, destMap, destPoint, "");
+    public Transition(float x, float y, float width, float height,
+                      String name, String mapName, String destMap, String destPoint) {
+        this(x, y, width, height, name, mapName, destMap, destPoint, "");
     }
 
-    public Transition(float x, float y, float width, float height, String name, String destMap, String destPoint, String requires) {
+    public Transition(float x, float y, float width, float height, String name,
+                      String mapName, String destMap, String destPoint, String requires) {
         super(x, y, width, height);
         this.name = name;
+        this.mapName = mapName;
         this.destMap = destMap;
         this.destPoint = destPoint;
-        getPhysicsLoader().load(this);
         this.requires = requires;
+        getPhysicsLoader().load(this);
     }
 
     @Override
@@ -34,11 +39,12 @@ public class Transition extends PhysicsBody {
 
     public void transition() {
         if (canBeUsed()) {
-            GameScreen.level().getPlayer().inventory().use(requires);
+            Player player = GameScreen.level().getPlayer();
+
+            // Use the item, save the transition use in history, and load the next map
+            player.inventory().use(requires);
+            player.transitionHistory().record(this);
             GameScreen.getInstance().loadMap(destMap, destPoint);
-
-            // TODO: Remember that this transition has been unlocked, and don't require the item again when map reloads
-
         } else {
             FadeOutText.create(
                     this.getX(),
@@ -50,10 +56,20 @@ public class Transition extends PhysicsBody {
 
     public boolean canBeUsed() {
         return requires.isEmpty()
-                || (GameScreen.level().getPlayer().inventory().isInInventory(requires));
+                || GameScreen.level().getPlayer().transitionHistory().isUnlocked(this)
+                || GameScreen.level().getPlayer().inventory().isInInventory(requires);
     }
 
     public String getItemRequired() {
         return requires;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public String getMapName() {
+        return mapName;
     }
 }

@@ -112,6 +112,7 @@ public class Player extends PhysicsBody {
 
     public InventoryComponent inventory() { return manager.inventory(); }
     public InventoryHistoryComponent inventoryHistory() { return manager.inventoryHistory(); }
+    public TransitionHistoryComponent transitionHistory() { return manager.transitionHistory(); }
     public TooltipComponent tooltip() {return manager.tooltip(); }
     public HealthComponent health() { return manager.health(); }
     public TransitionComponent transitioner() { return manager.transitioner(); }
