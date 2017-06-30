@@ -41,29 +41,24 @@ public class Transition extends PhysicsBody {
         if (canBeUsed()) {
             Player player = GameScreen.level().getPlayer();
 
-            // Transition if nothing is required
-            if (requires.isEmpty()) {
+            // Transition if nothing is required, or the transition is already unlocked
+            if (requires.isEmpty() || (player.transitionHistory().isUnlocked(this))) {
                 GameScreen.getInstance().loadMap(destMap, destPoint);
             } else {
-                // Otherwise either display the transition was unlocked, or transition if so
-                if (player.transitionHistory().isUnlocked(this)) {
-                    GameScreen.getInstance().loadMap(destMap, destPoint);
-                } else {
-                    player.inventory().use(requires);
-                    player.transitionHistory().record(this);
-                    FadeOutText.create(
-                            player.getX(),
-                            player.getY() + player.getHeight() * 4f,
-                            "Unlocked using '" + requires + "'"
-                    );
-                }
+                player.inventory().use(requires);
+                player.transitionHistory().record(this);
+                FadeOutText.create(
+                        player.getX(),
+                        player.getY() + player.getHeight() * 4f,
+                        String.format("Used -%s-", requires)
+                );
             }
 
         } else {
             FadeOutText.create(
                     this.getX(),
                     this.getY() + this.getHeight(),
-                    "Requires '" + this.getItemRequired() + "'"
+                    String.format("Requires -%s-", this.getItemRequired())
             );
         }
     }

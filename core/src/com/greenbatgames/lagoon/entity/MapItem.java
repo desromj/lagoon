@@ -53,7 +53,7 @@ public class MapItem extends PhysicsBody {
         FadeOutText.create(
                 this.getX(),
                 this.getY() + this.getHeight() * 4f,
-                "Picked up '" + this.itemName + "'"
+                String.format("Picked up -%s-", itemName)
         );
 
         // TODO: Maybe play a pickup sound or something
