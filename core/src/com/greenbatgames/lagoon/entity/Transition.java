@@ -16,11 +16,24 @@ public class Transition extends PhysicsBody {
     private String destPoint;
     private String requires;
 
+
     public Transition(float x, float y, float width, float height,
                       String name, String mapName, String destMap, String destPoint) {
         this(x, y, width, height, name, mapName, destMap, destPoint, "");
     }
 
+
+    /**
+     * @param x Map x position for the transition object
+     * @param y Map y position for the transition object
+     * @param width Width of the transition object
+     * @param height Height of the transition object
+     * @param name Name of this transition object, as given in the map editor
+     * @param mapName Name of the map this transition exists on
+     * @param destMap Name of the map this transition moves the player to
+     * @param destPoint Name of the transition point on the destMap to move the player to
+     * @param requires Name of an item the transition requires to unlock it
+     */
     public Transition(float x, float y, float width, float height, String name,
                       String mapName, String destMap, String destPoint, String requires) {
         super(x, y, width, height);
@@ -32,10 +45,12 @@ public class Transition extends PhysicsBody {
         getPhysicsLoader().load(this);
     }
 
+
     @Override
     protected PhysicsLoader getPhysicsLoader() {
         return new BoxPhysicsLoader(this, true, BodyDef.BodyType.StaticBody);
     }
+
 
     public void transition() {
         if (canBeUsed()) {
@@ -53,15 +68,15 @@ public class Transition extends PhysicsBody {
                         String.format("Used -%s-", requires)
                 );
             }
-
         } else {
             FadeOutText.create(
                     this.getX(),
                     this.getY() + this.getHeight(),
-                    String.format("Requires -%s-", this.getItemRequired())
+                    String.format("Requires -%s-", requires)
             );
         }
     }
+
 
     public boolean canBeUsed() {
         return requires.isEmpty()
@@ -69,16 +84,8 @@ public class Transition extends PhysicsBody {
                 || GameScreen.level().getPlayer().inventory().isInInventory(requires);
     }
 
-    public String getItemRequired() {
-        return requires;
-    }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    public String getMapName() {
-        return mapName;
-    }
+    public String getName() { return name; }
+    public String getMapName() { return mapName; }
 }
