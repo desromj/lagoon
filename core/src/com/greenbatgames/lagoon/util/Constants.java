@@ -56,6 +56,9 @@ public class Constants {
     public static final float FALL_VELOCITY_DAMAGE_THRESHOLD = -25f;    // negative Y velocity player can land from
     public static final int FALL_DAMAGE = 1;
 
+    public static final float PLAYER_SWIM_FIXTURE_Y_OFFSET = TILE_WIDTH * 1.5f / PTM;
+    public static final float PLAYER_WATER_ENTRY_VARIANCE = (TILE_WIDTH / 5f) / PTM;
+
     // Enemy Values
     public static final int CRAWLER_HEALTH = 2;
     public static final float CRAWLER_RADIUS = WORLD_WIDTH / 80f;

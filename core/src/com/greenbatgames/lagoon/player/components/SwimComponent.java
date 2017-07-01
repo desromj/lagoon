@@ -81,25 +81,30 @@ public class SwimComponent extends PlayerComponent {
         // constrain the player Y position to the top of the body of water
         Body body = player().getBody();
 
-        // TODO: Fix jumping logic: the positions should be related to the fixture, not the whole body
+        // Handle checking if we should be submerged or treading the water surface
         if (Utils.almostEqualTo(
-                body.getTransform().getPosition().y,
+                body.getTransform().getPosition().y + Constants.PLAYER_SWIM_FIXTURE_Y_OFFSET,
                 surfaceYpoint / Constants.PTM,
-                0.1f
+                Constants.PLAYER_WATER_ENTRY_VARIANCE
         )) {
-            body.setTransform(
-                    body.getTransform().getPosition().x,
-                    surfaceYpoint / Constants.PTM,
-                    body.getAngle()
-            );
-            body.setLinearVelocity(body.getLinearVelocity().x, 0f);
-        }
+            // Allow diving beneath the water
+            if (Gdx.input.isKeyPressed(Constants.KEY_DOWN)) {
+                submerged = true;
+            } else {
+                submerged = false;
+                body.setTransform(
+                        body.getTransform().getPosition().x,
+                        (surfaceYpoint / Constants.PTM) - Constants.PLAYER_SWIM_FIXTURE_Y_OFFSET,
+                        body.getAngle()
+                );
+            }
 
-        // Check if we're submerged in water or not
-        submerged = !Utils.almostEqualTo(
-                body.getTransform().getPosition().y,
-                surfaceYpoint / Constants.PTM,
-                0.1f);
+            body.setLinearVelocity(
+                    body.getLinearVelocity().x,
+                    submerged ? body.getLinearVelocity().y : 0f);
+        } else {
+            submerged = true;
+        }
 
         // Handle jumping out of the water, if not submerged
         if (!submerged) {
@@ -152,8 +157,6 @@ public class SwimComponent extends PlayerComponent {
             // TODO: Change the player's movement direction if any movement buttons are pressed and the player is drifting
 
         }
-
-
 
         // Dampen movement while in water
         player().getBody().setLinearVelocity(
