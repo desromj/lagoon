@@ -28,21 +28,23 @@ public class HealthComponent extends PlayerComponent {
      * @param damage The amount of damage to apply to the player
      * @return true if the player is dead (health less than 0), False otherwise
      */
-    public boolean damage(int damage) {
+    public boolean damage(int damage, boolean knockback) {
         if (invulnerableFor > 0) {
             return false;
         }
 
-        doDamage(damage);
+        doDamage(damage, knockback);
         return isDead();
     }
 
-    private void doDamage(int damage) {
+    private void doDamage(int damage, boolean knockback) {
         health -= damage;
         invulnerableFor = Constants.PLAYER_DAMAGE_RECOVERY_TIME;
 
         // Add a tiny knockback to the player on damage. Not so high as to be very disruptive
-        player().mover().applyKnockback();
+        if (knockback) {
+            player().mover().applyKnockback();
+        }
     }
 
     public boolean isInvulnerable() { return invulnerableFor <= 0f; }

@@ -1,6 +1,7 @@
 package com.greenbatgames.lagoon.player.components;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.greenbatgames.lagoon.player.Player;
@@ -118,6 +119,10 @@ public class SwimComponent extends PlayerComponent {
             }
         } else {
             breathRemaining -= delta;
+            if (breathRemaining < 0) {
+                player().health().damage(1, false);
+                breathRemaining = 2f;
+            }
         }
 
         // Handle strokes in the water
@@ -165,5 +170,9 @@ public class SwimComponent extends PlayerComponent {
         );
 
         return false;
+    }
+
+    public void draw(Batch batch, float parentAlpha) {
+        // TODO: Draw the breath meter here when ready
     }
 }

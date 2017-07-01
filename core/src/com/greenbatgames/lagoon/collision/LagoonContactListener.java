@@ -104,7 +104,7 @@ public class LagoonContactListener implements ContactListener {
 
         // Handle player contact with an enemy
         if (player.fixtureIsEnabled(playerFix) && !playerFix.isSensor() && other instanceof Enemy) {
-            player.health().damage(((Enemy) other).getContactDamage());
+            player.health().damage(((Enemy) other).getContactDamage(), true);
             return;
         }
 
@@ -113,7 +113,7 @@ public class LagoonContactListener implements ContactListener {
             player.mover().incrementNumFootContacts();
 
             if (player.getBody().getLinearVelocity().y < Constants.FALL_VELOCITY_DAMAGE_THRESHOLD) {
-                player.health().damage(Constants.FALL_DAMAGE);
+                player.health().damage(Constants.FALL_DAMAGE, true);
             }
         }
 

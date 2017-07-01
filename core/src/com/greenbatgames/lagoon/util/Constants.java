@@ -44,7 +44,7 @@ public class Constants {
     public static final float PLAYER_MIN_CLIMB_RATIO = 0.5f;    // climb between min and max percent
     public static final float PLAYER_MAX_CLIMB_RATIO = 1.0f;
     public static final float PLAYER_CLIMB_TIME = 0.5f;
-    public static final float PLAYER_HOLD_BREATH_TIME = 120f;
+    public static final float PLAYER_HOLD_BREATH_TIME = 20f;
 
     public static final float PLAYER_STROKE_PERIOD = 1f;
     public static final float PLAYER_WATER_MOVEMENT_DAMPEN = 0.96f;
