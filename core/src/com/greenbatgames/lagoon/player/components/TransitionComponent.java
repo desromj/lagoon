@@ -17,6 +17,9 @@ public class TransitionComponent extends PlayerComponent {
     }
 
     @Override
+    public void init() {}
+
+    @Override
     public boolean update(float delta) {
 
         if (Gdx.input.isKeyJustPressed(Constants.KEY_UP)) {

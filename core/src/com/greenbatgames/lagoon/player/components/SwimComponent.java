@@ -47,6 +47,10 @@ public class SwimComponent extends PlayerComponent {
 
     public SwimComponent(Player player) {
         super(player);
+    }
+
+    @Override
+    public void init() {
         swimming = false;
         submerged = false;
         breathRemaining = Constants.PLAYER_HOLD_BREATH_TIME;

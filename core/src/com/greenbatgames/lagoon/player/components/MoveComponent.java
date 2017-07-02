@@ -34,6 +34,10 @@ public class MoveComponent extends PlayerComponent {
 
     public MoveComponent(Player player) {
         super(player);
+    }
+
+    @Override
+    public void init() {
         numFootContacts = 0;
         crouching = false;
         canUncrouch = false;

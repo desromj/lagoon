@@ -36,6 +36,11 @@ public class TransitionHistoryComponent extends PlayerComponent {
 
     public TransitionHistoryComponent(Player player) {
         super(player);
+    }
+
+
+    @Override
+    public void init() {
         unlockedTransitions = new HashSet<>();
     }
 
@@ -47,6 +52,11 @@ public class TransitionHistoryComponent extends PlayerComponent {
 
     public void record(com.greenbatgames.lagoon.entity.Transition transition) {
         unlockedTransitions.add(new Transition(transition));
+    }
+
+
+    public void reset() {
+        unlockedTransitions.clear();
     }
 
 

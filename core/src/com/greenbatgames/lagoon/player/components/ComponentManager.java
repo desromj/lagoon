@@ -1,10 +1,14 @@
 package com.greenbatgames.lagoon.player.components;
 
+import com.badlogic.gdx.Gdx;
 import com.greenbatgames.lagoon.LagoonGame;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.player.PlayerComponent;
 import com.greenbatgames.lagoon.screen.StartScreen;
 import com.greenbatgames.lagoon.util.Constants;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class ComponentManager extends PlayerComponent {
 
@@ -19,20 +23,38 @@ public class ComponentManager extends PlayerComponent {
     private WedgeComponent wedger;
     private SwimComponent swimmer;
 
+    private List<PlayerComponent> components;
+
     public ComponentManager(Player player) {
         super(player);
+        init();
+    }
+
+    public void init() {
+        components = new LinkedList<>();
 
         // Initialize components and assets
-        inventory = new InventoryComponent(player);
-        inventoryHistory = new InventoryHistoryComponent(player);
-        transitionHistory = new TransitionHistoryComponent(player);
-        tooltip = new TooltipComponent(player);
-        health = new HealthComponent(player, Constants.PLAYER_STARTING_HEALTH, Constants.PLAYER_STARTING_HEALTH);
-        transitioner = new TransitionComponent(player);
-        climber = new ClimbComponent(player);
-        swimmer = new SwimComponent(player);
-        wedger = new WedgeComponent(player);
-        mover = new MoveComponent(player);
+        inventory = new InventoryComponent(player());
+        inventoryHistory = new InventoryHistoryComponent(player());
+        transitionHistory = new TransitionHistoryComponent(player());
+        tooltip = new TooltipComponent(player());
+        health = new HealthComponent(player(), Constants.PLAYER_STARTING_HEALTH, Constants.PLAYER_STARTING_HEALTH);
+        transitioner = new TransitionComponent(player());
+        climber = new ClimbComponent(player());
+        swimmer = new SwimComponent(player());
+        wedger = new WedgeComponent(player());
+        mover = new MoveComponent(player());
+
+        components.add(inventory);
+        components.add(inventoryHistory);
+        components.add(transitionHistory);
+        components.add(tooltip);
+        components.add(health);
+        components.add(transitioner);
+        components.add(climber);
+        components.add(swimmer);
+        components.add(wedger);
+        components.add(mover);
     }
 
     @Override
@@ -63,8 +85,7 @@ public class ComponentManager extends PlayerComponent {
         // If dead, reload the game
         if (health.isDead()) {
             LagoonGame.setScreen(StartScreen.class);
-            health.healFully();
-            inventoryHistory.reset();
+            components.forEach(PlayerComponent::init);
         }
 
         return true;

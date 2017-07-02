@@ -11,6 +11,10 @@ public class TooltipComponent extends PlayerComponent {
 
     public TooltipComponent(Player player) {
         super(player);
+    }
+
+    @Override
+    public void init() {
         arrow = new AnimatedUpArrow();
     }
 

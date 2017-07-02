@@ -41,6 +41,10 @@ public class InventoryComponent extends PlayerComponent {
 
     public InventoryComponent(Player player) {
         super(player);
+    }
+
+    @Override
+    public void init() {
         items = new LinkedHashSet<>();
     }
 

@@ -10,6 +10,7 @@ public abstract class PlayerComponent {
 
     public PlayerComponent(Player player) {
         this.player = player;
+        this.init();
     }
 
     /**
@@ -20,6 +21,11 @@ public abstract class PlayerComponent {
      *         the execution of any further PlayerComponent updates
      */
     public abstract boolean update(float delta);
+
+    /**
+     * Every Player Component needs to reset itself upon level reloading
+     */
+    public abstract void init();
 
     protected final Player player() { return player; }
 }

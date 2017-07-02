@@ -21,7 +21,10 @@ public class ClimbComponent extends PlayerComponent {
 
     public ClimbComponent(Player player) {
         super(player);
+    }
 
+    @Override
+    public void init() {
         gripPoint = new Vector2();
         climbTimeLeft = 0.0f;
         climbing = false;
@@ -30,7 +33,6 @@ public class ClimbComponent extends PlayerComponent {
 
     @Override
     public boolean update(float delta) {
-
         climbTimeLeft -= delta;
 
         // Return true if we're not climbing or have been climbing for too long already

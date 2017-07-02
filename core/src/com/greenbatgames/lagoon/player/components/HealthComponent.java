@@ -18,6 +18,12 @@ public class HealthComponent extends PlayerComponent {
     }
 
     @Override
+    public void init() {
+        this.healFully();
+        this.invulnerableFor = 0f;
+    }
+
+    @Override
     public boolean update(float delta) {
         invulnerableFor -= delta;
         return true;

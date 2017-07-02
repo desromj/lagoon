@@ -27,6 +27,9 @@ public class WedgeComponent extends PlayerComponent {
 
     public WedgeComponent(Player player) {
         super(player);
+    }
+
+    public void init() {
         wedged = false;
         raycast = new WedgeRaycastCallback();
         from = new Vector2();

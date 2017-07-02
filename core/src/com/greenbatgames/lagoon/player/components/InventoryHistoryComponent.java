@@ -48,6 +48,10 @@ public class InventoryHistoryComponent extends PlayerComponent {
 
     public InventoryHistoryComponent(Player player) {
         super(player);
+    }
+
+    @Override
+    public void init() {
         pickedUpItems = new LinkedList<>();
     }
 
