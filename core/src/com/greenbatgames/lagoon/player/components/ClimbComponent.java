@@ -2,13 +2,16 @@ package com.greenbatgames.lagoon.player.components;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.player.PlayerComponent;
+import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
+import com.greenbatgames.lagoon.util.Enums;
 
-/**
- * Created by Quiv on 23-03-2017.
- */
 public class ClimbComponent extends PlayerComponent {
     public static final String TAG = ClimbComponent.class.getSimpleName();
 
@@ -23,6 +26,7 @@ public class ClimbComponent extends PlayerComponent {
         super(player);
     }
 
+
     @Override
     public void init() {
         gripPoint = new Vector2();
@@ -31,38 +35,86 @@ public class ClimbComponent extends PlayerComponent {
         climbingRight = false;
     }
 
+
     @Override
     public boolean update(float delta) {
-        climbTimeLeft -= delta;
 
-        // Return true if we're not climbing or have been climbing for too long already
+        climbTimeLeft -= delta;
         if (climbTimeLeft <= 0f) {
             climbing = false;
         }
 
-        if (!climbing) {
+        if (climbing) {
+            return false;
+        }
+
+        if (!player().isClimbButtonHeld()) {
             return true;
         }
 
-        /*
-            If climbing, we set the player's position to its ultimate final
-            position, then play the animation for climbing which is centred
-            around a base point. This base point is the ledge being climbed on.
-            if we're climbing right, base point is bottom-left of player box
-            if we're climbing left, base point is bottom-right of player base
-        */
+        // At this point, we are not climbing and the climb button is being held
 
-        // Set the player position to new position based on if we're climbing left or right
-        player().setPosition(
-                (climbingRight) ? gripX() : gripX() - player().getWidth(),
-                gripY()
+        /*
+            The AABB Query gets the query in terms of the climbing fixture, which is the body and these coordinates:
+                    b2Unit * 1.5f, b2Unit * 0.5f,
+                    b2Unit * 1.5f, b2Unit * 4f,
+                    -b2Unit * 1.5f, b2Unit * 4f,
+                    -b2Unit * 1.5f, b2Unit * 0.5f
+          */
+        float b2Unit = Constants.PLAYER_RADIUS / Constants.PTM;
+        Body playerBody = player().getBody();
+
+        GameScreen.level().getWorld().QueryAABB(
+                getQuery(),
+                playerBody.getPosition().x - 1.5f * b2Unit,
+                playerBody.getPosition().y + 0.5f * b2Unit,
+                playerBody.getPosition().x + 1.5f * b2Unit,
+                playerBody.getPosition().y + 4.0f * b2Unit
         );
 
-        // set velocity to 0, in case we clip into the ledge area
-        player().getBody().setLinearVelocity(0f, 0f);
-
-        return false;
+        return !climbing;
     }
+
+
+    private QueryCallback getQuery() {
+        return fixture -> {
+            if (!(fixture.getBody().getUserData() instanceof Climbable)) {
+                return true;
+            }
+
+            float[] verts = ((Climbable) fixture.getBody().getUserData()).getVerts();
+            Vector2 checkPoint = new Vector2();
+            Fixture playerFix = player().getFixture(Enums.PlayerFixtures.CLIMB_SENSOR);
+
+            for (int i = 0; i < verts.length; i += 2) {
+                checkPoint.set(
+                        fixture.getBody().getPosition().x + verts[i],
+                        fixture.getBody().getPosition().y + verts[i + 1]);
+
+                // Only test vertices which are within the player climbing fixture
+                if (!playerFix.testPoint(checkPoint.x, checkPoint.y)) {
+                    continue;
+                }
+
+                // fail if any of the y values of adjacent points are taller than the current point
+                try {
+                    if (verts[i - 1] > verts[i + 1] || verts[i + 3] > verts[i + 1]) {
+                        continue;
+                    }
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    continue;
+                }
+
+                // Otherwise scale and set our grip point
+                checkPoint.scl(Constants.PTM);
+                player().climber().startClimbing(checkPoint);
+                return false;
+            }
+
+            return true;
+        };
+    }
+
 
     /**
      * Starts a climb towards the passed grip point. If the grip point is to the right
@@ -103,8 +155,16 @@ public class ClimbComponent extends PlayerComponent {
         climbing = true;
         player().mover().land();
 
-        // Set next animation state when we are climbing
-//        player().animator().setNext(Enums.AnimationState.CLIMB, timeRatio);
+        // Set the player position to new position based on if we're climbing left or right
+        player().setPosition(
+                (climbingRight) ? gripX() : gripX() - player().getWidth(),
+                gripY()
+        );
+
+        // set velocity to 0, in case we clip into the ledge area
+        player().getBody().setLinearVelocity(0f, 0f);
+
+        // TODO: Set next animation state when we are climbing
     }
 
     /*
