@@ -12,11 +12,13 @@ import com.greenbatgames.lagoon.player.components.*;
 import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Enums;
 
+import java.util.Arrays;
+
 public class Player extends PhysicsBody {
 
     private ComponentManager manager;
-
     private BitmapFont font;
+
 
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -29,10 +31,12 @@ public class Player extends PhysicsBody {
         font.getData().setScale(1f);
     }
 
+
     @Override
     public PhysicsLoader getPhysicsLoader() {
         return new PlayerPhysicsLoader();
     }
+
 
     @Override
     public void act(float delta) {
@@ -45,6 +49,7 @@ public class Player extends PhysicsBody {
             body.setAwake(true);
         }
     }
+
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -65,12 +70,18 @@ public class Player extends PhysicsBody {
         );
     }
 
+
     public Fixture getFixture(Enums.PlayerFixtures type) {
-        for (Fixture fix: body.getFixtureList())
-            if (fix.getUserData() == type)
-                return fix;
-        return null;
+        try {
+            return Arrays.stream(body.getFixtureList().toArray())
+                    .filter(fixture -> fixture.getUserData() == type)
+                    .findFirst()
+                    .get();
+        } catch (Exception ex) {
+            return null;
+        }
     }
+
 
     /**
      * Checks whether or not the passed fixture is currently active, and whether or not it
@@ -100,6 +111,7 @@ public class Player extends PhysicsBody {
 
         return false;
     }
+
 
     public boolean fixtureIsEnabled(Enums.PlayerFixtures type) {
         Fixture fixture = getFixture(type);
