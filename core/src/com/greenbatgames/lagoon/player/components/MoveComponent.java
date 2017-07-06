@@ -1,11 +1,18 @@
 package com.greenbatgames.lagoon.player.components;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.player.PlayerComponent;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
+
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Quiv on 23-02-2017.
@@ -31,10 +38,13 @@ public class MoveComponent extends PlayerComponent {
 
     private float cannotJumpFor;
     private float cannotMoveFor;
+    private float ignoreGroundClingFor;
+
 
     public MoveComponent(Player player) {
         super(player);
     }
+
 
     @Override
     public void init() {
@@ -45,11 +55,14 @@ public class MoveComponent extends PlayerComponent {
         knockedBack = false;
         cannotJumpFor = 0.0f;
         cannotMoveFor = 0.0f;
+        ignoreGroundClingFor = 0.0f;
     }
+
 
     @Override
     public boolean update(float delta) {
         cannotJumpFor -= delta;
+        ignoreGroundClingFor -= delta;
 
         if (knockedBack) {
             cannotMoveFor -= delta;
@@ -88,7 +101,7 @@ public class MoveComponent extends PlayerComponent {
                     setCanUncrouch(false);
                 }
             } else {
-                crouching = !crouching;
+                crouching = true;
             }
         }
 
@@ -118,8 +131,53 @@ public class MoveComponent extends PlayerComponent {
         else if (body.getLinearVelocity().x < -0.1f)
             facingRight = false;
 
+        if (!crouching && ignoreGroundClingFor < 0 && isOnGround()) {
+            clingToGround();
+        }
+
         return true;
     }
+
+
+    /**
+     * Cling the player to the ground if the player is grounded. The bottom of the circle
+     * contact should be positioned at the contact point of a raycast straight down.
+     * Only the player Y position needs to be considered here
+     */
+    private void clingToGround() {
+        List<Vector2> hits = new LinkedList<>();
+
+        RayCastCallback callback = ((fixture, point, normal, fraction) -> {
+            if (!fixture.isSensor() && fixture.getBody().getUserData() != this) {
+                hits.add(new Vector2(point.x, point.y));
+                return 0;
+            }
+            return 1;   // Continue with raycast otherwise
+        });
+
+        GameScreen.level().getWorld().rayCast(callback,
+                player().getX() / Constants.PTM,
+                (player().getY() + player().getHeight() / 2f) / Constants.PTM,
+                player().getX() / Constants.PTM,
+                (player().getY() - player().getHeight() / 4f) / Constants.PTM);
+
+        GameScreen.level().getWorld().rayCast(callback,
+                (player().getX() + player().getWidth()) / Constants.PTM,
+                (player().getY() + player().getHeight() / 2f) / Constants.PTM,
+                (player().getX() + player().getWidth()) / Constants.PTM,
+                (player().getY() - player().getHeight() / 4f) / Constants.PTM);
+
+        try {
+            Vector2 highest = hits.stream()
+                    .max((f1, f2) -> Float.compare(f1.y, f2.y))
+                    .get();
+
+            player().setPosition(
+                    player().getX(),
+                    highest.y * Constants.PTM);
+        } catch (Exception ex) {}
+    }
+
 
     // Apply an impulse to the player body to jump vertically
     public void doVerticalJump(Body body) {
@@ -134,7 +192,9 @@ public class MoveComponent extends PlayerComponent {
                 player().getY(),
                 true
         );
+        ignoreGroundClingFor = 0.25f;
     }
+
 
     /**
      * Set grounded to true and initialize a jump recovery period, during which
@@ -147,9 +207,11 @@ public class MoveComponent extends PlayerComponent {
         cannotJumpFor = Constants.PLAYER_JUMP_RECOVERY;
     }
 
+
     public void decrementNumFootContacts() {
         numFootContacts = (numFootContacts == 0) ? 0 : numFootContacts - 1;
     }
+
 
     public void incrementNumFootContacts() {
         if (!isOnGround()) {
@@ -157,6 +219,7 @@ public class MoveComponent extends PlayerComponent {
         }
         numFootContacts++;
     }
+
 
     public void applyKnockback() {
         knockedBack = true;

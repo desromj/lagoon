@@ -1,6 +1,5 @@
 package com.greenbatgames.lagoon.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -10,10 +9,6 @@ import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
-
-/**
- * Created by Quiv on 23-02-2017.
- */
 
 public class Terrain extends PhysicsBody implements Climbable {
 
@@ -53,6 +48,7 @@ public class Terrain extends PhysicsBody implements Climbable {
 
             FixtureDef fixtureDef = new FixtureDef();
             fixtureDef.shape = shape;
+            fixtureDef.friction = 0.5f;
 
             newBody.addFixtureDef(fixtureDef);
             newBody.addShapeToDispose(shape);

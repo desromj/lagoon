@@ -1,12 +1,9 @@
 package com.greenbatgames.lagoon.collision;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.greenbatgames.lagoon.animation.FadeOutText;
 import com.greenbatgames.lagoon.enemy.Enemy;
 import com.greenbatgames.lagoon.entity.MapItem;
 import com.greenbatgames.lagoon.entity.Transition;
-import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.Swimmable;
 import com.greenbatgames.lagoon.player.Player;
