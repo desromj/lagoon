@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.greenbatgames.lagoon.enemy.Enemy;
 import com.greenbatgames.lagoon.entity.MapItem;
 import com.greenbatgames.lagoon.entity.Transition;
+import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.Swimmable;
 import com.greenbatgames.lagoon.player.Player;
@@ -106,7 +107,8 @@ public class LagoonContactListener implements ContactListener {
         }
 
         // toggle whether or not the player is grounded
-        if (playerFix.getUserData() == Enums.PlayerFixtures.GROUND_SENSOR) {
+        if (playerFix.getUserData() == Enums.PlayerFixtures.GROUND_SENSOR
+                && other instanceof Climbable) {
             player.mover().incrementNumFootContacts();
 
             if (player.getBody().getLinearVelocity().y < Constants.FALL_VELOCITY_DAMAGE_THRESHOLD) {
@@ -133,7 +135,8 @@ public class LagoonContactListener implements ContactListener {
     private void endPlayerContact(Player player, PhysicsBody other, Fixture playerFix, Fixture otherFix, Contact contact) {
 
         // toggle whether or not the player is grounded
-        if (playerFix.getUserData() == Enums.PlayerFixtures.GROUND_SENSOR) {
+        if (playerFix.getUserData() == Enums.PlayerFixtures.GROUND_SENSOR
+                && other instanceof Climbable) {
             player.mover().decrementNumFootContacts();
         }
 

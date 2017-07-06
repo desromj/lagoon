@@ -1,9 +1,11 @@
 package com.greenbatgames.lagoon.player.components;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.player.PlayerComponent;
 import com.greenbatgames.lagoon.screen.GameScreen;
@@ -70,7 +72,12 @@ public class MoveComponent extends PlayerComponent {
             return false;
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+            Gdx.app.log("Foot Contacts", String.valueOf(numFootContacts));
+        }
+
         Body body = player().getBody();
+        body.setGravityScale(isOnGround() ? 0 : 1);
 
         // Handle jumping logic - cancel y momentum then apply impulse
         if (canJump() && Gdx.input.isKeyJustPressed(Constants.KEY_JUMP)) {
@@ -148,24 +155,36 @@ public class MoveComponent extends PlayerComponent {
         List<Vector2> hits = new LinkedList<>();
 
         RayCastCallback callback = ((fixture, point, normal, fraction) -> {
-            if (!fixture.isSensor() && fixture.getBody().getUserData() != this) {
+            if (
+                    fixture.getBody().getUserData() instanceof Climbable
+                    && !fixture.isSensor()
+                    && fixture.getBody().getUserData() != player()) {
                 hits.add(new Vector2(point.x, point.y));
                 return 0;
             }
             return 1;   // Continue with raycast otherwise
         });
 
+        // Short on left side
         GameScreen.level().getWorld().rayCast(callback,
                 player().getX() / Constants.PTM,
                 (player().getY() + player().getHeight() / 2f) / Constants.PTM,
                 player().getX() / Constants.PTM,
                 (player().getY() - player().getHeight() / 4f) / Constants.PTM);
 
+        // Short on right side
         GameScreen.level().getWorld().rayCast(callback,
                 (player().getX() + player().getWidth()) / Constants.PTM,
                 (player().getY() + player().getHeight() / 2f) / Constants.PTM,
                 (player().getX() + player().getWidth()) / Constants.PTM,
                 (player().getY() - player().getHeight() / 4f) / Constants.PTM);
+
+        // Ground Sensor in middle - lowers down a bit further
+        GameScreen.level().getWorld().rayCast(callback,
+                player().getMiddleX() / Constants.PTM,
+                (player().getY() + player().getHeight() / 2f) / Constants.PTM,
+                player().getMiddleX() / Constants.PTM,
+                (player().getY() - player().getHeight() / 2f) / Constants.PTM);
 
         try {
             Vector2 highest = hits.stream()
@@ -176,6 +195,11 @@ public class MoveComponent extends PlayerComponent {
                     player().getX(),
                     highest.y * Constants.PTM);
         } catch (Exception ex) {}
+
+        player().getBody().setLinearVelocity(
+                player().getBody().getLinearVelocity().x,
+                0f
+        );
     }
 
 
@@ -238,6 +262,11 @@ public class MoveComponent extends PlayerComponent {
                 player().getY() / Constants.PTM,
                 true
         );
+    }
+
+
+    public void resetNumFootContacts() {
+        this.numFootContacts = 0;
     }
 
     /*

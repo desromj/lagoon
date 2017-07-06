@@ -58,6 +58,7 @@ public class Transition extends PhysicsBody {
 
             // Transition if nothing is required, or the transition is already unlocked
             if (requires.isEmpty() || (player.transitionHistory().isUnlocked(this))) {
+                player.mover().resetNumFootContacts();
                 GameScreen.getInstance().loadMap(destMap, destPoint);
             } else {
                 player.inventory().use(requires);
