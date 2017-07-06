@@ -71,7 +71,7 @@ public class Constants {
     public static final float PLAYER_WEDGE_MOVE_SPEED = 2.0f;
 
     // Allows player to jump vertically 3 tiles, and horizontally 4-5 tiles
-    public static final Vector2 PLAYER_JUMP_IMPULSE = new Vector2(0, 32000.0f);
+    public static final Vector2 PLAYER_JUMP_IMPULSE = new Vector2(0, 35000.0f);
     public static final Vector2 PLAYER_KNOCKBACK_IMPULSE = new Vector2(16000f, 8000f);
     public static final float PLAYER_KNOCKBACK_TIME = 0.2f;
 

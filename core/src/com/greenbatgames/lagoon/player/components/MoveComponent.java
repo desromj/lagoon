@@ -72,10 +72,6 @@ public class MoveComponent extends PlayerComponent {
             return false;
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
-            Gdx.app.log("Foot Contacts", String.valueOf(numFootContacts));
-        }
-
         Body body = player().getBody();
         body.setGravityScale(isOnGround() ? 0 : 1);
 
@@ -184,7 +180,7 @@ public class MoveComponent extends PlayerComponent {
                 player().getMiddleX() / Constants.PTM,
                 (player().getY() + player().getHeight() / 2f) / Constants.PTM,
                 player().getMiddleX() / Constants.PTM,
-                (player().getY() - player().getHeight() / 2f) / Constants.PTM);
+                (player().getY() - player().getHeight() / 3f) / Constants.PTM);
 
         try {
             Vector2 highest = hits.stream()
