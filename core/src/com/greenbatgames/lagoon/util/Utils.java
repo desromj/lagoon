@@ -9,7 +9,7 @@ public class Utils {
     }
 
 
-    public static float vectorTongle(Vector2 vector) {
+    public static float vectorToAngle(Vector2 vector) {
         return (float) Math.atan2(-vector.x, vector.y);
     }
 
