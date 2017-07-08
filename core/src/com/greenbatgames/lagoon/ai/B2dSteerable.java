@@ -29,7 +29,7 @@ public class B2dSteerable implements Steerable<Vector2> {
     /**
      * Builder class should set every float field possible, except for zeroLinearSpeedThreshold
      */
-    public class Builder {
+    public static class Builder {
 
         private B2dSteerable steerable;
 
@@ -44,18 +44,56 @@ public class B2dSteerable implements Steerable<Vector2> {
             steerable.zeroLinearSpeedThreshold = 0.001f;
         }
 
-        public Builder parent() { steerable.parent = parent; return this; }
-        public Builder boundingRadius() { steerable.boundingRadius = boundingRadius; return this; }
-        public Builder tagged() { steerable.tagged = tagged; return this; }
-        public Builder maxLinearSpeed() { steerable.maxLinearSpeed = maxLinearSpeed; return this; }
-        public Builder maxLinearAcceleration() { steerable.maxLinearAcceleration = maxLinearAcceleration; return this; }
-        public Builder maxAngularSpeed() { steerable.maxAngularSpeed = maxAngularSpeed; return this; }
-        public Builder maxAngularAcceleration() { steerable.maxAngularAcceleration = maxAngularAcceleration; return this; }
-        public Builder zeroLinearSpeedThreshold() { steerable.zeroLinearSpeedThreshold = zeroLinearSpeedThreshold; return this; }
+        public Builder parent(PhysicsBody parent) {
+            steerable.parent = parent;
+            return this;
+        }
+
+        public Builder behavior(SteeringBehavior<Vector2> behavior) {
+            steerable.setBehavior(behavior);
+            return this;
+        }
+
+        public Builder boundingRadius(float boundingRadius) {
+            steerable.boundingRadius = boundingRadius;
+            return this;
+        }
+
+        public Builder tagged(boolean tagged) {
+            steerable.tagged = tagged;
+            return this;
+        }
+
+        public Builder maxLinearSpeed(float maxLinearSpeed) {
+            steerable.maxLinearSpeed = maxLinearSpeed;
+            return this;
+        }
+
+        public Builder maxLinearAcceleration(float maxLinearAcceleration) {
+            steerable.maxLinearAcceleration = maxLinearAcceleration;
+            return this;
+        }
+
+        public Builder maxAngularSpeed(float maxAngularSpeed) {
+            steerable.maxAngularSpeed = maxAngularSpeed;
+            return this; }
+
+        public Builder maxAngularAcceleration(float maxAngularAcceleration) {
+            steerable.maxAngularAcceleration = maxAngularAcceleration;
+            return this;
+        }
+
+        public Builder zeroLinearSpeedThreshold(float zeroLinearSpeedThreshold) {
+            steerable.zeroLinearSpeedThreshold = zeroLinearSpeedThreshold;
+            return this;
+        }
 
         public B2dSteerable build() {
             if (steerable.parent == null) {
                 throw new IllegalArgumentException("Steerable object must have a parent!");
+            }
+            if (steerable.behavior == null) {
+                throw new IllegalArgumentException("Steerable must contain a steering behaviour!");
             }
             if (steerable.boundingRadius <= 0f) {
                 throw new IllegalArgumentException("Bounding Radius must be greater than 0!");
