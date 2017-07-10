@@ -24,7 +24,16 @@ public class B2dSteerable implements Steerable<Vector2> {
     private SteeringBehavior<Vector2> behavior;
     private SteeringAcceleration<Vector2> steerOutput;
 
-    private B2dSteerable() {}
+    private B2dSteerable() {
+        tagged = false;
+        boundingRadius = 0f;
+        maxLinearSpeed = 0f;
+        maxLinearAcceleration = 0f;
+        maxAngularSpeed = 0f;
+        maxAngularAcceleration = 0f;
+        zeroLinearSpeedThreshold = 0.001f;
+        steerOutput = new SteeringAcceleration<>(new Vector2());
+    }
 
     /**
      * Builder class should set every float field possible, except for zeroLinearSpeedThreshold
@@ -35,22 +44,10 @@ public class B2dSteerable implements Steerable<Vector2> {
 
         public Builder() {
             steerable = new B2dSteerable();
-            steerable.tagged = false;
-            steerable.boundingRadius = 0f;
-            steerable.maxLinearSpeed = 0f;
-            steerable.maxLinearAcceleration = 0f;
-            steerable.maxAngularSpeed = 0f;
-            steerable.maxAngularAcceleration = 0f;
-            steerable.zeroLinearSpeedThreshold = 0.001f;
         }
 
         public Builder parent(PhysicsBody parent) {
             steerable.parent = parent;
-            return this;
-        }
-
-        public Builder behavior(SteeringBehavior<Vector2> behavior) {
-            steerable.setBehavior(behavior);
             return this;
         }
 
@@ -91,9 +88,6 @@ public class B2dSteerable implements Steerable<Vector2> {
         public B2dSteerable build() {
             if (steerable.parent == null) {
                 throw new IllegalArgumentException("Steerable object must have a parent!");
-            }
-            if (steerable.behavior == null) {
-                throw new IllegalArgumentException("Steerable must contain a steering behaviour!");
             }
             if (steerable.boundingRadius <= 0f) {
                 throw new IllegalArgumentException("Bounding Radius must be greater than 0!");
