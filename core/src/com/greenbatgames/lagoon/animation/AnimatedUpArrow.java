@@ -44,7 +44,7 @@ public class AnimatedUpArrow {
         elapsedTime = TimeUtils.nanosToMillis((TimeUtils.nanoTime() - startTime)) / 1000f;
     }
 
-    public void setPosition(float x, float y) {
+    public void setGamePosition(float x, float y) {
         this.position.set(x, y);
     }
 

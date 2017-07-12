@@ -1,12 +1,15 @@
 package com.greenbatgames.lagoon.physics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.greenbatgames.lagoon.ai.B2dLocation;
 import com.greenbatgames.lagoon.util.Constants;
+import com.greenbatgames.lagoon.util.Utils;
 
-public abstract class PhysicsBody extends Actor {
+public abstract class PhysicsBody extends Actor implements Location<Vector2> {
 
     public static final String TAG = PhysicsBody.class.getSimpleName();
 
@@ -82,7 +85,37 @@ public abstract class PhysicsBody extends Actor {
         return getY() + getHeight() / 2.0f;
     }
 
-    public Vector2 getPosition() { return new Vector2(getX(), getY()); }
-    public Vector2 getLastPosition() { return new Vector2(lastPosition.x, lastPosition.y); }
+    public Vector2 getGamePosition() { return new Vector2(getX(), getY()); }
+    public Vector2 getLastGamePosition() { return new Vector2(lastPosition.x, lastPosition.y); }
 
+
+    @Override
+    public Vector2 getPosition() {
+        return body.getPosition();
+    }
+
+    @Override
+    public float getOrientation() {
+        return body.getAngle();
+    }
+
+    @Override
+    public void setOrientation(float orientation) {
+        body.setTransform(body.getPosition(), orientation);
+    }
+
+    @Override
+    public float vectorToAngle(Vector2 vector) {
+        return Utils.vectorToAngle(vector);
+    }
+
+    @Override
+    public Vector2 angleToVector(Vector2 outVector, float angle) {
+        return Utils.angleToVector(outVector, angle);
+    }
+
+    @Override
+    public Location<Vector2> newLocation() {
+        return new B2dLocation();
+    }
 }

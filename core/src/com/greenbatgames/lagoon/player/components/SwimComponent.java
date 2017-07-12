@@ -88,7 +88,7 @@ public class SwimComponent extends PlayerComponent {
 
         // Handle checking if we should be submerged or treading the water surface
         if (Utils.almostEqualTo(
-                body.getTransform().getPosition().y + Constants.PLAYER_SWIM_FIXTURE_Y_OFFSET,
+                body.getPosition().y + Constants.PLAYER_SWIM_FIXTURE_Y_OFFSET,
                 surfaceYpoint / Constants.PTM,
                 Constants.PLAYER_WATER_ENTRY_VARIANCE
         )) {
@@ -98,7 +98,7 @@ public class SwimComponent extends PlayerComponent {
             } else {
                 submerged = false;
                 body.setTransform(
-                        body.getTransform().getPosition().x,
+                        body.getPosition().x,
                         (surfaceYpoint / Constants.PTM) - Constants.PLAYER_SWIM_FIXTURE_Y_OFFSET,
                         body.getAngle()
                 );

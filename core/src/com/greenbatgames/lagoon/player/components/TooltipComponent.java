@@ -21,8 +21,8 @@ public class TooltipComponent extends PlayerComponent {
     @Override
     public boolean update(float delta) {
         arrow.update(delta);
-        arrow.setPosition(
-                player().getPosition().x - player().getWidth() / 2f,
+        arrow.setGamePosition(
+                player().getGamePosition().x - player().getWidth() / 2f,
                 player().getY() + player().getHeight() * 2.5f);
         return true;
     }
