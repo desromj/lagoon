@@ -7,11 +7,12 @@ public abstract class Enemy extends PhysicsBody {
     private int health;
     private int maxHealth;
 
-    public Enemy(float x, float y, float width, float height, int health, int maxHealth) {
+    public Enemy(float x, float y, float width, float height, int maxHealth) {
         super(x, y, width, height);
-        this.health = health;
+        this.health = maxHealth;
         this.maxHealth = maxHealth;
     }
+
 
     /**
      * Decrements the enemy's health by the passed damage amount
@@ -23,12 +24,20 @@ public abstract class Enemy extends PhysicsBody {
         return isDead();
     }
 
+
     public abstract int getContactDamage();
 
+
+    public void setHealth(int newHealth) {
+        if (newHealth > maxHealth) {
+            health = maxHealth;
+        } else {
+            health = newHealth;
+        }
+    }
     public boolean isDead() {
         return health <= 0;
     }
-
     public int getHealth() { return health; }
     public int getMaxHealth() { return maxHealth; }
 }

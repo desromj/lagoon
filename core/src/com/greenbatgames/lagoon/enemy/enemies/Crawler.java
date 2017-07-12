@@ -13,9 +13,8 @@ public class Crawler extends Enemy {
     private CrawlBehaviour crawlBehaviour;
 
     public Crawler(float x, float y, float width, float height) {
-        super(x, y, width, height, Constants.CRAWLER_HEALTH, Constants.CRAWLER_HEALTH);
+        super(x, y, width, height, Constants.CRAWLER_HEALTH);
         getPhysicsLoader().load(this);
-
         crawlBehaviour = null;
         loadBehavior();
     }
