@@ -25,7 +25,8 @@ public class CrawlBehaviour extends EnemyBehavior {
     }
 
 
-    private void makeBehavior() {
+    @Override
+    protected void makeBehavior() {
         steerable = new B2dSteerable.Builder()
                 .parent(parent)
                 .boundingRadius(1)
@@ -56,21 +57,17 @@ public class CrawlBehaviour extends EnemyBehavior {
 
 
     @Override
-    public void update(float delta) {
-        if (steerable == null) {
-            makeBehavior();
-        } else {
-            moving = !Utils.almostEqualTo(parent.getBody().getLinearVelocity().len(), 0f, 0.1f);
+    protected void useSteering(float delta) {
+        moving = !Utils.almostEqualTo(parent.getBody().getLinearVelocity().len(), 0f, 0.1f);
 
-            if (!moving) {
-                if (steerable.getBehavior().equals(crawlLeft)) {
-                    steerable.setBehavior(crawlRight);
-                } else {
-                    steerable.setBehavior(crawlLeft);
-                }
+        if (!moving) {
+            if (steerable.getBehavior().equals(crawlLeft)) {
+                steerable.setBehavior(crawlRight);
+            } else {
+                steerable.setBehavior(crawlLeft);
             }
-
-            steerable.update(delta);
         }
+
+        steerable.update(delta);
     }
 }

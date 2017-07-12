@@ -13,5 +13,25 @@ public abstract class EnemyBehavior {
         steerable = null;
     }
 
-    public abstract void update(float delta);
+    /**
+     * This method should instantiate the steerable object, as well as load
+     * any steering behaviours to be used by the child class
+     */
+    protected abstract void makeBehavior();
+
+    /**
+     * steerable is guaranteed to not be null here. This method is run within an
+     * update loop, and only needs to determine which steering behaviours to use
+     * and how to apply them to the steerable.
+     * @param delta Time since last frame
+     */
+    protected abstract void useSteering(float delta);
+
+    public final void update(float delta) {
+        if (steerable == null) {
+            makeBehavior();
+        } else {
+            useSteering(delta);
+        }
+    }
 }
