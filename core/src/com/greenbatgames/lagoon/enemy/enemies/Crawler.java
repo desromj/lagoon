@@ -3,6 +3,7 @@ package com.greenbatgames.lagoon.enemy.enemies;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.greenbatgames.lagoon.enemy.Enemy;
+import com.greenbatgames.lagoon.enemy.EnemyBehavior;
 import com.greenbatgames.lagoon.enemy.behaviours.CrawlBehaviour;
 import com.greenbatgames.lagoon.physics.CirclePhysicsLoader;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
@@ -10,12 +11,12 @@ import com.greenbatgames.lagoon.util.Constants;
 
 public class Crawler extends Enemy {
 
-    private CrawlBehaviour crawlBehaviour;
+    private EnemyBehavior behavior;
 
     public Crawler(float x, float y, float width, float height) {
         super(x, y, width, height, Constants.CRAWLER_HEALTH);
         getPhysicsLoader().load(this);
-        crawlBehaviour = null;
+        behavior = null;
         loadBehavior();
     }
 
@@ -27,15 +28,15 @@ public class Crawler extends Enemy {
 
 
     private void loadBehavior() {
-        crawlBehaviour = new CrawlBehaviour(this);
+        behavior = new CrawlBehaviour(this);
     }
 
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (crawlBehaviour != null) {
-            crawlBehaviour.update(delta);
+        if (behavior != null) {
+            behavior.update(delta);
         }
     }
 
@@ -47,6 +48,7 @@ public class Crawler extends Enemy {
     }
 
 
+    @Override
     public int getContactDamage() {
         return Constants.CRAWLER_CONTACT_DAMAGE;
     }

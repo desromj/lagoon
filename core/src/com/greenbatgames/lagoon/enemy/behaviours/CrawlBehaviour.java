@@ -5,16 +5,14 @@ import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.math.Vector2;
 import com.greenbatgames.lagoon.ai.B2dLocation;
 import com.greenbatgames.lagoon.ai.B2dSteerable;
+import com.greenbatgames.lagoon.enemy.EnemyBehavior;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.util.Constants;
 import com.greenbatgames.lagoon.util.Utils;
 
 import java.util.Random;
 
-public class CrawlBehaviour {
-
-    private PhysicsBody parent;
-    private B2dSteerable steerable;
+public class CrawlBehaviour extends EnemyBehavior {
 
     private SteeringBehavior<Vector2> crawlLeft;
     private SteeringBehavior<Vector2> crawlRight;
@@ -22,8 +20,7 @@ public class CrawlBehaviour {
     private boolean moving;
 
     public CrawlBehaviour(PhysicsBody parent) {
-        this.parent = parent;
-        steerable = null;
+        super(parent);
         moving = false;
     }
 
@@ -58,6 +55,7 @@ public class CrawlBehaviour {
     }
 
 
+    @Override
     public void update(float delta) {
         if (steerable == null) {
             makeBehavior();
