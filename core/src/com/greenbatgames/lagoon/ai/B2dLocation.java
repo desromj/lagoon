@@ -14,6 +14,16 @@ public class B2dLocation implements Location<Vector2> {
         orientation = 0f;
     }
 
+    public B2dLocation(float x, float y) {
+        position = new Vector2(x, y);
+        orientation = 0f;
+    }
+
+    public B2dLocation(Vector2 vector) {
+        position = new Vector2(vector.x, vector.y);
+        orientation = 0f;
+    }
+
     @Override
     public Vector2 getPosition() {
         return position;

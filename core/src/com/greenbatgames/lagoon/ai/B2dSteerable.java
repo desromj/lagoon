@@ -120,7 +120,11 @@ public class B2dSteerable implements Steerable<Vector2> {
         // Apply linear force
         if (!steerOutput.linear.isZero()) {
             Vector2 force = steerOutput.linear.scl(delta);
-            getBody().applyForceToCenter(force, true);
+            // Pseudo-physics: add the calculated force to current velocity, instead of setting velocity directly
+            getBody().setLinearVelocity(
+                    getBody().getLinearVelocity().x + force.x,
+                    getBody().getLinearVelocity().y + force.y
+            );
             anyAccel = true;
         }
 

@@ -3,13 +3,8 @@ package com.greenbatgames.lagoon.physics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.greenbatgames.lagoon.util.Constants;
-
-/**
- * Created by Quiv on 23-01-2017.
- */
 
 public abstract class PhysicsBody extends Actor {
 
@@ -43,7 +38,7 @@ public abstract class PhysicsBody extends Actor {
     @Override
     public void act(float delta) {
         // Update our last position for the next frame
-        lastPosition.set(getX(), getY());
+        setLastPosition(getX(), getY());
 
         if (body == null) {
             Gdx.app.debug(TAG, "Body is null");
@@ -58,7 +53,7 @@ public abstract class PhysicsBody extends Actor {
     }
 
     @Override
-    public final void setPosition(float x, float y) {
+    public void setPosition(float x, float y) {
         super.setPosition(x, y);
 
         if (body == null) {
@@ -71,6 +66,10 @@ public abstract class PhysicsBody extends Actor {
                 (getY() + getHeight() / 2f) / Constants.PTM,
                 body.getAngle()
         );
+    }
+
+    public void setLastPosition(float x, float y) {
+        lastPosition.set(x, y);
     }
 
     public Body getBody() { return body; }
