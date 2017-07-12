@@ -53,7 +53,7 @@ public class WedgeComponent extends PlayerComponent {
             } else {
 
                 // Set the player x position to the midpoint of the raycast... or left, whatever works
-                player().setPosition(
+                player().setGamePosition(
                         (raycast.getMidpoint() * Constants.PTM) - player().getWidth() / 2f,
                         player().getY()
                 );

@@ -179,7 +179,7 @@ public class LevelLoader {
                                         Constants.PLAYER_RADIUS * 2f
                                 );
                             } else {
-                                player.setPosition(
+                                player.setGamePosition(
                                         props.get("x", Float.class) + props.get("width", Float.class) / 2.0f,
                                         props.get("y", Float.class)
                                 );

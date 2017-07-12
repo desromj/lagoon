@@ -28,7 +28,7 @@ public abstract class PhysicsBody extends Actor implements Location<Vector2> {
      * @param height The width of the object
      */
     public PhysicsBody(float x, float y, float width, float height) {
-        setPosition(x, y);
+        setGamePosition(x, y);
         setWidth(width);
         setHeight(height);
 
@@ -49,14 +49,14 @@ public abstract class PhysicsBody extends Actor implements Location<Vector2> {
         }
 
         // Cling this object's position to the physics body
-        setPosition(
+        setGamePosition(
                 (body.getPosition().x * Constants.PTM) - getWidth() / 2.0f,
                 (body.getPosition().y * Constants.PTM) - getHeight() / 2.0f
         );
     }
 
-    @Override
-    public void setPosition(float x, float y) {
+    public void setGamePosition(float x, float y) {
+        // Set position of the parent Actor
         super.setPosition(x, y);
 
         if (body == null) {

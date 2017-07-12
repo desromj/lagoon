@@ -1,7 +1,6 @@
 package com.greenbatgames.lagoon.player.components;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -11,10 +10,8 @@ import com.greenbatgames.lagoon.player.PlayerComponent;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Quiv on 23-02-2017.
@@ -187,7 +184,7 @@ public class MoveComponent extends PlayerComponent {
                     .max((f1, f2) -> Float.compare(f1.y, f2.y))
                     .get();
 
-            player().setPosition(
+            player().setGamePosition(
                     player().getX(),
                     highest.y * Constants.PTM);
         } catch (Exception ex) {}

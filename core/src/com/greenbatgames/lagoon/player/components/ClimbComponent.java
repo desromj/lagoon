@@ -156,7 +156,7 @@ public class ClimbComponent extends PlayerComponent {
         player().mover().land();
 
         // Set the player position to new position based on if we're climbing left or right
-        player().setPosition(
+        player().setGamePosition(
                 (climbingRight) ? gripX() : gripX() - player().getWidth(),
                 gripY()
         );
