@@ -1,20 +1,19 @@
 package com.greenbatgames.lagoon.physics;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.greenbatgames.lagoon.ai.B2dLocation;
+import com.greenbatgames.lagoon.ai.B2dSteerable;
 import com.greenbatgames.lagoon.util.Constants;
-import com.greenbatgames.lagoon.util.Utils;
 
-public abstract class PhysicsBody extends Actor implements Location<Vector2> {
+public abstract class PhysicsBody extends Actor {
 
     public static final String TAG = PhysicsBody.class.getSimpleName();
 
     private Vector2 lastPosition;
     protected Body body;
+    private B2dSteerable steerable;
 
     /**
      * Be sure to call getPhysicsLoader().load() in the constructor of
@@ -34,9 +33,13 @@ public abstract class PhysicsBody extends Actor implements Location<Vector2> {
 
         lastPosition = new Vector2(getX(), getY());
         body = null;
+        steerable = makeSteerable();
     }
 
+
     protected abstract PhysicsLoader getPhysicsLoader();
+    protected abstract B2dSteerable makeSteerable();
+
 
     @Override
     public void act(float delta) {
@@ -55,6 +58,7 @@ public abstract class PhysicsBody extends Actor implements Location<Vector2> {
         );
     }
 
+
     public void setGamePosition(float x, float y) {
         // Set position of the parent Actor
         super.setPosition(x, y);
@@ -71,9 +75,11 @@ public abstract class PhysicsBody extends Actor implements Location<Vector2> {
         );
     }
 
+
     public void setLastPosition(float x, float y) {
         lastPosition.set(x, y);
     }
+
 
     public Body getBody() { return body; }
     public void setBody(Body body) { this.body = body; }
@@ -88,34 +94,5 @@ public abstract class PhysicsBody extends Actor implements Location<Vector2> {
     public Vector2 getGamePosition() { return new Vector2(getX(), getY()); }
     public Vector2 getLastGamePosition() { return new Vector2(lastPosition.x, lastPosition.y); }
 
-
-    @Override
-    public Vector2 getPosition() {
-        return body.getPosition();
-    }
-
-    @Override
-    public float getOrientation() {
-        return body.getAngle();
-    }
-
-    @Override
-    public void setOrientation(float orientation) {
-        body.setTransform(body.getPosition(), orientation);
-    }
-
-    @Override
-    public float vectorToAngle(Vector2 vector) {
-        return Utils.vectorToAngle(vector);
-    }
-
-    @Override
-    public Vector2 angleToVector(Vector2 outVector, float angle) {
-        return Utils.angleToVector(outVector, angle);
-    }
-
-    @Override
-    public Location<Vector2> newLocation() {
-        return new B2dLocation();
-    }
+    public B2dSteerable getSteerable() { return steerable; }
 }

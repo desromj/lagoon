@@ -27,14 +27,7 @@ public class CrawlBehaviour extends EnemyBehavior {
 
     @Override
     protected void makeBehavior() {
-        steerable = new B2dSteerable.Builder()
-                .parent(parent)
-                .boundingRadius(1)
-                .maxAngularAcceleration(3)
-                .maxAngularSpeed(2)
-                .maxLinearAcceleration(1500)
-                .maxLinearSpeed(2)
-                .build();
+        steerable = parent.getSteerable();
 
         crawlLeft = new Arrive<>(steerable)
                 .setArrivalTolerance(0.5f)

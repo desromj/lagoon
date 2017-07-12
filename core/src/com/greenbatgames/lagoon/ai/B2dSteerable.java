@@ -89,9 +89,6 @@ public class B2dSteerable implements Steerable<Vector2> {
             if (steerable.parent == null) {
                 throw new IllegalArgumentException("Steerable object must have a parent!");
             }
-            if (steerable.boundingRadius <= 0f) {
-                throw new IllegalArgumentException("Bounding Radius must be greater than 0!");
-            }
 
             return steerable;
         }
@@ -167,6 +164,10 @@ public class B2dSteerable implements Steerable<Vector2> {
 
     public void setBehavior(SteeringBehavior behavior) {
         this.behavior = behavior;
+    }
+
+    public Location<Vector2> getLocation() {
+        return new B2dLocation(getBody().getPosition());
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.greenbatgames.lagoon.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.greenbatgames.lagoon.ai.B2dSteerable;
 import com.greenbatgames.lagoon.animation.FadeOutText;
 import com.greenbatgames.lagoon.physics.BoxPhysicsLoader;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
@@ -26,6 +27,13 @@ public class MapItem extends PhysicsBody {
     @Override
     protected PhysicsLoader getPhysicsLoader() {
         return new BoxPhysicsLoader(this, true, BodyDef.BodyType.KinematicBody);
+    }
+
+    @Override
+    protected B2dSteerable makeSteerable() {
+        return new B2dSteerable.Builder()
+                .parent(this)
+                .build();
     }
 
     @Override

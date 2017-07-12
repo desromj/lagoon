@@ -2,6 +2,7 @@ package com.greenbatgames.lagoon.enemy.enemies;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.greenbatgames.lagoon.ai.B2dSteerable;
 import com.greenbatgames.lagoon.enemy.Enemy;
 import com.greenbatgames.lagoon.enemy.EnemyBehavior;
 import com.greenbatgames.lagoon.enemy.behaviours.CrawlBehaviour;
@@ -24,6 +25,19 @@ public class Crawler extends Enemy {
     @Override
     protected PhysicsLoader getPhysicsLoader() {
         return new CirclePhysicsLoader(this, false, BodyDef.BodyType.DynamicBody);
+    }
+
+
+    @Override
+    protected B2dSteerable makeSteerable() {
+        return new B2dSteerable.Builder()
+                .parent(this)
+                .boundingRadius(1)
+                .maxAngularAcceleration(3)
+                .maxAngularSpeed(2)
+                .maxLinearAcceleration(1500)
+                .maxLinearSpeed(2)
+                .build();
     }
 
 

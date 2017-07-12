@@ -3,6 +3,7 @@ package com.greenbatgames.lagoon.entity;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.greenbatgames.lagoon.ai.B2dSteerable;
 import com.greenbatgames.lagoon.physics.Climbable;
 import com.greenbatgames.lagoon.physics.NewPhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
@@ -19,6 +20,7 @@ public class Terrain extends PhysicsBody implements Climbable {
         this.verts = verts;
         getPhysicsLoader().load(this);
     }
+
 
     @Override
     protected PhysicsLoader getPhysicsLoader() {
@@ -56,6 +58,15 @@ public class Terrain extends PhysicsBody implements Climbable {
             GameScreen.level().queuePhysicsBodyToAdd(newBody);
         };
     }
+
+
+    @Override
+    protected B2dSteerable makeSteerable() {
+        return new B2dSteerable.Builder()
+                .parent(this)
+                .build();
+    }
+
 
     @Override
     public float[] getVerts() {
