@@ -1,23 +1,28 @@
 package com.greenbatgames.lagoon.enemy.enemies;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.greenbatgames.lagoon.ai.B2dSteerable;
 import com.greenbatgames.lagoon.enemy.Enemy;
 import com.greenbatgames.lagoon.enemy.EnemyBehavior;
-import com.greenbatgames.lagoon.enemy.behaviours.CrawlBehaviour;
+import com.greenbatgames.lagoon.enemy.behaviours.BatBehaviour;
 import com.greenbatgames.lagoon.physics.CirclePhysicsLoader;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
 import com.greenbatgames.lagoon.util.Constants;
 
-public class Crawler extends Enemy {
+public class Bat extends Enemy {
 
     private EnemyBehavior behavior;
 
-    public Crawler(float x, float y, float width, float height) {
-        super(x, y, width, height, Constants.CRAWLER_HEALTH);
+    public Bat(float x, float y, float width, float height) {
+        super(x, y, width, height, Constants.BAT_HEALTH);
         getPhysicsLoader().load(this);
-        behavior = new CrawlBehaviour(this);
+        behavior = new BatBehaviour(this);
+    }
+
+
+    @Override
+    public int getContactDamage() {
+        return Constants.BAT_CONTACT_DAMAGE;
     }
 
 
@@ -27,7 +32,7 @@ public class Crawler extends Enemy {
                 this,
                 false,
                 BodyDef.BodyType.DynamicBody,
-                Constants.CRAWLER_RADIUS);
+                Constants.BAT_RADIUS);
     }
 
 
@@ -38,29 +43,8 @@ public class Crawler extends Enemy {
                 .boundingRadius(1)
                 .maxAngularAcceleration(3)
                 .maxAngularSpeed(2)
-                .maxLinearAcceleration(1500)
-                .maxLinearSpeed(Constants.CRAWLER_MAX_SPEED)
+                .maxLinearAcceleration(2)
+                .maxLinearSpeed(Constants.BAT_MAX_SPEED)
                 .build();
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        if (behavior != null) {
-            behavior.update(delta);
-        }
-    }
-
-
-    // TODO: Eventually draw
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-
-    }
-
-
-    @Override
-    public int getContactDamage() {
-        return Constants.CRAWLER_CONTACT_DAMAGE;
     }
 }

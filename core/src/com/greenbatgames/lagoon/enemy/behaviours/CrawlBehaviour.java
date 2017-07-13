@@ -4,7 +4,6 @@ import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.math.Vector2;
 import com.greenbatgames.lagoon.ai.B2dLocation;
-import com.greenbatgames.lagoon.ai.B2dSteerable;
 import com.greenbatgames.lagoon.enemy.EnemyBehavior;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.util.Constants;

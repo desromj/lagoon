@@ -62,8 +62,13 @@ public class Constants {
     // Enemy Values
     public static final int CRAWLER_HEALTH = 2;
     public static final float CRAWLER_RADIUS = WORLD_WIDTH / 80f;
-    public static final float CRAWLER_MOVE_SPEED = 1.2f;
+    public static final float CRAWLER_MAX_SPEED = 2f;
     public static final int CRAWLER_CONTACT_DAMAGE = 1;
+
+    public static final int BAT_HEALTH = 1;
+    public static final float BAT_RADIUS = WORLD_WIDTH / 120f;
+    public static final float BAT_MAX_SPEED = 4f;
+    public static final int BAT_CONTACT_DAMAGE = 1;
 
     // Physics Values
     public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(5.0f, 0);

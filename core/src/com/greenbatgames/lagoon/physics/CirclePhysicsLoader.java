@@ -11,11 +11,13 @@ public class CirclePhysicsLoader implements PhysicsLoader  {
     private PhysicsBody parent;
     private boolean isSensor;
     private BodyDef.BodyType bodyType;
+    private float radius;
 
-    public CirclePhysicsLoader(PhysicsBody parent, boolean isSensor, BodyDef.BodyType bodyType) {
+    public CirclePhysicsLoader(PhysicsBody parent, boolean isSensor, BodyDef.BodyType bodyType, float radius) {
         this.parent = parent;
         this.isSensor = isSensor;
         this.bodyType = bodyType;
+        this.radius = radius;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class CirclePhysicsLoader implements PhysicsLoader  {
 
         // Fixtures
         CircleShape shape = new CircleShape();
-        shape.setRadius(Constants.CRAWLER_RADIUS / Constants.PTM);
+        shape.setRadius(radius / Constants.PTM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
