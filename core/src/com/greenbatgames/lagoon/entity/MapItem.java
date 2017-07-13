@@ -9,6 +9,7 @@ import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
+import com.greenbatgames.lagoon.util.Utils;
 
 public class MapItem extends PhysicsBody {
 
@@ -67,6 +68,6 @@ public class MapItem extends PhysicsBody {
         // TODO: Maybe play a pickup sound or something
 
         // Actually pick the item up for the player inventory
-        GameScreen.level().getPlayer().inventory().add(this.itemName);
+        Utils.player().inventory().add(this.itemName);
     }
 }

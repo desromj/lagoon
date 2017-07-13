@@ -8,6 +8,7 @@ import com.greenbatgames.lagoon.physics.PhysicsBody;
 import com.greenbatgames.lagoon.physics.PhysicsLoader;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
+import com.greenbatgames.lagoon.util.Utils;
 
 public class Transition extends PhysicsBody {
 
@@ -63,7 +64,7 @@ public class Transition extends PhysicsBody {
 
     public void transition() {
         if (canBeUsed()) {
-            Player player = GameScreen.level().getPlayer();
+            Player player = Utils.player();
 
             // Transition if nothing is required, or the transition is already unlocked
             if (requires.isEmpty() || (player.transitionHistory().isUnlocked(this))) {
@@ -90,8 +91,8 @@ public class Transition extends PhysicsBody {
 
     public boolean canBeUsed() {
         return requires.isEmpty()
-                || GameScreen.level().getPlayer().transitionHistory().isUnlocked(this)
-                || GameScreen.level().getPlayer().inventory().isInInventory(requires);
+                || Utils.player().transitionHistory().isUnlocked(this)
+                || Utils.player().inventory().isInInventory(requires);
     }
 
 

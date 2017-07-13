@@ -1,6 +1,8 @@
 package com.greenbatgames.lagoon.util;
 
 import com.badlogic.gdx.math.Vector2;
+import com.greenbatgames.lagoon.player.Player;
+import com.greenbatgames.lagoon.screen.GameScreen;
 
 public class Utils {
 
@@ -18,5 +20,10 @@ public class Utils {
         outVector.x = (float) -Math.sin(angle);
         outVector.y = (float) Math.cos(angle);
         return outVector;
+    }
+
+
+    public static Player player() {
+        return GameScreen.level().getPlayer();
     }
 }

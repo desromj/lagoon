@@ -1,12 +1,10 @@
 package com.greenbatgames.lagoon.enemy.behaviours;
 
-import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.ai.steer.behaviors.Seek;
 import com.badlogic.gdx.math.Vector2;
-import com.greenbatgames.lagoon.ai.B2dSteerable;
 import com.greenbatgames.lagoon.enemy.EnemyBehavior;
 import com.greenbatgames.lagoon.physics.PhysicsBody;
-import com.greenbatgames.lagoon.screen.GameScreen;
+import com.greenbatgames.lagoon.util.Utils;
 
 /**
  * Bats are dormant until activated
@@ -37,7 +35,7 @@ public class BatBehaviour extends EnemyBehavior {
     protected void makeBehavior() {
         steerable = parent.getSteerable();
 
-        Seek<Vector2> seek = new Seek<>(steerable, GameScreen.level().getPlayer().getSteerable());
+        Seek<Vector2> seek = new Seek<>(steerable, Utils.player().getSteerable());
     }
 
     @Override

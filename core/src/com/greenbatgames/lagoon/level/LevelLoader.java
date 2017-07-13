@@ -11,6 +11,7 @@ import com.greenbatgames.lagoon.enemy.enemies.Crawler;
 import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
+import com.greenbatgames.lagoon.util.Utils;
 
 /**
  * Created by Quiv on 23-02-2017.
@@ -27,7 +28,7 @@ public class LevelLoader {
         Player player = null;
 
         try {
-            player = GameScreen.level().getPlayer();
+            player = Utils.player();
         } catch (Exception ex) {}
 
         // Initialize the level to load
