@@ -9,6 +9,7 @@ import com.greenbatgames.lagoon.player.Player;
 import com.greenbatgames.lagoon.player.PlayerComponent;
 import com.greenbatgames.lagoon.screen.GameScreen;
 import com.greenbatgames.lagoon.util.Constants;
+import com.greenbatgames.lagoon.util.Utils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +40,8 @@ public class MoveComponent extends PlayerComponent {
     private float cannotMoveFor;
     private float ignoreGroundClingFor;
 
+    private Vector2 previousVelocity;
+
 
     public MoveComponent(Player player) {
         super(player);
@@ -55,6 +58,7 @@ public class MoveComponent extends PlayerComponent {
         cannotJumpFor = 0.0f;
         cannotMoveFor = 0.0f;
         ignoreGroundClingFor = 0.0f;
+        previousVelocity = new Vector2();
     }
 
 
@@ -131,9 +135,19 @@ public class MoveComponent extends PlayerComponent {
         else if (body.getLinearVelocity().x < -0.1f)
             facingRight = false;
 
+        // Cling the player to the ground, if necessary
         if (!crouching && ignoreGroundClingFor < 0 && isOnGround()) {
             clingToGround();
         }
+
+        // Determine if the player should take fall damage or not
+        if (!Utils.almostEqualTo(previousVelocity.y, 0, 0.001f)) {
+            if (previousVelocity.y - body.getLinearVelocity().y < Constants.FALL_VELOCITY_DAMAGE_THRESHOLD) {
+                player().health().damage(Constants.FALL_DAMAGE, true);
+            }
+        }
+
+        previousVelocity.set(body.getLinearVelocity());
 
         return true;
     }
