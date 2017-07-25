@@ -129,6 +129,7 @@ public class Level implements Disposable {
     public World getWorld(){
         return world.world();
     }
+    public Stage getStage() { return stage; }
 
     public void setPlayer(Player player) {
         this.player = player;
