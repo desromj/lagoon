@@ -67,8 +67,16 @@ public class Constants {
 
     public static final int BAT_HEALTH = 1;
     public static final float BAT_RADIUS = WORLD_WIDTH / 120f;
-    public static final float BAT_MAX_SPEED = 4f;
+    public static final float BAT_MAX_SPEED = 8f;
     public static final int BAT_CONTACT_DAMAGE = 1;
+
+    public static final float BAT_ACTIVATION_DISTANCE = WORLD_WIDTH / 3f;
+    public static final float BAT_SWOOP_RANGE = WORLD_WIDTH / 2.5f;
+    public static final float BAT_PURSUE_WHEN_DISTANCE = WORLD_WIDTH / 4f;
+    public static final float BAT_EVADE_WHEN_DISTANCE = WORLD_WIDTH / 10f;
+    public static final float BAT_SWOOP_DELAY = 4f;
+    public static final float BAT_SWOOP_DISTANCE = 8f;
+    public static final float BAT_SWOOP_TIME = 0.5f;
 
     // Physics Values
     public static final Vector2 PLAYER_MOVE_SPEED = new Vector2(5.0f, 0);

@@ -3,6 +3,7 @@ package com.greenbatgames.lagoon.level.layers;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
+import com.greenbatgames.lagoon.enemy.enemies.Bat;
 import com.greenbatgames.lagoon.enemy.enemies.Crawler;
 import com.greenbatgames.lagoon.entity.MapItem;
 import com.greenbatgames.lagoon.entity.Transition;
@@ -61,14 +62,21 @@ public class ObjectLayer implements LevelMapLayer {
             // Load enemies
             if (props.get("type").equals("enemy")) {
                 if (mapObject.getName().equals("crawler")) {
-                    Crawler crawler = new Crawler(
+                    level.getStage().addActor(new Crawler(
                             props.get("x", Float.class),
                             props.get("y", Float.class),
                             props.get("width", Float.class),
                             props.get("height", Float.class)
-                    );
+                    ));
+                }
 
-                    level.getStage().addActor(crawler);
+                if (mapObject.getName().equals("bat")) {
+                    level.getStage().addActor(new Bat(
+                            props.get("x", Float.class),
+                            props.get("y", Float.class),
+                            props.get("width", Float.class),
+                            props.get("height", Float.class)
+                    ));
                 }
             }
 

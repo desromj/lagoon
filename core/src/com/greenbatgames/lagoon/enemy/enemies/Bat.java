@@ -1,5 +1,6 @@
 package com.greenbatgames.lagoon.enemy.enemies;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.greenbatgames.lagoon.ai.B2dSteerable;
 import com.greenbatgames.lagoon.enemy.Enemy;
@@ -43,8 +44,24 @@ public class Bat extends Enemy {
                 .boundingRadius(1)
                 .maxAngularAcceleration(3)
                 .maxAngularSpeed(2)
-                .maxLinearAcceleration(2)
+                .maxLinearAcceleration(5000)
                 .maxLinearSpeed(Constants.BAT_MAX_SPEED)
+                .useForce(true)
                 .build();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (behavior != null) {
+            behavior.update(delta);
+        }
+    }
+
+
+    // TODO: Eventually draw
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+
     }
 }

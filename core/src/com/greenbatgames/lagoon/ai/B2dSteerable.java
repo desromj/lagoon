@@ -14,6 +14,8 @@ public class B2dSteerable implements Steerable<Vector2> {
     private PhysicsBody parent;
     private float boundingRadius;
 
+    private boolean useForce;
+
     private boolean tagged;
     private float maxLinearSpeed;
     private float maxLinearAcceleration;
@@ -27,6 +29,7 @@ public class B2dSteerable implements Steerable<Vector2> {
     private B2dSteerable() {
         tagged = false;
         boundingRadius = 0f;
+        useForce = false;
         maxLinearSpeed = 0f;
         maxLinearAcceleration = 0f;
         maxAngularSpeed = 0f;
@@ -53,6 +56,11 @@ public class B2dSteerable implements Steerable<Vector2> {
 
         public Builder boundingRadius(float boundingRadius) {
             steerable.boundingRadius = boundingRadius;
+            return this;
+        }
+
+        public Builder useForce(boolean useForce) {
+            steerable.useForce = useForce;
             return this;
         }
 
@@ -114,14 +122,18 @@ public class B2dSteerable implements Steerable<Vector2> {
     private void applySteering(float delta) {
         boolean anyAccel = false;
 
-        // Apply linear force
+        // Apply linear force - depending on whether or not pseudophysics are being used (useForce)
         if (!steerOutput.linear.isZero()) {
             Vector2 force = steerOutput.linear.scl(delta);
             // Pseudo-physics: add the calculated force to current velocity, instead of setting velocity directly
-            getBody().setLinearVelocity(
-                    getBody().getLinearVelocity().x + force.x,
-                    getBody().getLinearVelocity().y + force.y
-            );
+            if (useForce) {
+                getBody().applyForceToCenter(force, true);
+            } else {
+                getBody().setLinearVelocity(
+                        getBody().getLinearVelocity().x + force.x,
+                        getBody().getLinearVelocity().y + force.y
+                );
+            }
             anyAccel = true;
         }
 
