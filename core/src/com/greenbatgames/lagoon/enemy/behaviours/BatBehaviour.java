@@ -35,8 +35,6 @@ import java.util.Locale;
  *
  * Bats need to be within a certain range to make a swooping attack,
  * and can only make the attack a certain length of time after being within range
- *
- * TODO: finish the logic here
  */
 public class BatBehaviour extends EnemyBehavior {
 
@@ -157,11 +155,9 @@ public class BatBehaviour extends EnemyBehavior {
                     Utils.player().getBody().getPosition());
 
             if (nonPlayerHits.size() > 0) {
-                Gdx.app.log("Activation", "BLOCKED BY OBSTACLE");
                 return false;
             }
 
-            Gdx.app.log("Activation", "ACTIVATED");
             active = true;
         }
 
@@ -171,7 +167,6 @@ public class BatBehaviour extends EnemyBehavior {
 
     private void pursue() {
         if (!(steerable.getBehavior().equals(pursue)) || steerable.getBehavior() instanceof Evade) {
-            Gdx.app.log("Behaviour", "Triggering PURSUE");
             steerable.setBehavior(pursue);
         }
     }
@@ -179,7 +174,6 @@ public class BatBehaviour extends EnemyBehavior {
 
     private void evade() {
         if (!(steerable.getBehavior().equals(evade))) {
-            Gdx.app.log("Behaviour", "Triggering EVADE");
             steerable.setBehavior(evade);
         }
     }
@@ -187,35 +181,17 @@ public class BatBehaviour extends EnemyBehavior {
 
     private void swoop() {
         if (!(steerable.getBehavior().equals(swoop))) {
-            Gdx.app.log("Behaviour", "Triggering SWOOP");
-
             // Get the angle to move, based on angle between the parent and the target
             Vector2 direction = new Vector2(Utils.player().getBody().getPosition());
             float angle = direction.sub(parent.getBody().getPosition()).angleRad();
 
             // Set the length then angle of direction to be used as a target point for the swoop behaviour
             direction.set(
-                    parent.getBody().getPosition().x + Constants.BAT_SWOOP_DISTANCE * MathUtils.cos(angle),
-                    parent.getBody().getPosition().y + Constants.BAT_SWOOP_DISTANCE * MathUtils.sin(angle));
+                    Utils.player().getBody().getPosition().x + Constants.BAT_SWOOP_DISTANCE * MathUtils.cos(angle),
+                    Utils.player().getBody().getPosition().y + Constants.BAT_SWOOP_DISTANCE * MathUtils.sin(angle));
 
-            Gdx.app.log("Swoop Target", String.format(Locale.CANADA,
-                    "(%.2f, %.2f)",
-                    direction.x,
-                    direction.y));
-
-            Gdx.app.log("Player Body Position", String.format(Locale.CANADA,
-                    "(%.2f, %.2f)",
-                    Utils.player().getBody().getPosition().x,
-                    Utils.player().getBody().getPosition().y));
-
-            // TODO: Set all parameters here as required for the swoop attack
-            parent.getBody().setGravityScale(0f);
-            parent.getBody().setLinearVelocity(0f, 0f);
-
-            steerable.setBehavior(swoop
-                    .setTarget(new B2dLocation(direction))
-            );
-
+            // Set all parameters here as required for the swoop attack
+            steerable.setBehavior(swoop.setTarget(new B2dLocation(direction)));
             swoopDuration = Constants.BAT_SWOOP_TIME;
         }
     }
